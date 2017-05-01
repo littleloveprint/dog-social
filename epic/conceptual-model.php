@@ -21,12 +21,6 @@
 				<li>profileHash</li>
 				<li>profileSalt</li>
 			</ul>
-			<h3>Check-In</h3>
-			<ul>
-				<li>checkInProfileId</li>
-				<li>checkInParkId</li>
-				<li>checkInDate</li>
-			</ul>
 			<h3>Dog</h3>
 			<ul>
 				<li>dogId</li>
@@ -44,7 +38,13 @@
 				<li>parkReviews</li>
 				<li>parkRules</li>
 			</ul>
-			h3>Schedule</h3>
+			<h3>Check-In</h3>
+			<ul>
+				<li>checkInProfileId</li>
+				<li>checkInParkId</li>
+				<li>checkInDate</li>
+			</ul>
+			<h3>Schedule</h3>
 			<ul>
 				<li>scheduleProfileId</li>
 				<li>scheduleParkId</li>
