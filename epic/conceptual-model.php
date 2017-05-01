@@ -54,7 +54,7 @@
 			<ul>
 				<li>Many users can check into many parks.</li>
 			</ul>
-			<p><strong>Subject:</strong>Shawn<br><strong>Verb:</strong>Verb goes here<br><strong>Object:</strong>Object goes here</p>
+			<p><strong>Subject:</strong>Shawn<br><strong>Verb:</strong>Checks into<br><strong>Object:</strong>Park</p>
 		</main>
 	</body>
 </html>
