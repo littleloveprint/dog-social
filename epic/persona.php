@@ -24,6 +24,13 @@
 			<p><strong>Attitudes and Behaviors:</strong>Danesha walks her dog Oreo at local parks twice daily. She takes her to a park near her house every day before work and she takes her to a park a little further out, every day after work. On weekends, they hike.</p>
 			<p><strong>Frustrations and Needs:</strong>Danesha moved to the D.C. area about a year ago, and she is still not familiar with most of the parks in her area. She wants to have a variety of safe options, and she also wants to meet other dog lovers in the area.</p>
 			<p><strong>Goals:</strong>Danesha's goal is to make some connections with a few dog enthusiasts and build a network of friends who workout with their dogs at parks, together.</p>
+			<h2>Persona C</h2>
+			<p><strong>Name:</strong>Michael Jordan<br><strong>Age:</strong>29</p>
+			<p><strong>Profession:</strong>Programmer</p>
+			<p><strong>Technology:</strong>Dell i5 Gaming Laptop and iPhone 6S</p>
+			<p><strong>Attitudes and Behaviors:</strong>Friendly but shy, likes to coordinate online before meeting up in person.</p>
+			<p><strong>Frustrations and Needs:</strong>Tired of anything that makes life more difficult. Anything that is not Netflix. Michael Jordan enjoys taking his brother Dianel's dog Colby (obi wan canobi) to the dog park to meet new and interesting people and their dogs.
+				Enjoys watching movies and series off of Netflix. He is well versed in technology and owns an iPhone 6s and Dell i5 Gaming Laptop. He often likes to play first person shooter games to wind down from a long day.</p>
 		</main>
 	</body>
 </html>

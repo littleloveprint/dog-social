@@ -19,6 +19,10 @@
 				<li>She creates a profile for herself and Tom.</li>
 				<li>She then finds Danesha's profile and requests a connection, so they can schedule Paw Dates.</li>
 			</ol>
+			<h2>Use Case - MJ</h2>
+			<p>Michael Jordan logged into the site using his Dell laptop. He logged in by submitting a form. The site redirects him to his personalized feed from the Profile entity which brings up his profile. He searches the park location on the site to make sure he knows how to get there since
+				he will be leaving from a friends house. He clicks on the "Schedule" button which brings up a calendar and he schedules a future date to visit the dog park that matches up with one of his doggie park friends. After this is complete, the site alerts him that his puppy date has
+				been scheduled.</p>
 		</main>
 	</body>
 </html>
