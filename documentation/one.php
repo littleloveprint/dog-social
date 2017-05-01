@@ -3,8 +3,6 @@
 	<head>
 		<meta charset="utf-8">
 
-		<!-- Custom CSS Below -->
-
 		<title>Dog Social</title>
 	</head>
 	<body>
