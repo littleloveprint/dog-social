@@ -22,7 +22,7 @@
 			<p><strong>Profession:</strong>Marketing Assistant for Redfin</p>
 			<p><strong>Technology:</strong>2015 MacBook Pro and iPhone 6</p>
 			<p><strong>Attitudes and Behaviors:</strong>Danesha walks her dog Oreo at local parks twice daily. She takes her to a park near her house every day before work and she takes her to a park a little further out, every day after work. On weekends, they hike.</p>
-			<p><strong>Frustrations and Needs:</strong>Danesha moved to the D.C. area about a year ago, and she is still not familiar with most of the parks in her area. She wants to have a variety of safe options, and she also wants to meet other dog lovers in the area.</p>
+			<p><strong>Frustrations and Needs:</strong>Danesha moved to the D.C. area about a year ago, and she still isn't familiar with most of the parks in her area. She wants to have a variety of safe options, and she also wants to meet other dog lovers in the area.</p>
 			<p><strong>Goals:</strong>Danesha's goal is to make some connections with a few dog enthusiasts and build a network of friends who workout with their dogs at parks, together.</p>
 		</main>
 	</body>
