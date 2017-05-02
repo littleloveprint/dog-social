@@ -62,7 +62,6 @@
 				<li>Many profiles can check into many parks.</li>
 				<li>Many profiles can favorite many parks.</li>
 				<li>Many profiles can friend many profiles.</li>
-				<li>Many profiles can check into many parks.</li>
 				<li>One profile can have many dogs.</li>
 			</ul>
 			<p><strong>Subject:</strong>Shawn<br><strong>Verb:</strong>Checks into<br><strong>Object:</strong>Park</p>
