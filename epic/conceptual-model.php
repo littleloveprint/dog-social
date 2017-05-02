@@ -16,9 +16,10 @@
 				<li>profileId</li>
 				<li>profileActivationToken</li>
 				<li>profileAtHandle</li>
-				<li>profileDogs</li>
 				<li>profileEmail</li>
 				<li>profileHash</li>
+				<li>profileLocationX</li>
+				<li>profileLocationY</li>
 				<li>profileSalt</li>
 			</ul>
 			<h3>Dog</h3>
@@ -29,26 +30,40 @@
 				<li>dogBio</li>
 				<li>dogBreed</li>
 				<li>dogDogTag</li>
-				<li>dogPersonality</li>
 			</ul>
 			<h3>Park</h3>
 			<ul>
 				<li>parkId</li>
-				<li>parkLocation</li>
-				<li>parkReviews</li>
-				<li>parkRules</li>
+				<li>parkLocationX</li>
+				<li>parkLocationY</li>
+				<li>parkName</li>
 			</ul>
+			<h3></h3>
 			<h3>Check-In</h3>
 			<ul>
-				<li>checkInProfileId</li>
+				<li>checkInId</li>
+				<li>checkInDogId</li>
 				<li>checkInParkId</li>
-				<li>checkInDate</li>
+				<li>checkInDateTime</li>
+				<li>checkOutDateTime</li>
+			</ul>
+			<h3>Favorite</h3>
+			<ul>
+				<li>favoriteProfileId</li>
+				<li>favoriteParkId</li>
+			</ul>
+			<h3>Friend</h3>
+			<ul>
+				<li>friendFirstProfileId</li>
+				<li>friendSecondProfileId</li>
 			</ul>
 			<h2>Relationships</h2>
 			<ul>
-				<li>Many users can check into many parks.</li>
-				<li>One user can check into many parks.</li>
-				<li>One user can have many dogs.</li>
+				<li>Many profiles can check into many parks.</li>
+				<li>Many profiles can favorite many parks.</li>
+				<li>Many profiles can friend many profiles.</li>
+				<li>Many profiles can check into many parks.</li>
+				<li>One profile can have many dogs.</li>
 			</ul>
 			<p><strong>Subject:</strong>Shawn<br><strong>Verb:</strong>Checks into<br><strong>Object:</strong>Park</p>
 		</main>
