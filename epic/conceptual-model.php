@@ -44,15 +44,11 @@
 				<li>checkInParkId</li>
 				<li>checkInDate</li>
 			</ul>
-			<h3>Schedule</h3>
-			<ul>
-				<li>scheduleProfileId</li>
-				<li>scheduleParkId</li>
-				<li>scheduleDate</li>
-			</ul>
 			<h2>Relationships</h2>
 			<ul>
 				<li>Many users can check into many parks.</li>
+				<li>One user can check into many parks.</li>
+				<li>One user can have many dogs.</li>
 			</ul>
 			<p><strong>Subject:</strong>Shawn<br><strong>Verb:</strong>Checks into<br><strong>Object:</strong>Park</p>
 		</main>
