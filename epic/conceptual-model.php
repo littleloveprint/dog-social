@@ -65,7 +65,7 @@
 				<li>One profile can have many dogs.</li>
 			</ul>
 			<p><strong>Subject:</strong>Shawn<br><strong>Verb:</strong>Checks into<br><strong>Object:</strong>Park</p>
-			<h2><img src="img/dog-social.svg" alt="erd for dog-social"></h2>
+			<h2><img src="images/dog-social.svg" alt="erd for dog-social"></h2>
 		</main>
 	</body>
 </html>
