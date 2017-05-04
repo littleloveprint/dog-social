@@ -55,5 +55,10 @@ CREATE TABLE friend (
 
  -- Create the park entity
 CREATE TABLE park (
+	parkId INT UNSIGNED AUTO_INCREMENT,
+	parkLocationX DECIMAL(3,9) NOT NULL,
+	parkLocationY DECIMAL(3,9) NOT NULL,
+	parkName VARCHAR(32),
+	PRIMARY KEY(parkId)
 
 )
