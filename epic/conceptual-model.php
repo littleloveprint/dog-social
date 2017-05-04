@@ -10,7 +10,7 @@
 			<h1>Conceptual Model</h1>
 		</header>
 		<main>
-			<h2>Entities &amp; Attributes</h2>
+			<h2>Entities and Attributes</h2>
 			<h3>Profile</h3>
 			<ul>
 				<li>profileId</li>
