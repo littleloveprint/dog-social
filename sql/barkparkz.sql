@@ -61,4 +61,30 @@ CREATE TABLE park (
 	parkName VARCHAR(32),
 	PRIMARY KEY(parkId)
 
-)
+);
+	 -- Create the checkIn entity
+CREATE TABLE checkIn (
+	checkInId INT UNSIGNED AUTO_INCREMENT,
+	checkInDogId INT UNSIGNED NOT NULL,
+	checkInParkId INT UNSIGNED NOT NULL,
+	checkInDateTime DATETIME NOT NULL,
+	checkOutDateTime DATETIME NOT NULL,
+	INDEX(checkInDogId),
+	-- This creates an index for a foreign key
+	FOREIGN KEY(checkInDogId) REFERENCES dog(dogId),
+	 -- ^this creates the foreign key
+	INDEX(checkInParkId),
+	FOREIGN KEY(checkInParkId) REFERENCES park(parkId),
+	PRIMARY KEY(checkInId)
+
+);
+
+	CREATE TABLE favorite (
+		favoriteProfileId INT UNSIGNED NOT NULL,
+		favoriteParkId INT UNSIGNED NOT NULL,
+		INDEX(favoriteProfileId),
+		 -- ^this creates an index for a foreign key
+		FOREIGN KEY(favoriteProfileId) REFERENCES profile(profileId),
+		INDEX(favoriteParkId),
+		FOREIGN KEY(favoriteParkId) REFERENCES park(parkId)
+	);
