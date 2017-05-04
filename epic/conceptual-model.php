@@ -29,7 +29,12 @@
 				<li>dogAge</li>
 				<li>dogBio</li>
 				<li>dogBreed</li>
-				<li>dogDogTag</li>
+				<li>dogHandle</li>
+			</ul>
+			<h3>Friend</h3>
+			<ul>
+				<li>friendFirstProfileId</li>
+				<li>friendSecondProfileId</li>
 			</ul>
 			<h3>Park</h3>
 			<ul>
@@ -52,11 +57,6 @@
 				<li>favoriteProfileId</li>
 				<li>favoriteParkId</li>
 			</ul>
-			<h3>Friend</h3>
-			<ul>
-				<li>friendFirstProfileId</li>
-				<li>friendSecondProfileId</li>
-			</ul>
 			<h2>Relationships</h2>
 			<ul>
 				<li>Many profiles can check into many parks.</li>
@@ -65,7 +65,7 @@
 				<li>One profile can have many dogs.</li>
 			</ul>
 			<p><strong>Subject:</strong>Shawn<br><strong>Verb:</strong>Checks into<br><strong>Object:</strong>Park</p>
-			<h2><img src="images/dog-social.svg" alt="erd for dog-social"></h2>
+			<h2><img src="img/dog-social.svg" alt="erd for dog-social"></h2>
 		</main>
 	</body>
 </html>
