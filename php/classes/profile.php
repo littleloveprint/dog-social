@@ -90,3 +90,64 @@ class Profile implements \JsonSerializable {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	}
+	/**
+	 * Accessor method for profile id.
+	 *
+	 * @return int value of profile id
+	 **/
+	public function getProfileId(): ?int {
+		return ($this->profileId);
+	}
+	/**
+	 * Mutator method for profile id.
+	 *
+	 * @param int $newProfileId new value of profile id
+	 * @throws \RangeException if $newProfileId is not positive
+	 * @throws \TypeError if $newProfileId is not an integer
+	 **/
+	public function setProfileId(?int $newProfileId): void {
+
+		// If profile id is null, immediately return it.
+		if($newProfileId === null) {
+			$this->profileId = null;
+			return;
+		}
+
+		// Verify the profile id is positive.
+		if($newProfileId <= 0) {
+			throw(new \RangeException("profile id is not positive"));
+		}
+
+		// Convert and store the profile id.
+		$this->profileId = $newProfileId;
+	}
+
+	/**
+	 * Accessor method for account activation token.
+	 *
+	 * @return string value of the activation token
+	 **/
+	public function getProfileActivationToken(): ?string {
+		return $this->profileActivationToken;
+	}
+
+	/**
+	 * Mutator method for profile activation token.
+	 *
+	 * @param string $newProfileActivationToken
+	 * @throws \InvalidArgumentException if the token is not a string or insecure
+	 * @throws \RangeException if the token is not exactly 32 characters
+	 * @throws \TypeError if the activation token is not a string
+	 **/
+	public function setProfileActivationToken(?string $newProfileActivationToken) : void {
+		if($newProfileActivationToken === null) {
+		$this->profileActivationToken = null;
+		return;
+	}
+	$newProfileActivationToken = strtolower(trim($newProfileActivationToken));
+	if(ctype_xdigit($newProfileActivationToken) === false) {
+	throw(new\RangeException("user activation is not valid"));
+	}
+	$this->getProfileActivationToken = $newProfileActivationToken;
+	}
+}
