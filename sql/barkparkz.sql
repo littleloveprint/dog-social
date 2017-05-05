@@ -74,10 +74,10 @@ CREATE TABLE checkIn (
 	checkInDateTime DATETIME(6) NOT NULL,
 	checkOutDateTime DATETIME(6) NOT NULL,
 	INDEX(checkInDogId),
+	INDEX(checkInParkId),
 	-- This creates an index for a foreign key
 	FOREIGN KEY(checkInDogId) REFERENCES dog(dogId),
 	 -- ^this creates the foreign key
-	INDEX(checkInParkId),
 	FOREIGN KEY(checkInParkId) REFERENCES park(parkId),
 	PRIMARY KEY(checkInId)
 
