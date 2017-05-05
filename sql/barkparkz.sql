@@ -14,11 +14,12 @@ CREATE TABLE profile (
 	-- ^Primary Key^
 	profileActivationToken VARCHAR(32) NOT NULL,
 	profileAtHandle VARCHAR(32) NOT NULL,
+	profileCloudinaryId VARCHAR(32),
 	profileEmail VARCHAR(64) NOT NULL,
 	profileHash CHAR(128) NOT NULL,
 	profileSalt CHAR(64) NOT NULL,
-	profileLocationX DECIMAL(3,9) NOT NULL,
-	profileLocationY DECIMAL(3,9) NOT NULL,
+	profileLocationX DECIMAL(12,9) NOT NULL,
+	profileLocationY DECIMAL(12,9) NOT NULL,
 	UNIQUE(profileEmail),
 	UNIQUE(profileAtHandle),
 	PRIMARY KEY(profileId)
@@ -29,11 +30,13 @@ CREATE TABLE dog (
 	dogId INT UNSIGNED AUTO_INCREMENT,
 	-- ^Primary Key^
 	dogProfileId INT UNSIGNED NOT NULL,
-	dogAge CHAR(2) NOT NULL,
-	dogBio VARCHAR(300),
+	dogAge TINYINT UNSIGNED,
+	dogCloudinaryId VARCHAR(32),
+	dogBio VARCHAR(255),
 	dogBreed VARCHAR(50),
 	dogAtHandle VARCHAR(32),
 	INDEX(dogProfileId),
+	INDEX(dogBreed),
 	-- ^this creates an index before creating a foreign key
 	FOREIGN KEY(dogProfileId) REFERENCES profile(profileId),
 	-- ^this creates the foreign key
@@ -46,18 +49,19 @@ CREATE TABLE friend (
 	friendFirstProfileId INT UNSIGNED NOT NULL,
 	friendSecondProfileId INT UNSIGNED NOT NULL,
 	INDEX(friendFirstProfileId),
+	INDEX(friendSecondProfileId),
 	-- this creates an index before creating a foreign key
 	FOREIGN KEY(friendFirstProfileId) REFERENCES profile(profileId),
 	 -- this creates the foreign key
-	INDEX(friendSecondProfileId),
-	FOREIGN KEY(friendSecondProfileId) REFERENCES profile(profileId)
+	FOREIGN KEY(friendSecondProfileId) REFERENCES profile(profileId),
+	PRIMARY KEY(friendFirstProfileId, friendSecondProfileId)
 );
 
  -- Create the park entity
 CREATE TABLE park (
 	parkId INT UNSIGNED AUTO_INCREMENT,
-	parkLocationX DECIMAL(3,9) NOT NULL,
-	parkLocationY DECIMAL(3,9) NOT NULL,
+	parkLocationX DECIMAL(12,9) NOT NULL,
+	parkLocationY DECIMAL(12,9) NOT NULL,
 	parkName VARCHAR(32),
 	PRIMARY KEY(parkId)
 
@@ -67,8 +71,8 @@ CREATE TABLE checkIn (
 	checkInId INT UNSIGNED AUTO_INCREMENT,
 	checkInDogId INT UNSIGNED NOT NULL,
 	checkInParkId INT UNSIGNED NOT NULL,
-	checkInDateTime DATETIME NOT NULL,
-	checkOutDateTime DATETIME NOT NULL,
+	checkInDateTime DATETIME(6) NOT NULL,
+	checkOutDateTime DATETIME(6) NOT NULL,
 	INDEX(checkInDogId),
 	-- This creates an index for a foreign key
 	FOREIGN KEY(checkInDogId) REFERENCES dog(dogId),
@@ -83,8 +87,9 @@ CREATE TABLE checkIn (
 		favoriteProfileId INT UNSIGNED NOT NULL,
 		favoriteParkId INT UNSIGNED NOT NULL,
 		INDEX(favoriteProfileId),
+		INDEX(favoriteParkId),
 		 -- ^this creates an index for a foreign key
 		FOREIGN KEY(favoriteProfileId) REFERENCES profile(profileId),
-		INDEX(favoriteParkId),
-		FOREIGN KEY(favoriteParkId) REFERENCES park(parkId)
+		FOREIGN KEY(favoriteParkId) REFERENCES park(parkId),
+		PRIMARY KEY(favoriteProfileId, favoriteParkId)
 	);
