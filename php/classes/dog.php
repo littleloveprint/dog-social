@@ -14,8 +14,22 @@ namespace Edu\Cnm\BarkParkz;
 class dog implements \JsonSerializable {
 	/**
 	 * id for dog, this is the primary key
-	 *
+	 * @int $dogId
 	 */
+	private $dogId;
+
+	/**id for the owner of the dog, this is a foreign key linking back to profileId
+	 * @int $dogProfileId
+	 */
+	private $dogProfileId;
+
+	/**
+	 * optional dog age that owner can enter at their own discretion
+	 * @tinyint $dogAge
+	 */
+	private $dogAge;
+
+
 
 
 	public function jsonSerialize() {
