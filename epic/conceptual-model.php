@@ -16,6 +16,7 @@
 				<li>profileId</li>
 				<li>profileActivationToken</li>
 				<li>profileAtHandle</li>
+				<li>profileCloudinaryId</li>
 				<li>profileEmail</li>
 				<li>profileHash</li>
 				<li>profileLocationX</li>
@@ -29,6 +30,7 @@
 				<li>dogAge</li>
 				<li>dogBio</li>
 				<li>dogBreed</li>
+				<li>dogCloudinaryId</li>
 				<li>dogHandle</li>
 			</ul>
 			<h3>Friend</h3>
