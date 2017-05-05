@@ -63,6 +63,7 @@ CREATE TABLE park (
 	parkLocationX DECIMAL(12,9) NOT NULL,
 	parkLocationY DECIMAL(12,9) NOT NULL,
 	parkName VARCHAR(32),
+	INDEX(parkName),
 	PRIMARY KEY(parkId)
 
 );
