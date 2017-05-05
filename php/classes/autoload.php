@@ -8,6 +8,7 @@
  * @see http://www.php-fig.org/psr/psr-4/examples/ PSR-4 Example Autoloader
  **/
 spl_autoload_register(function($class) {
+
 	/**
 	 * CONFIGURABLE PARAMETERS
 	 * prefix: The prefix for all classes (i.e., the namespace)
