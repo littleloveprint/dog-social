@@ -4,7 +4,7 @@ require_once("autoload.php");
 /**
  * Bark Parkz Profile.
  *
- * @author Lea McDuffie <littleloveprint@gmail.com>
+ * @author Lea McDuffie <lea@littleloveprint.io>
  * @version 1
  **/
 class Profile implements \JsonSerializable {
