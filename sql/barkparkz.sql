@@ -63,6 +63,7 @@ CREATE TABLE park (
 	parkLocationX DECIMAL(12,9) NOT NULL,
 	parkLocationY DECIMAL(12,9) NOT NULL,
 	parkName VARCHAR(32),
+	INDEX(parkName),
 	PRIMARY KEY(parkId)
 
 );
@@ -74,10 +75,10 @@ CREATE TABLE checkIn (
 	checkInDateTime DATETIME(6) NOT NULL,
 	checkOutDateTime DATETIME(6) NOT NULL,
 	INDEX(checkInDogId),
+	INDEX(checkInParkId),
 	-- This creates an index for a foreign key
 	FOREIGN KEY(checkInDogId) REFERENCES dog(dogId),
 	 -- ^this creates the foreign key
-	INDEX(checkInParkId),
 	FOREIGN KEY(checkInParkId) REFERENCES park(parkId),
 	PRIMARY KEY(checkInId)
 
