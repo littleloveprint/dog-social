@@ -1,11 +1,6 @@
 <?php
-<<<<<<< Updated upstream
-namespace Edu\CNM\BarkParkz
-require_once ("autoload.php");
-=======
 namespace Edu\Cnm\BarkParkz;
 require_once("autoload.php");
->>>>>>> Stashed changes
 /**
  * this is the class for favorite
  * where profiles will be able to favorite parks and profiles
