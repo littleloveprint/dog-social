@@ -150,4 +150,117 @@ class Profile implements \JsonSerializable {
 	}
 	$this->getProfileActivationToken = $newProfileActivationToken;
 	}
+	/**
+	 * Accessor method for at handle.
+	 *
+	 * @return string value of at handle
+	 **/
+	/**
+	 * @return string
+	 */
+	public function getProfileAtHandle(): string {
+		return ($this->profileAtHandle);
+	}
+
+	/**
+	 * Mutator method for at handle.
+	 *
+	 * @param string $newProfileAtHandle new value of at handle
+	 * @throws \InvalidArgumentException if $newAtHandle is not a string or insecure
+	 * @throws \RangeException if $newAtHandle is > 32 characters
+	 * @throws \TypeError if the $newAtHandle is not a string
+	 **/
+	/**
+	 * @param string $profileAtHandle
+	 */
+	public function setProfileAtHandle(string $profileAtHandle) : void {
+
+		// Verify the at handle is secure
+		$newProfileAtHandle = trim($newProfileAtHandle);
+		$newProfileAtHandle = filter_var($newProfileAtHandle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newProfileAtHandle) === true) {
+			throw(new \InvalidArgumentException("profile at handle is empty or insecure"));
+		}
+
+		// Verify the at handle will fit in the database
+		if(strlen($newProfileAtHandle) > 32) {
+			throw(new \RangeException("profile at handle is too large"));
+		}
+
+		// Store the at handle.
+		$this->profileAtHandle = $newProfileAtHandle;
+	}
+
+	/**
+	 * Accessor method for cloudinary id.
+	 *
+	 * @return int value of profile cloudinary id
+	 **/
+	public function getProfileCloudinaryId(): ?int {
+		return ($this->profileCloudinaryId);
+	}
+	/**
+	 * Mutator method for profile cloudinary id.
+	 *
+	 * @param int $newProfileCloudinaryId new value of profile cloudinary id
+	 * @throws \RangeException if $newCloudinaryId is not positive
+	 * @throws \TypeError if $newCloudinaryId is not an integer
+	 **/
+	public function setProfileCloudinaryId(?int $newProfileCloudinaryId): void {
+
+		// If profile cloudinary id is null, immediately return it.
+		if($newProfileCloudinaryId === null) {
+			$this->profileCloudinaryId = null;
+			return;
+		}
+
+		// Verify the profile cloudinary id is positive.
+		if($newProfileCloudinaryId <= 0) {
+			throw(new \RangeException("profile cloudinary id is not positive"));
+		}
+
+		// Convert and store the profile cloudinary id.
+		$this->profileCloudinaryId = $newProfileCloudinaryId;
+	}
+
+	/**
+	 * Accessor method for email.
+	 *
+	 * @return string value of email
+	 **/
+	/**
+	 * @return string
+	 */
+	public function getProfileEmail(): string {
+		return $this->profileEmail;
+	}
+
+	/**
+	 * Mutator method for email
+	 *
+	 * @param string $newProfileEmail new value of email
+	 * @throws \InvalidArgumentException if $newEmail is not a valid email or insecure
+	 * @throws \RangeException if $newEmail is > 128 characters
+	 * @throws \TypeError if $newEmail is not a string
+	 **/
+	/**
+	 * @param string $profileEmail
+	 */
+	public function setProfileEmail(string $profileEmail) : void {
+
+		// Verify the email is secure
+		$newProfileEmail = trim($newProfileEmail);
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_VALIDATE_EMAIL);
+		if(empty($newProfileEmail) === true) {
+			throw(new \InvalidArgumentException("profile email is empty or insecure"));
+		}
+
+		// Verify the email will fit in the database.
+		if(strlen($newProfileEmail) > 128 {
+			throw(new \RangeException("profile email is too large"));
+		}
+
+		// Store the email.
+		$this->profileEmail = $newProfileEmail;
+	}
 }
