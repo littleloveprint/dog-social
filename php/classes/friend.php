@@ -1,7 +1,10 @@
 <?php
+namespace Edu\CNM\BarkParkz
+require_once ("autoload.php");
 /**
- * Created by PhpStorm.
- * User: littleloveprint
- * Date: 5/5/17
- * Time: 8:23 AM
- */
+ * Bark Parkz Friend
+ * Date: 5/5/2017
+ * Time: 10:46 AM
+ **/
+class Friend implements \JsonSerializable {
+	use ValidateDate;

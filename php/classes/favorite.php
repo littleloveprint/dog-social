@@ -1,5 +1,6 @@
 <?php
-// name space will go here will ask bridge for clarification on proper name spacing
+namespace Edu\CNM\BarkParkz
+require_once ("autoload.php");
 /**
  * this is the class for favorite
  * where profiles will be able to favorite parks and profiles
