@@ -69,7 +69,22 @@ class dog implements \JsonSerializable {
 	 * @documentation php.net
 	 */
 
-	public function
+	public function __construct(?int $newDogId, int $newDogProfileId, tinyint $newDogAge, string $newDogCloudinaryId, string $newDogBio, string $newDogBreed, string $newDogAtHandle) {
+		try {
+				$this->setDogId($newDogId);
+				$this->setDogProfileId($newDogProfileId);
+				$this->setDogAge($newDogAge);
+				$this->setDogCloudinaryId($newDogCloudinaryId);
+				$this->setDogBio($newDogBio);
+				$this->setDogBreed($newDogBreed);
+				$this->setDogAtHandle($newDogAtHandle);
+		}
+		//determine what exception type was thrown
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+	}
 
 
 	public function jsonSerialize() {
