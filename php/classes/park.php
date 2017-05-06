@@ -316,5 +316,40 @@ public static function getParkByParkName(\PDO $pdo, string $parkName) : \SPLFixe
 return($parks);
 }
 
+/**
+ * gets all Parks
+ *
+ * @param \PDO $pdo PDO connection object
+ * @return \SplFixedArray SplFixedArray of Parks found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ **/
+public static function getALLParks(\PDO $pdo) : \SplFixedArray {
+	// create a query template
+	$query = "SELECT parkId, parkLocationX, parkLocationY, parkName FROM park";
+	$statement = $pdo->prepare($query);
+	$statement->execute();
 
+	//build an array of parks
+	$parks = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO: :FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try }
+							$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
+			} catch(\Exception $exception) {
+						// if the row couldn't be converted rethrow it
+	q				throw(new \PDOException($exception->getMessage(), 0, $exception));
+}
+}
+return ($parks);
+}
 
+/**
+ * formats the state variables for JSON serialization
+ *
+ * @return array resulting state variables to serialize
+ **/
+public function jsonSerialize() {
+	$fields = get_object_vars($this);
+}
+}
