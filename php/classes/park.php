@@ -1,5 +1,5 @@
 <?php
-namespace Edu\CNM\BarkParkz
+namespace Edu\CNM\BarkParkz;
 require_once ("autoload.php");
 /**
  * Bark Parkz Park
@@ -34,9 +34,11 @@ class Park implements \JsonSerializable {
 	 * constructor for this Park
 	 *
 	 * @param int|null $newParkId id of this Park or null if a new Park
-	 * @param int $new
-	 *
-	 *
+	 * @param string $newParkName string containing actual park name
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+	 * @throws \TypeError if data types violate type hints
+	 * @throws \Exception if some other exception occurs
 	 **/
 	public function _construct(?int $newParkId, ?int $newParkLocationX, ?int $newParkLocationY, string $parkName = null) {
 	try {
@@ -117,13 +119,16 @@ public function getParkLocationY() : int{
 			return($this->parkLocationY);
 }
 
-/**
+	private function setParkLocationY($newParkLocationY) {
+	}
+
+	/**
  * mutator method for park location y
  * @param int $newParkLocationY new value of park location y
  * @throws \RangeException if $newParkLocationY is not positive
  * @throws \TypeError if $newprofileId is not an integer
  **/
-public funtion setParkLocationY(int $newParkLocationY) : voide {
+public funtion setParkLocationY(int $newParkLocationY) : void {
 
 			// verify the park location y is positive
 			if($newParkLocationY <= 0) {
@@ -350,6 +355,6 @@ return ($parks);
  * @return array resulting state variables to serialize
  **/
 public function jsonSerialize() {
-	$fields = get_object_vars($this);
+	return = (get_object_vars($this));
 }
 }
