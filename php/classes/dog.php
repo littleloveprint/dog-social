@@ -11,7 +11,7 @@ namespace Edu\Cnm\BarkParkz;
  * This is the dog class which contains dogId, dogProfileId, dogAge, dogBio, dogBreed, dogCloudinaryId and dogHandle.
  * dogProfileId is a foreign key which connects back to the profileId in the profile class
  */
-class dog implements \JsonSerializable {
+Class dog implements \JsonSerializable {
 	/**
 	 * id for dog, this is the primary key
 	 * @int $dogId
@@ -103,7 +103,7 @@ class dog implements \JsonSerializable {
 	 * @throws \TypeError if $newDogId is not an integer
 	 */
 
-	public funtion setDogId(?int $newDogId): void {
+public function setDogId(?int $newDogId): void {
 	//If dogId is null, return it.
 if($newDogId === null) {
 $this->dogId = null;
@@ -118,8 +118,7 @@ if($newDogId <= 0) {
 $this->dogId = $newDogId;
 }
 
-	public function jsonSerialize() {
+public function jsonSerialize() {
 		return (get_object_vars($this));
-
-	}
+}}
 
