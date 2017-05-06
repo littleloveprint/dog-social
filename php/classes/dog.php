@@ -86,9 +86,40 @@ class dog implements \JsonSerializable {
 		}
 	}
 
+	/**
+	 * accessor method for dogId
+	 *
+	 * @return int value of dogId
+	 */
+	public function getDogId(): ?int {
+		return ($this->dogId);
+	}
+
+	/**
+	 * Mutator method for dogId
+	 *
+	 * @param int $newDogId new int for dog Id
+	 * @throws \RangeException if $newDogId is not a positive int
+	 * @throws \TypeError if $newDogId is not an integer
+	 */
+
+	public funtion setDogId(?int $newDogId): void {
+	//If dogId is null, return it.
+if($newDogId === null) {
+$this->dogId = null;
+return;
+}
+
+//verify the dogProfileId is positive
+if($newDogId <= 0) {
+	throw(new \RangeException("dog Id is not positive"));
+}
+//convert and store dogId
+$this->dogId = $newDogId;
+}
 
 	public function jsonSerialize() {
 		return (get_object_vars($this));
 
 	}
-}
+
