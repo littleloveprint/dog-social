@@ -110,7 +110,7 @@ $this->dogId = null;
 return;
 }
 
-//verify the dogProfileId is positive
+//verify the dogId is positive
 if($newDogId <= 0) {
 	throw(new \RangeException("dog Id is not positive"));
 }
@@ -118,7 +118,88 @@ if($newDogId <= 0) {
 $this->dogId = $newDogId;
 }
 
+	/**
+	 * Accessor method for profile Id of the dog owner
+	 * This is a foreign key
+	 * @return int value of profileId
+	 */
+	public function $getDogProfileId() : int {
+		return ($this->dogProfileId);
+}
+
+/**
+ * mutator method for profile Id of the dog owner
+ * @param int $newProfileId value of the new id of the dog owner
+ * @throws \RangeException if $newProfileId is not an int
+ **/
+	public function setDogProfileId(int $newDogProfileId) : void {
+		//verifies profile Id is positive
+	if($newDogProfileId <= 0) {
+			throw(new \RangeException("profile id is not positive"));
+	}
+	//convert and store profile id
+	$this->dogProfileId = $newDogProfileId;
+}
+
+/**
+ * accessor method for dog age
+ * @return int of dogAge
+ */
+	public function $getDogAge() : tinyint {
+		return ($this->dogAge);
+}
+/**
+ * mutator method for dogAge
+ * @param int $newDogAge value of the new id of the dog owner
+ */
+
+public function setDogAge(int $newDogAge) : void {
+		//verifies the dog age is positive
+	if($newDogAge <=0 {
+			throw(new \RangeException("dog age is not positive"));
+	}
+	//convert and store dogAge
+	$this->dogAge = $newDogAge;
+}
+
+/**
+ * accessor method for dog cloudinaryId
+ * @return string value of dog cloudinaryId
+ */
+public function getDogCloudinaryId() {
+	return ($this->dogCloudinaryId);
+}
+/**
+ * Mutator method for dog cloudinary Id
+ * @param string $newDogCloudinaryId new value of dog cloudinary Id
+ * @throws \InvalidArgumentException if $newDogCloudinaryId is insecure
+ * @throws \RangeException if $newDogCloudinaryId is > 32 characters
+ * @throws \TypeError if $newDogCloudinaryId isn't a string
+ *
+ */
+public function setDogCloudinaryId(string $newDogCloudinaryId = null) {
+//if dog cloudinary id is null, return it
+if($newDogCloudinaryId === null) {
+		$this->dogCloudinaryId = null;
+}
+//verify the dog cloudinary id is secure
+	$newDogCloudinaryId = trim($newDogCloudinaryId);
+	$newDogCloudinaryId = filter_var($newDogCloudinaryId. FILTER_SANITIZE_STRING. FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($newDogCloudinaryId) === true) {
+		throw(new \InvalidArgumentException("dog cloudinary id is empty or insecure"));
+	}
+	//Verify the dog cloudinary id will fit in the database
+	if(strlen($newDogCloudinaryId) > 32) {
+		throw(new \RangeException("dog cloudinary id is too large"));
+	}
+//convert and store the dog cloudinary id
+	$this->dogCloudinaryId = $newDogCloudinaryId;
+}
+
+
+
+
 public function jsonSerialize() {
 		return (get_object_vars($this));
-}}
+}
 
