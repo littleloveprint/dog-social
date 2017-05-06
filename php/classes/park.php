@@ -212,3 +212,109 @@ public function delete(\PDO $pdo) : void {
 		$parameters = ["parkId => $this->parkId"];
 		$statement->execute($parameters);
 }
+
+/**
+ * updates this Park in mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function update(\PDO $pdo) : void {
+	// enforce the parkId is not null (i.e., don't update a park that hasn't been inserted)
+	if($this->parkId === null) {
+		throw(new \PDOException("unable to update a park that does not exist"));
+	}
+
+	// create query template
+	$query = "UPDATE park SET parkLocationX = :parkLocationX, parkLocationY = :parkLocationY, parkName = :parkName WHERE parkId = :parkId";
+	$statement = $pdo->prepare($query);
+
+	// bind the member variables to the place holders in the template
+	$parameters = ["parkId" => $this->parkId, "parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName];
+	->
+	execute($parameters);
+}
+
+/**
+ * gets the Park by parkId
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param int $parkId park id to search for
+ * @return Park|null Park found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ **/
+public static function getParkByParkId(\PDO $pdo, int $parkId) : ?Tweet {
+		// sanitize the parkId before searching
+		if($parkId <= 0) {
+					throw(new \PDOException("park id is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT parkId, parkLocationX, parkLocationY, parkName FROM park WHERE parkID = :parkId";
+		$statement = $pdo->prepare($query);
+
+		//bind the park id to the place holder in the template
+		$parameters = ["parkId" => $parkId];
+		$statement->execute($parameters);
+
+		//grab the park from mySQL
+		try {
+					$park = null;
+					$statement->setFetchMode(\PDO: :FETCH_ASSOC);
+					$row = $statement->fetch();
+					if($row !== false) {
+								$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
+					}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($park);
+}
+
+/**
+ * gets the Park by name
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $parkName park name to search for
+ * @return \SplFixedArray SplFizedArray of Parks found
+ * @throw \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ **/
+public static function getParkByParkName(\PDO $pdo, string $parkName) : \SPLFixedArray {
+	// sanitize the description before searching
+	$parkName = trim($parkName);
+	$parkName = filter_var($parkName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($parkName) === true) {
+		throw(new \PDOException("park name is invalid"));
+	}
+
+	//create query template
+	$query = "SELECT parkId, parkLocationX, parkLocationY, parkName FROM park WHERE parkName LIKE :parkName";
+	$statement = $pdo->prepare($query);
+
+	// bind the park name to the place holder in the template
+	$parkName = "%$parkName%";
+	$parameters = ["parkName" => $parkName];
+	$statement->execute($parameters);
+
+	//build an array of parks
+	$parks = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO: :FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try }
+						$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
+						$parks[$parks->key()] = $park;
+						$parks->next();
+		} catch(\Exception $exception) {
+					// if the row couldn't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+}
+}
+return($parks);
+}
+
+
+
