@@ -8,7 +8,7 @@ namespace Edu\Cnm\BarkParkz;
  * Date: 5/5/2017
  * Time: 9:56 AM
  *
- * This is the dog class which contains dogId, dogProfileId, dogAge, dogBio, dogBreed and dogHandle.
+ * This is the dog class which contains dogId, dogProfileId, dogAge, dogBio, dogBreed, dogCloudinaryId and dogHandle.
  * dogProfileId is a foreign key which connects back to the profileId in the profile class
  */
 class dog implements \JsonSerializable {
@@ -29,7 +29,62 @@ class dog implements \JsonSerializable {
 	 */
 	private $dogAge;
 
+	/**
+	 *optional image for the dog
+	 * @varchar $dogCloudinaryId
+	 */
+	private $dogCloudinaryId;
 
+	/**
+	 *optional biography for the dog
+	 * @varchar $dogBio
+	 */
+	private $dogBio;
+
+	/**
+	 * optional dog breed for the owner to fill out
+	 * @varchar $dogBreed
+	 */
+	private $dogBreed;
+
+	/**
+	 * handle for the dog i.e. a nickname or real name
+	 * @varchar $dogAtHandle
+	 */
+	private $dogAtHandle;
+
+	/**
+	 * Constructor for the dog class
+	 *
+	 * @param int $newDogId id for the dog
+	 * @param int $newDogProfileId id for the profile owning the dog (foreign key)
+	 * @param tinyint $newDogAge
+	 * @param string $newDogCloudinaryId containing an optional photo of the dog
+	 * @param string $newDogBio containing an optuonal biography of the dog
+	 * @param string $newDogBreed containing an optional description of breed
+	 * @param string $newDogAtHandle containing the at handle for the dog
+	 * @throws \InvalidArgumentException if data types are not
+	 * @throws \RangeException if data values are out of bounds (eg. strings too 		long or negative integers.
+	 * @throws \Exception if some other exception occurs
+	 * @documentation php.net
+	 */
+
+	public function __construct(?int $newDogId, int $newDogProfileId, tinyint $newDogAge, string $newDogCloudinaryId, string $newDogBio, string $newDogBreed, string $newDogAtHandle) {
+		try {
+				$this->setDogId($newDogId);
+				$this->setDogProfileId($newDogProfileId);
+				$this->setDogAge($newDogAge);
+				$this->setDogCloudinaryId($newDogCloudinaryId);
+				$this->setDogBio($newDogBio);
+				$this->setDogBreed($newDogBreed);
+				$this->setDogAtHandle($newDogAtHandle);
+		}
+		//determine what exception type was thrown
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+	}
 
 
 	public function jsonSerialize() {
