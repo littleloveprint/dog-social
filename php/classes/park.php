@@ -203,5 +203,12 @@ public function delete(\PDO $pdo) : void {
 		if($this->parkId === null) {
 				throw(new \PDOException("unable to delete a park that does not exist"))
 		}
-}
+
+		//create query template
+		$query = "DELETE FROM park WHERE parkId = :parkId";
+		statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["parkId => $this->parkId"];
+		$statement->execute($parameters);
 }
