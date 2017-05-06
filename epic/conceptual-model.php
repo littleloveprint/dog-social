@@ -31,7 +31,7 @@
 				<li>dogBio</li>
 				<li>dogBreed</li>
 				<li>dogCloudinaryId</li>
-				<li>dogHandle</li>
+				<li>dogAtHandle</li>
 			</ul>
 			<h3>Friend</h3>
 			<ul>
