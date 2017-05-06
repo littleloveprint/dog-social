@@ -63,7 +63,13 @@ class dog implements \JsonSerializable {
 	 * @param string $newDogBio containing an optuonal biography of the dog
 	 * @param string $newDogBreed containing an optional description of breed
 	 * @param string $newDogAtHandle containing the at handle for the dog
+	 * @throws \InvalidArgumentException if data types are not
+	 * @throws \RangeException if data values are out of bounds (eg. strings too 		long or negative integers.
+	 * @throws \Exception if some other exception occurs
+	 * @documentation php.net
 	 */
+
+	public function
 
 
 	public function jsonSerialize() {
