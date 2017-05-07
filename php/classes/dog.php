@@ -58,7 +58,7 @@ Class dog implements \JsonSerializable {
 	 *
 	 * @param int $newDogId id for the dog
 	 * @param int $newDogProfileId id for the profile owning the dog (foreign key)
-	 * @param tinyint $newDogAge
+	 * @param int $newDogAge
 	 * @param string $newDogCloudinaryId containing an optional photo of the dog
 	 * @param string $newDogBio containing an optuonal biography of the dog
 	 * @param string $newDogBreed containing an optional description of breed
@@ -69,7 +69,7 @@ Class dog implements \JsonSerializable {
 	 * @documentation php.net
 	 */
 
-	public function __construct(?int $newDogId, int $newDogProfileId, tinyint $newDogAge, string $newDogCloudinaryId, string $newDogBio, string $newDogBreed, string $newDogAtHandle) {
+	public function __construct(?int $newDogId, int $newDogProfileId, int $newDogAge, string $newDogCloudinaryId, string $newDogBio, string $newDogBreed, string $newDogAtHandle) {
 		try {
 			$this->setDogId($newDogId);
 			$this->setDogProfileId($newDogProfileId);
@@ -144,7 +144,7 @@ Class dog implements \JsonSerializable {
 	 * accessor method for dog age
 	 * @return int of dogAge
 	 */
-	public function getDogAge(): tinyint {
+	public function getDogAge(): int {
 		return ($this->dogAge);
 	}
 
@@ -296,7 +296,76 @@ Class dog implements \JsonSerializable {
 		$this->dogAtHandle = $newDogAtHandle;
 	}
 
+	/**
+	 * Inserts this dog into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
 
+	public function insert(\PDO $pdo): void {
+		//ensure that the dogId is null; don't insert a dog already in the database
+		if($this->dogId !== null) {
+			throw(new \PDOException("dog Id already exists"));
+		}
+
+		//create query template
+		$query = "INSERT INTO dog(dogProfileId, dogAge, dogCloudinaryId, dogBio, dogBreed, dogAtHandle) VALUES(:dogProfileId, :dogAge, :dogCloudinaryId, :dogBio, :dogBreed, :dogAtHandle)";
+		$statement = $pdo->prepare($query);
+
+		//Bind the member variables to the place holders in the template
+		$parameters = ["dogProfileId" => $this->dogProfileId, "dogAge" => $this->dogAge, "dogCloudinaryId" => $this->dogCloudinaryId, "dogBio" => $this->dogBio, "dogBreed" => $this->dogBreed, "dogAtHandle" => $this->dogAtHandle];
+		$statement->execute($parameters);
+		//update the null dogId with what mySQL just gave us
+		$this->dogId = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * deletes this dog from MySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+
+	public function delete(\PDO $pdo) : void {
+
+		//ensure the dogId is not null; don't delete a dog id that hasn't been inserted into the database
+		if($this->dogId === null) {
+			throw(new \PDOException("unable to delete a dog that does not exist"));
+		}
+
+		//create query template
+		$query = "DELETE FROM dog WHERE dogId = :dogId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the placeholders in the template
+		$parameters = ["dogId" => $this->dogId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * Updates this dog in MySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+
+	public function update(\PDO $pdo) : void {
+		//ensure the dogId is not null
+		if($this->dogId === null) {
+				throw(new \PDOException("unable to update a dog that does not exist"));
+		}
+		//create query template
+		$query = "UPDATE dog SET dogProfileId = :dogProfileId, dogAge = :dogAge, dogCloudinaryId = :dogCloudinaryId, dogBio = :dogBio, dogBreed = :dogBreed, dogAtHandle = dogAtHandle WHERE dogId = :dogId";
+		$statement = $pdo->prepare($query);
+	//bind the member variables to the placeholders in the template
+		$parameters = ["dogId" => $this->dogId, "dogProfileId" => $this->dogProfileId, "dogAge" => $this->dogAge, "dogCloudinaryId" => $this->dogCloudinaryId, "dogBio" => $this->dogBio, "dogBreed" => $this->dogBreed, "dogAtHandle" => $this->dogAtHandle];
+		$statement->execute($parameters);
+
+	}
 
 
 	public function jsonSerialize() {
