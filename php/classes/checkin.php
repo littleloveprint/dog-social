@@ -1,0 +1,200 @@
+<?php
+namespace Edu\Cnm\BarkParkz;
+require_once("autoload.php");
+/**
+ * this is the check-in page for barkparkz HMB
+ **/
+class CheckIn implements \JsonSerializable {
+	/**
+	 * id for check-in
+	 *
+	 * @var int $checkInId
+	 **/
+	private $checkInId;
+	/**
+	 * DogId for check-in
+	 *
+	 * @var string $checkInDogId
+	 **/
+	private $checkInDogId;
+	/**
+	 * park id for check in
+	 *
+	 * @var string $checkInParkId
+	 **/
+	private $checkInParkId;
+	/**
+	 * checkIn DateTime
+	 *
+	 * @var \DateTime $checkInDateTime
+	 **/
+	private $checkInDateTime;
+	/**
+	 * checkOut DateTime
+	 *
+	 * @var \DateTime $checkOutDateTime
+	 **/
+	private $checkOutDateTime;
+	/**
+	 * constructor for check-in
+	 *
+	 * @param int $newCheckInId
+	 * @param int $newCheckInDogId
+	 * @param int $newCheckInParkId
+	 * @param \DateTime|null $newCheckInDateTime date of check in
+	 * @param \DateTime|null $newCheckOutDateTime date of check out
+	 * @throws \Exception if some other exception occurs
+	 * @throws \TypeError if data types violate type hints
+	 **/
+	public function __construct(int $newCheckInId, int $newCheckInDogId, int $newCheckInParkId, $newCheckInDateTime = null, $newCheckOutDateTime = null) {
+		// use mutator method to do work
+		try {
+			$this->setCheckInId($newCheckInId);
+			$this->setCheckInDogId($newCheckInDogId);
+			$this->setCheckInParkId($newCheckInParkId);
+			$this->setCheckInDateTime($newCheckInDateTime);
+			$this->setCheckOutDateTime($newCheckOutDateTime);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			// determine what exception was throw
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+	}
+	/**
+	 * accessor method for checkInId
+	 * @return int value of checkInId
+	 **/
+	public function getCheckInId() : int {
+		return ($this->checkInId);
+	}
+	/**
+	 * mutator method for checkInId
+	 *
+	 * @param int $newCheckInId new value of check in id
+	 * @throws \RangeException if $newCheckInId is not positive
+	 * @throws \TypeError if $newCheckInId is not an int
+	 **/
+	public function setCheckInId(int $newCheckInId) : void {
+		// verify the check in id is positive
+		if($newCheckInId <= 0) {
+			throw(new \RangeException("check in id is not positive"));
+		}
+		$this->checkInId = $newCheckInId;
+	}
+	/**
+	 * accessor for checkInDogId
+	 *
+	 * @return int value of checkInDogId
+	 **/
+	public function getCheckInDogId() : int {
+		return ($this->checkInDogId);
+	}
+	/**
+	 * mutator method for checkInDogId
+	 *
+	 * @param int $newCheckInDogId new value of dog check in id
+	 * @throws \RangeException if $newCheckInDogId is not positive
+	 * @throws \TypeError if $newCheckInDogId is not an int
+	 **/
+	public function setCheckInDogId(int $newCheckInDogId) : void {
+		//verify the check in dog id is positive
+		if($newCheckInDogId <= 0) {
+			throw(new \RangeException("check in dog id is not positive"));
+		}
+		$this->checkInDogId = $newCheckInDogId;
+	}
+	/**
+	 * accessor method for checkInParkId
+	 *
+	 * @return int value of checkInParkId
+	 **/
+	public function getCheckInParkId() : int {
+		return ($this->checkInParkId);
+	}
+	/**
+	 * mutator method for the checkInParkId
+	 *
+	 *@param int $newCheckInParkId new value of check in park id
+	 *@throws \RangeException if $newCheckInParkId is not positive
+	 *@throws \TypeError if $newCheckInParkId is not an int
+	 **/
+	public function setCheckInParkId(int $newCheckInParkId) : void {
+		// verify is park id is positive
+		if($newCheckInParkId <= 0) {
+			throw(new \RangeException("park id is not positive"));
+		}
+		$this->checkInParkId = $newCheckInParkId;
+	}
+	/**
+	 * accessor method for checkInDateTime
+	 *
+	 * @return \DateTime value of checkInDateTime
+	 **/
+	public function getCheckInDateTime() : \DateTime {
+		return ($this->checkInDateTime);
+	}
+	/**
+	 * mutator method for checkInDateTime
+	 *
+	 * @param \DateTime|string|null $newCheckInDateTime check in date as DateTime object or string(or null to load current time)
+	 * @throws \InvalidArgumentException if $newCheckInDateTime is not a valid object or string
+	 * @throws \RangeException if $newCheckInDateTime is a date that does not exist
+	 **/
+	public function setCheckInDateTime($newCheckInDateTime): void {
+		// base case if date is null use current time and date
+		if($newCheckInDateTime === null) {
+			$this->checkInDateTime = new \DateTime();
+			return;
+		}
+		// store the like date using ValidateDate trait
+		try {
+			$newCheckInDateTime = self::validateDateTime($newCheckInDateTime);
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		$this->checkInDateTime = $newCheckInDateTime;
+	}
+	/**
+	 * accessor method for checkOutDateTime
+	 *
+	 * @return \DateTime value of checkOutDateTime
+	 **/
+	public function getCheckOutDateTime() : \DateTime {
+		return ($this->checkOutDateTime);
+	}
+	/**
+	 * mutator method for checkOutDateTime
+	 *
+	 * @param \DateTime|string|null $newCheckOutDateTime check in date as DateTime object or string(or null to load current time)
+	 * @throws \InvalidArgumentException if $newCheckOutDateTime is not a valid object or string
+	 * @throws \RangeException if $newCheckOutDateTime is a date that does not exist
+	 **/
+	public function setCheckOutDateTime($newCheckOutDateTime): void {
+		// base case if date is null use current time and date
+		if($newCheckOutDateTime === null) {
+			$this->checkOutDateTime = new \DateTime();
+			return;
+		}
+		// store the like date using ValidateDate trait
+		try {
+			$newCheckOutDateTime = self::validateDateTime($newCheckOutDateTime);
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		$this->checkOutDateTime = $newCheckOutDateTime;
+	}
+	/**
+	 * formats state vars for JSON serialization
+	 * first time doing dates HMB
+	 *
+	 * @return array resulting state vars to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		$fields["checkInDateTime"] = round(floatval($this->checkInDateTime->format("U.u")) * 1000);
+		$fields["checkOutDateTime"] = round(floatval($this->checkOutDateTime->format("U.u")) * 1000);
+		return ($fields);
+	}
+}
