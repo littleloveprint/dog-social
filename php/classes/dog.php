@@ -230,6 +230,74 @@ Class dog implements \JsonSerializable {
 		$this->dogBio = $newDogBio;
 	}
 
+	/**
+	 * accessor method for dog breed
+	 * @return string value of dogBreed
+	 */
+
+	public function getDogBreed(): string {
+		return $this->dogBreed;
+	}
+
+	/**
+	 * mutator method for dog breed
+	 * @param string $newDogBreed string value of new dog breed
+	 * @throws \InvalidArgumentException if $newDogBreed is not a string or insecure
+	 * @throws \RangeException if $newDogBreed is > 50 characters
+	 * @throws \TypeError if $newDogBreed is not a string
+	 *
+	 */
+
+	public function setDogBreed(string $newDogBreed): void {
+		//verify the dog breed is secure and a string
+		$newDogBreed = trim($newDogBreed);
+		$newDogBreed = filter_var($newDogBreed, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newDogBreed) === true) {
+			throw(new \InvalidArgumentException("dog breed is empty or insecure"));
+		}
+		//verify the dog breed string will fit in the database
+		if(strlen($newDogBreed) > 50) {
+			throw(new \RangeException("dog breed description is too long"));
+		}
+		//store dog breed
+		$this->dogBreed = $newDogBreed;
+	}
+
+	/**
+	 * accessor method for dog at handle
+	 * @return string value of dogAtHandle
+	 */
+
+	public function getDogAtHandle(): string {
+		return $this->dogAtHandle;
+	}
+
+	/**
+	 * mutator method for dog at handle
+	 * @param string $newDogAtHandle string value of new dog at handle
+	 * @throws \InvalidArgumentException if $newDogAtHandle is not a string or insecure
+	 * @throws \RangeException if $newDogAtHandle is > 32 characters
+	 * @throws \TypeError if $newDogAtHandle is not a string
+	 *
+	 */
+
+	public function setDogAtHandle(string $newDogAtHandle): void {
+		//verify the dog breed is secure and a string
+		$newDogAtHandle = trim($newDogAtHandle);
+		$newDogAtHandle = filter_var($newDogAtHandle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newDogAtHandle) === true) {
+			throw(new \InvalidArgumentException("dog at handle is empty or insecure"));
+		}
+		//verify the dog at handle will fit in the database
+		if(strlen($newDogAtHandle) > 32) {
+			throw(new \RangeException("dog at handle is too long"));
+		}
+		//store dog at handle
+		$this->dogAtHandle = $newDogAtHandle;
+	}
+
+
+
 
 	public function jsonSerialize() {
 		return (get_object_vars($this));
