@@ -29,8 +29,8 @@ class Favorite implements \JsonSerializable {
 	public function __construct(int $newFavoriteProfileId, int $newFavoriteParkId) {
 		// mutator methods do work
 		try {
-			$this->favoriteProfileId($newFavoriteProfileId);
-			$this->favoriteParkId($newFavoriteParkId);
+			$this->setFavoriteProfileId($newFavoriteProfileId);
+			$this->setFavoriteParkId($newFavoriteParkId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			// determine what exception
 			$exceptionType = get_class($exception);
@@ -125,8 +125,8 @@ class Favorite implements \JsonSerializable {
 	 * gets the favorite by park id and profile id
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $likeProfileId profile id to search for
-	 * @param int $likeTweetId tweet id to search for
+	 * @param int $favoriteProfileId profile id to search for
+	 * @param int $favoriteParkId tweet id to search for
 	 * @return Favorite|null Like found or null if not found
 	 **/
 	public static function getFavoriteByFavoriteParkIdAndFavoriteProfileId(\PDO $pdo, int $favoriteProfileId, int $favoriteParkId) : ?Favorite {
@@ -183,7 +183,7 @@ class Favorite implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$favorite = new Favorite($row["favoriteProfileId"], $row["favoriteParkId"]);
-				$favorites[$favorite->key()] = $favorite;
+				$favorites[$favorites->key()] = $favorite;
 				$favorites->next();
 			} catch(\Exception $exception) {
 				// if the row couldnt be converted rethrow it
@@ -201,7 +201,32 @@ class Favorite implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when vars are not correct type
 	 **/
-
+	public static function getFavoriteByFavoriteParkId(\PDO $pdo, int $favoriteParkId) : \SplFixedArray {
+		// sanitize park id
+		$favoriteParkId = filter_var($favoriteParkId, FILTER_VALIDATE_INT);
+		if($favoriteParkId <= 0) {
+			throw(new \PDOException("park id is not positive"));
+		}
+		$query = "SELECT favoriteProfileId, favoriteParkId FROM favorite WHERE favoriteParkId = :favoriteParkId";
+		$statement = $pdo->prepare($query);
+		// bind the member vars to the place holders in the template
+		$parameters = ["favoriteParkId" => $favoriteParkId];
+		$statement->execute($parameters);
+		// build array of favorites
+		$favorites = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$favorite = new Favorite($row["favoriteProfileID"], $row["favoriteParkId"]);
+				$favorites[$favorites->key()] = $favorite;
+				$favorites->next();
+			} catch(\Exception $exception) {
+				// if new row cant be converted rethrow
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($favorites);
+	}
 	/**
 	 * formats state vars for JSON serialization
 	 *
