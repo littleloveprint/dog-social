@@ -4,6 +4,7 @@ require_once("autoload.php");
 /**
  * this is the class for favorite
  * where profiles will be able to favorite parks and profiles
+ * @author ABQMJ
  **/
 
 class Favorite implements \JsonSerializable {
