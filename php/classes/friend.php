@@ -18,6 +18,7 @@ class Friend implements \JsonSerializable {
 	 * @var int $friendSecondProfileId
 	 **/
 	private $friendSecondProfileId;
+
 	/**
 	 * Constructor for Friend.
 	 *
@@ -33,14 +34,13 @@ class Friend implements \JsonSerializable {
 		try {
 			$this->setFriendFirstProfileId($newFriendFirstProfileId);
 			$this->setFriendSecondProfileId($newFriendSecondProfileId);
-		}
-
-			// Determine what exception type was thrown
+		} // Determine what exception type was thrown
 		catch(\RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	}
+
 	/**
 	 * Accessor method for friend first profile id.
 	 *
@@ -49,6 +49,7 @@ class Friend implements \JsonSerializable {
 	public function getFriendFirstProfileId(): ?int {
 		return ($this->friendFirstProfileId);
 	}
+
 	/**
 	 * Mutator method for friend first profile id.
 	 *
@@ -69,9 +70,10 @@ class Friend implements \JsonSerializable {
 			throw(new \RangeException("friend first profile id is not positive"));
 		}
 
-		// Convert and store the profile id.
+		// Convert and store the friend first profile id.
 		$this->friendFirstProfileId = $newFriendFirstProfileId;
 	}
+
 	/**
 	 * Accessor method for friend second profile id.
 	 *
@@ -80,6 +82,7 @@ class Friend implements \JsonSerializable {
 	public function getFriendSecondProfileId(): ?int {
 		return ($this->friendSecondProfileId);
 	}
+
 	/**
 	 * Mutator method for friend second profile id.
 	 *
@@ -100,8 +103,133 @@ class Friend implements \JsonSerializable {
 			throw(new \RangeException("friend second profile id is not positive"));
 		}
 
-		// Convert and store the profile id.
+		// Convert and store the friend second profile id.
 		$this->friendSecondProfileId = $newFriendSecondProfileId;
 	}
 
+	/** Insert friend into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError is $pdo is not a PDO connection object
+	 **/
+
+	public function insert(\PDO $pdo): void {
+
+		// Ensure the object exists before inserting
+		if($this->friendFirstProfileId === null || $this->friendSecondProfileId === null) {
+			throw(new \PDOException("not a valid friend"));
+		}
+
+		// Create query template
+		$query = "INSERT INTO 'friend'(friendFirstProfileId, friendSecondProfileId) VALUES(:friendFirstProfileId, :friendSecondProfileId)";
+		$statement = $pdo->prepare($query);
+
+		// Bind the member variables to the place holders in the template
+		$parameters = ["friendFirstProfileId" => $this->friendFirstProfileId, "friendSecondProfileId" => $this->friendSecondProfileId];
+		$statement->execute($parameters);
+	}
+
+	/** Deletes this Friend from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError is $pdo is not in a PDO connection object
+	 **/
+
+	public function delete(\PDO $pdo): void {
+
+		// As always, ensure the object exists before deleting
+		if($this->friendFirstProfileId === null || $this->friendSecondProfileId === null) {
+			throw(new \PDOException("not a valid friend"));
+		}
+
+		// Create query template
+		$query = "DELETE FROM 'friend' WHERE friendFirstProfileId = :friendFirstProfileId AND friendSecondProfileId = :friendSecondProfileId";
+		$statement = $pdo->prepare($query);
+
+		// Bind the member variables to the place holders in the template
+		$parameters = ["friendFirstProfileId" => $this->friendFirstProfileId, "friendSecondProfileId" => $this->friendSecondProfileId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * Gets the Friend by friend first profile id and friend second profile id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $friendFirstProfileId first profile id to search for
+	 * @param int $friendSecondProfileId second profile id to search for
+	 * @return Friend|null Friend found or null if no friends found
+	 **/
+
+	public static function getFriendByFriendFirstProfileIdAndFriendSecondProfileId(\PDO $pdo, int $friendFirstProfileId, int $friendSecondProfileId): ?Friend {
+
+		// Sanitize the friend first profile id and friend second profile id before searching
+		if($friendFirstProfileId <= 0) {
+			throw(new \PDOException("first profile id is not positive"));
+		}
+		if($friendSecondProfileId <= 0) {
+			throw(new \PDOException("second profile id is not positive"));
+		}
+
+		// Create query template
+		$query = "SELECT friendFirstProfileId, friendSecondProfileId FROM 'friend' WHERE friendFirstProfileId = :friendFirstProfileId AND friendSecondProfileId = :friendSecondProfileId";
+		$statement = $pdo->prepare($query);
+
+		// Grab the friend from mySQL
+		try {
+			$friend = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$friend = new Friend($row["friendFirstProfileId"], $row["friendSecondProfileId"]);
+			}
+		} catch(\Exception $exception) {
+
+			// If the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($friend);
+	}
+
+	/**
+	 * Gets all Friends by friend first profile id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of Friends found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when varriables are not the correct data type
+	 **/
+	public static function getAllFriends(\PDO $pdo): \SplFixedArray {
+
+		// Create query template
+		$query = "SELECT friendFirstProfileId, friendSecondProfileId FROM friend";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// Build an array of Friends
+		$friends = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$friend = new Friend($row["friendFirstProfileId"], $row["friendSecondProfileId"]);
+				$friends[$friends->key()] = friend;
+				$friends->next();
+			} catch(\Exception $exception) {
+
+				// If the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($friends);
+	}
+
+	/**
+	 * Formats the state variables for JSON serialization.
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		return (get_object_vars($this));
+	}
 }
