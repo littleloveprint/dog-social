@@ -103,9 +103,9 @@ class Park implements \JsonSerializable {
 	 **/
 	public function setParkLocationX(string $newParkLocationX): void {
 
-		// verify the profile id is positive
+		// verify the park location x is secure
 		if($newParkLocationX <= 0) {
-			throw(new \RangeException("park location x is not positive"));
+			throw(new \RangeException("park location x is too large"));
 		}
 
 		// convert and store the park location x
@@ -115,16 +115,10 @@ class Park implements \JsonSerializable {
 	/**
 	 * accessor method for park location Y
 	 *
-	 * @return int value of park location Y
+	 * @return string value of park location Y
 	 **/
-	public function getParkLocationY(): int {
+	public function getParkLocationY(): string {
 		return ($this->parkLocationY);
-	}
-
-	/**
-	 * @param $newParkName
-	 */
-	private function setParkName($newParkName) {
 	}
 
 	/**
@@ -136,13 +130,14 @@ class Park implements \JsonSerializable {
 	public function setParkLocationY(string $newParkLocationY): void {
 
 		// verify the park location y is positive
-		if($newParkLocationY <= 0) {
-			throw(new \RangeException("park location y is not positive"));
+		if(strlen($newParkLocationY) > 32) {
+			throw(new \RangeException("park location y is too large"));
 		}
 
 		// convert and store the park location Y
 		/** @var parkLocationY $this */
 		$this->parkLocationY = $newParkLocationY;
+	}
 
 
 		/**
@@ -150,8 +145,7 @@ class Park implements \JsonSerializable {
 		 *
 		 * @return string value of park name
 		 **/
-		public
-		function getParkName(): string {
+		public function getParkName(): string {
 			return ($this->parkName);
 		}
 
@@ -198,20 +192,20 @@ class Park implements \JsonSerializable {
 		function insert(\PDO $pdo, $parameters): void {
 			// enforce the parkId is null (i.e., don't insert a park that already exists)
 			if($this->parkId !== null) {
-				throw(new \PDOException("not a new park"))
-	}
+				throw(new \PDOException("not a new park"));
+			}
+
+			// create a query template
+			$query = "INSERT INTO park(parkId, parkLocationX, parkLocationY, parkName) VALUES(:parkId, :parkLocationX, :parkLocationY, :parkName)";
+			$statement = $pdo->prepare($query);
+
+			// bind the member variables to the place holders in the template
+			$parameters = ["parkId" => $this->parkId, "parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName];
+			$statement->execute($parameters);
+
+			// update the null parkId with what mySQL just gave us
+			$this->parkId = intval($pdo->lastInsertId());
 		}
-
-		// create a query template
-		$query = "INSERT INTO park(parkId, parkLocationX, parkLocationY, parkName) VALUES(:parkId, :parkLocationX, :parkLocationY, :parkName)";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders in the template
-		$parameters = ["parkId" => $this->parkId, "parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName;
-		$statement->execute($parameters);
-
-		// update the null parkId with what mySQL just gave us
-		$this->parkId = intval($pdo->lastInsertId());
 
 		/**
 		 * deletes this Park from mySQL
@@ -234,7 +228,6 @@ class Park implements \JsonSerializable {
 			$parameters = ["parkId => $this->parkId"];
 			$statement->execute($parameters);
 		}
-	}
 
 	/**
 	 * updates this Park in mySQL
@@ -328,15 +321,16 @@ class Park implements \JsonSerializable {
 
 		//build an array of parks
 		$parks = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO: :FETCH_ASSOC);
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
-			try }
-						$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
-						$parks[$parks->key()] = $park;
-						$parks->next();
-		catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			try {
+				$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
+				$parks[$parks->key()] = $park;
+				$parks->next();
+			}catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 		}
 return ($parks);
 }
@@ -358,23 +352,24 @@ return ($parks);
 		//build an array of parks
 		$parks = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			while(($row = $statement->fetch()) !== false) {
-				try{
-							$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
 			} catch(\Exception $exception) {
-	// if the row couldn't be converted rethrow it
-throw(new \PDOException($exception->getMessage(), 0, $exception));
-}
+				// if the row couldn't be converted rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($parks);
+	}
 
-return ($parks);
-
-
-/**
- * formats the state variables for JSON serialization
- *
- * @return array resulting state variables to serialize
- **/
-public
-function jsonSerialize() {
-	return (get_object_vars($this));
-}
+				/**
+				 * formats the state variables for JSON serialization
+				 *
+				 * @return array resulting state variables to serialize
+				 **/
+				public
+				function jsonSerialize() {
+					return (get_object_vars($this));
+				}
+			}
