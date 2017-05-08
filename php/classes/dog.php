@@ -1,10 +1,11 @@
 <?php
 
 namespace Edu\Cnm\BarkParkz;
+require_once("autoload.php");
 
 /**
  * Created by PhpStorm.
- * User: GV8484
+ * @author Gerrit Van Dyke gerritv8484@gmail.com
  * Date: 5/5/2017
  * Time: 9:56 AM
  *
@@ -366,6 +367,50 @@ Class dog implements \JsonSerializable {
 		$statement->execute($parameters);
 
 	}
+
+	/**
+	 * get dog by breed
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $dogBreed dog breed to search for
+	 * @return \SPLFixedArray of all dogs found
+	 * @throws \PDOException
+	 */
+	public static function getDogByDogBreed(\PDO $pdo, string $dogBreed) : \SPLFixedArray {
+
+		//sanitize the breed string before searching
+		$dogBreed = trim($dogBreed);
+		$dogBreed = filter_var($dogBreed, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($dogBreed) === true) {
+			throw(new \PDOException("not a valid breed"));
+
+			//create query template
+			$query = "SELECT dogId, dogProfileId, dogAge, dogCloudinaryId, dogBio, dogBreed, dogAtHandle FROM dog WHERE dogBreed = :dogBreed";
+			$statement = $pdo->prepar($query);
+
+			//bind the dogBreed to the placeholder in the template
+			$parameters = ["dogBreed" => $dogBreed];
+			$statement->execute($parameters);
+
+			$dogs = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$dog = new dog($row["dogId"], $row["dogProfileId"], $row["dogAge"], $row["dogCloudinaryId"], ["dogBio"], ["dogBreed"], ["dogAtHandle"]);
+					$dogs[$dogs->key()] = $dog;
+					$dogs->next();
+				} catch(\Exception $exception) {
+					//if the row can't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+
+			}
+			return ($dogs);
+		}
+	}
+
+
 
 
 	public function jsonSerialize() {
