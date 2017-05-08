@@ -135,11 +135,11 @@ public function getParkLocationY() : int{
  * @throws \RangeException if $newParkLocationY is not positive
  * @throws \TypeError if $newprofileId is not an integer
  **/
-public funtion setParkLocationY(int $newParkLocationY) : void {
+public function setParkLocationY(int $newParkLocationY) : void {
 
 			// verify the park location y is positive
 			if($newParkLocationY <= 0) {
-					throw(new \RangeException("park location y is not positive")));
+					throw(new \RangeException("park location y is not positive"));
 	/**
 	 * Specify data which should be serialized to JSON
 	 * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
@@ -201,12 +201,17 @@ function setParkName(string $newParkName) : void {
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
-public function insert(\PDO $pdo, $parameters) : void {
+public
+/**
+ * @param \PDO $pdo
+ * @param $parameters
+ */
+function insert(\PDO $pdo, $parameters) : void {
 	// enforce the parkId is null (i.e., don't insert a park that already exists)
 	if($this->parkId !== null) {
 		throw(new \PDOException("not a new park"))
 	}
-
+}
 	// create a query template
 	$query = "INSERT INTO park(parkId, parkLocationX, parkLocationY, parkName) VALUES(:parkId, :parkLocationX, :parkLocationY, :parkName)";
 	$statement = $pdo->prepare($query);
@@ -216,7 +221,6 @@ public function insert(\PDO $pdo, $parameters) : void {
 
 	// update the null parkId with what mySQL just gave us
 	$this->parkId = intval($pdo->lastInsertId());
-}
 
 /**
  * deletes this Park from mySQL
@@ -226,10 +230,10 @@ public function insert(\PDO $pdo, $parameters) : void {
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
 public function delete(\PDO $pdo) : void {
-		// enforce the parkId is not null (i.e., don't delete a park that hasn't been inserted)
-		if($this->parkId === null) {
-				throw(new \PDOException("unable to delete a park that does not exist"));
-		}
+	// enforce the parkId is not null (i.e., don't delete a park that hasn't been inserted)
+	if($this->parkId === null) {
+		throw(new \PDOException("unable to delete a park that does not exist"));
+	}
 
 		//create query template
 		$query = "DELETE FROM park WHERE parkId = :parkId";
@@ -251,7 +255,7 @@ public
 /**
  * @param \PDO $pdo
  */
-function update(\PDO $pdo) : void {
+function update(\PDO $pdo, $execute) : void {
 	// enforce the parkId is not null (i.e., don't update a park that hasn't been inserted)
 	if($this->parkId === null) {
 		throw(new \PDOException("unable to update a park that does not exist"));
@@ -339,7 +343,7 @@ public static function getParkByParkName(\PDO $pdo, string $parkName) : \SPLFixe
 						$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
 						$parks[$parks->key()] = $park;
 						$parks->next();
-		} catch(\Exception $exception) {
+		catch(\Exception $exception) {
 					// if the row couldn't be converted, rethrow it
 					throw(new \PDOException($exception->getMessage(), 0, $exception));
 }
