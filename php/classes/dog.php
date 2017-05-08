@@ -386,7 +386,7 @@ Class dog implements \JsonSerializable {
 
 			//create query template
 			$query = "SELECT dogId, dogProfileId, dogAge, dogCloudinaryId, dogBio, dogBreed, dogAtHandle FROM dog WHERE dogBreed = :dogBreed";
-			$statement = $pdo->prepar($query);
+			$statement = $pdo->prepare($query);
 
 			//bind the dogBreed to the placeholder in the template
 			$parameters = ["dogBreed" => $dogBreed];
@@ -397,7 +397,7 @@ Class dog implements \JsonSerializable {
 
 			while(($row = $statement->fetch()) !== false) {
 				try {
-					$dog = new dog($row["dogId"], $row["dogProfileId"], $row["dogAge"], $row["dogCloudinaryId"], ["dogBio"], ["dogBreed"], ["dogAtHandle"]);
+					$dog = new dog($row["dogId"], $row["dogProfileId"], $row["dogAge"], $row["dogCloudinaryId"], $row["dogBio"], $row["dogBreed"], $row["dogAtHandle"]);
 					$dogs[$dogs->key()] = $dog;
 					$dogs->next();
 				} catch(\Exception $exception) {
