@@ -286,11 +286,11 @@ class CheckIn implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $checkInDogId dog id to search for
-	 * @return $dogId|null checkInDogId or null if naah
+	 * @return \SplFixedArray splfixedarray of dogs founds or null if not found
 	 * @throws \PDOException when mySQL errors occur
 	 * @throws \TypeError when vars are not the correct data type
 	 **/
-	public static function getCheckInByCheckInDogId(\PDO $pdo, int $checkInDogId):?CheckIn {
+	public static function getCheckInByCheckInDogId(\PDO $pdo, int $checkInDogId): \SplFixedArray {
 		// sanitize the checkInDogId before searching
 		if($checkInDogId <= 0) {
 			throw(new \PDOException("dog check in id is not positive"));
@@ -301,18 +301,54 @@ class CheckIn implements \JsonSerializable {
 		// bind the check in dog id to the place holder in the template
 		$parameters = ["checkInDogId" => $checkInDogId];
 		$statement->execute($parameters);
-		// grab the dog id from mySQL
-		try {
-			$dogId = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
+		// build array of dogs
+		$dogIds = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
 				$dogId = new DogId($row["checkInId"], $row["checkInDogId"], $row["checkInParkId"]);
-			}
+				$dogIds[$dogIds->key()] = $dogId;
+				$dogIds->next();
 			} catch(\Exception $exception) {
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		} return ($dogId);
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		} return ($dogIds);
 		}
+	/**
+	 * get check in by park id
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param int $checkInParkId park id to search for
+	 * @return \SPLFixedArray splfixed array of park ids found or null if not
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when vars are not the correct data type
+	 **/
+	public static function getCheckInByParkId(\PDO $pdo, int $checkInParkId) : \SplFixedArray {
+		// sanitize the park id
+		if($checkInParkId <= 0) {
+			throw(new \PDOException("park id is not positive"));
+		}
+		// create query template
+		$query = "SELECT checkInParkId, checkInDogId, checkInId FROM checkIn WHERE checkInParkId = :checkInParkId";
+		$statement = $pdo->prepare($query);
+		// bind the member vars to the place holders in the template
+		$parameters = ["checkInParkId" => $checkInParkId];
+		$statement->execute($parameters);
+		// build an array of parks
+		$parks = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$park = new Park($row["checkInParkId"], $row["checkInId"], $row["checkInDogId"]);
+				$parks[$parks->key()] = $park;
+				$parks->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($parks);
+	}
 	/**
 	 * formats state vars for JSON serialization
 	 * first time doing dates HMB
