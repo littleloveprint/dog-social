@@ -248,6 +248,72 @@ class CheckIn implements \JsonSerializable {
 		$statement->execute($parameters);
 	}
 	/**
+	 * get checkIn by checkInId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $checkInId check in id to search
+	 * @return checkIn|null checkInId or null if naah
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError when vars are not the correct data type
+	 **/
+	public static function getCheckInByCheckInId(\PDO $pdo, int $checkInId) :?CheckIn {
+		// sanitize the checkInId before searching
+		if($checkInId <=0) {
+			throw(new \PDOException("check in id is not positive"));
+		}
+		// create query table
+		$query = "SELECT checkInId, checkInDogId, checkInParkId FROM checkIn WHERE checkInId = :checkInId";
+		$statement = $pdo->prepare($query);
+		// bind the check in id to the place holder in the template
+		$parameters = ["checkInId" => $checkInId];
+		$statement->execute($parameters);
+		// grab the check in id from mySQL
+		try {
+			$checkIn = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$checkIn = new CheckIn($row["checkInId"], $row["checkInDogId"], $row["checkInParkId"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted rethrow
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($checkIn);
+	}
+	/**
+	 * gets the checkIn by dog id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $checkInDogId dog id to search for
+	 * @return $dogId|null checkInDogId or null if naah
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError when vars are not the correct data type
+	 **/
+	public static function getCheckInByCheckInDogId(\PDO $pdo, int $checkInDogId):?CheckIn {
+		// sanitize the checkInDogId before searching
+		if($checkInDogId <= 0) {
+			throw(new \PDOException("dog check in id is not positive"));
+		}
+		// create query template
+		$query = "SELECT checkInId, checkInParkId FROM checkIn WHERE checkInDogId = :checkInDogId";
+		$statement = $pdo->prepare($query);
+		// bind the check in dog id to the place holder in the template
+		$parameters = ["checkInDogId" => $checkInDogId];
+		$statement->execute($parameters);
+		// grab the dog id from mySQL
+		try {
+			$dogId = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$dogId = new DogId($row["checkInId"], $row["checkInDogId"], $row["checkInParkId"]);
+			}
+			} catch(\Exception $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		} return ($dogId);
+		}
+	/**
 	 * formats state vars for JSON serialization
 	 * first time doing dates HMB
 	 *
