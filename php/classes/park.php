@@ -138,23 +138,12 @@ class Park implements \JsonSerializable {
 		// verify the park location y is positive
 		if($newParkLocationY <= 0) {
 			throw(new \RangeException("park location y is not positive"));
-			/**
-			 * Specify data which should be serialized to JSON
-			 * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-			 * @return mixed data which can be serialized by <b>json_encode</b>,
-			 * which is a value of any type other than a resource.
-			 * @since 5.4.0
-			 */
-			function jsonSerialize() {
-				// TODO: Implement jsonSerialize() method.
-			}
 		}
 
 		// convert and store the park location Y
 		/** @var parkLocationY $this */
 		$this->parkLocationY = $newParkLocationY;
-		{
-		}
+
 
 		/**
 		 * accessor method for parkName
@@ -218,7 +207,8 @@ class Park implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["parkId" => $this->parkId, "parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName, $statement->execute($parameters)];
+		$parameters = ["parkId" => $this->parkId, "parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName;
+		$statement->execute($parameters);
 
 		// update the null parkId with what mySQL just gave us
 		$this->parkId = intval($pdo->lastInsertId());
@@ -230,8 +220,7 @@ class Park implements \JsonSerializable {
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError if $pdo is not a PDO connection object
 		 **/
-		public
-		function delete(\PDO $pdo): void {
+		public function delete(\PDO $pdo): void {
 			// enforce the parkId is not null (i.e., don't delete a park that hasn't been inserted)
 			if($this->parkId === null) {
 				throw(new \PDOException("unable to delete a park that does not exist"));
@@ -270,7 +259,6 @@ class Park implements \JsonSerializable {
 
 		// bind the member variables to the place holders in the template
 		$parameters = ["parkId" => $this->parkId, "parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName];
-		->
 		$execute($parameters);
 	}
 
@@ -300,7 +288,7 @@ class Park implements \JsonSerializable {
 		//grab the park from mySQL
 		try {
 			$park = null;
-			$statement->setFetchMode(\PDO: :FETCH_ASSOC);
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 					$row = $statement->fetch();
 					if($row !== false) {
 						$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
@@ -369,27 +357,17 @@ return ($parks);
 
 		//build an array of parks
 		$parks = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO: :FETCH_ASSOC);
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			while(($row = $statement->fetch()) !== false) {
-				try }
+				try{
 							$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
 			} catch(\Exception $exception) {
 	// if the row couldn't be converted rethrow it
 throw(new \PDOException($exception->getMessage(), 0, $exception));
-	/**
-	 * Specify data which should be serialized to JSON
-	 * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-	 * @return mixed data which can be serialized by <b>json_encode</b>,
-	 * which is a value of any type other than a resource.
-	 * @since 5.4.0
-	 */
-	function jsonSerialize() {
-		// TODO: Implement jsonSerialize() method.
-	}
 }
-}
+
 return ($parks);
-}
+
 
 /**
  * formats the state variables for JSON serialization
