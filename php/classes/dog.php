@@ -129,8 +129,8 @@ Class dog implements \JsonSerializable {
 
 	/**
 	 * mutator method for profile Id of the dog owner
-	 * @param int $newProfileId value of the new id of the dog owner
-	 * @throws \RangeException if $newProfileId is not an int
+	 * @param int $newDogProfileId value of the new id of the dog owner
+	 * @throws \RangeException if $newDogProfileId is not an int
 	 **/
 	public function setDogProfileId(int $newDogProfileId): void {
 		//verifies profile Id is positive
