@@ -24,7 +24,7 @@ class Park implements \JsonSerializable {
 	private $parkLocationX;
 	/**
 	 * Location of the park Y
-	 * @var int $parkLocationY
+	 * @var string $parkLocationY
 	 **/
 	private $parkLocationY;
 	/**
@@ -177,19 +177,16 @@ class Park implements \JsonSerializable {
 			$this->parkName = $newParkName;
 		}
 
-		/**
-		 * inserts this Park into mySQL
-		 *
-		 * @param \PDO $pdo PDO connection object
-		 * @throws \PDOException when mySQL related errors occur
-		 * @throws \TypeError if $pdo is not a PDO connection object
-		 **/
+	/**
+	 * inserts this Park into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 */
 		public
 		/**
 		 * @param \PDO $pdo
-		 * @param $parameters
 		 */
-		function insert(\PDO $pdo, $parameters): void {
+		function insert(\PDO $pdo): void {
 			// enforce the parkId is null (i.e., don't insert a park that already exists)
 			if($this->parkId !== null) {
 				throw(new \PDOException("not a new park"));
@@ -213,6 +210,7 @@ class Park implements \JsonSerializable {
 		 * @param \PDO $pdo PDO connection object
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError if $pdo is not a PDO connection object
+		 *
 		 **/
 		public function delete(\PDO $pdo): void {
 			// enforce the parkId is not null (i.e., don't delete a park that hasn't been inserted)
@@ -264,14 +262,14 @@ class Park implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getParkByParkId(\PDO $pdo, int $parkId): ?Tweet {
+	public static function getParkByParkId(\PDO $pdo, int $parkId): ?parkId {
 		// sanitize the parkId before searching
 		if($parkId <= 0) {
 			throw(new \PDOException("park id is not positive"));
 		}
 
 		// create query template
-		$query = "SELECT parkId, parkLocationX, parkLocationY, parkName FROM park WHERE parkID = :parkId";
+		$query = "SELECT parkId, parkLocationX, parkLocationY, parkName FROM park WHERE parkId = :parkId";
 		$statement = $pdo->prepare($query);
 
 		//bind the park id to the place holder in the template
@@ -302,7 +300,7 @@ class Park implements \JsonSerializable {
 	 * @throw \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getParkByParkName(\PDO $pdo, string $parkName): \SPLFixedArray {
+	public static function getParkByParkName(\PDO $pdo, string $parkName): \SplFixedArray {
 		// sanitize the description before searching
 		$parkName = trim($parkName);
 		$parkName = filter_var($parkName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
