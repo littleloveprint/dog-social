@@ -3,7 +3,7 @@ namespace Edu\CNM\BarkParkz;
 require_once ("autoload.php");
 /**
  * Bark Parkz Park
- * @author Emily Rose
+ * @author Emily Rose Halleran
  * @version 1
  * Date: 5/5/2017
  * Time: 10:46 AM
@@ -35,13 +35,12 @@ class Park implements \JsonSerializable {
 	 * constructor for this Park
 	 *
 	 * @param int|null $newParkId id of this Park or null if a new Park
-	 * @param int|null $newParkLocationX
-	 * @param int|null $newParkLocationY
+	 * @param string $newParkLocationX
+	 * @param string $newParkLocationY
 	 * @param $newParkName
-	 * @param string|null $parkName
 	 * @internal param string $newParkName string containing actual park name
 	 */
-	public function _construct(?int $newParkId, ?int $newParkLocationX, ?int $newParkLocationY, $newParkName, string $parkName = null) {
+	public function _construct(?int $newParkId, string $newParkLocationX, string $newParkLocationY, $newParkName) {
 	try {
 						$this->setParkId($newParkId);
 						$this->setParkLocationX($newParkLocationX);
@@ -120,9 +119,6 @@ public function getParkLocationY() : int{
 			return($this->parkLocationY);
 }
 
-	private function setParkLocationY($newParkLocationY) {
-	}
-
 	/**
 	 * @param $newParkName
 	 */
@@ -133,9 +129,9 @@ public function getParkLocationY() : int{
  * mutator method for park location y
  * @param int $newParkLocationY new value of park location y
  * @throws \RangeException if $newParkLocationY is not positive
- * @throws \TypeError if $newprofileId is not an integer
+ * @throws \TypeError if $newParkId is not an integer
  **/
-public function setParkLocationY(int $newParkLocationY) : void {
+public function setParkLocationY(string $newParkLocationY) : void {
 
 			// verify the park location y is positive
 			if($newParkLocationY <= 0) {
@@ -237,7 +233,7 @@ public function delete(\PDO $pdo) : void {
 
 		//create query template
 		$query = "DELETE FROM park WHERE parkId = :parkId";
-		statement = $pdo->prepare($query);
+		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
 		$parameters = ["parkId => $this->parkId"];
@@ -373,6 +369,16 @@ public static function getALLParks(\PDO $pdo) : \SplFixedArray {
 			} catch(\Exception $exception) {
 						// if the row couldn't be converted rethrow it
 	q				throw(new \PDOException($exception->getMessage(), 0, $exception));
+	/**
+	 * Specify data which should be serialized to JSON
+	 * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+	 * @return mixed data which can be serialized by <b>json_encode</b>,
+	 * which is a value of any type other than a resource.
+	 * @since 5.4.0
+	 */
+	function jsonSerialize() {
+		// TODO: Implement jsonSerialize() method.
+	}
 }
 }
 return ($parks);
@@ -383,8 +389,6 @@ return ($parks);
  *
  * @return array resulting state variables to serialize
  **/
-public /**
- *
- */function jsonSerialize() {
-	return = (get_object_vars($this));
+public function jsonSerialize() {
+	return  (get_object_vars($this));
 }
