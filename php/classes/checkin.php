@@ -5,6 +5,7 @@ require_once("autoload.php");
  * this is the check-in page for barkparkz HMB
  **/
 class CheckIn implements \JsonSerializable {
+	use ValidateDate;
 	/**
 	 * id for check-in
 	 *
@@ -348,6 +349,52 @@ class CheckIn implements \JsonSerializable {
 			}
 		}
 		return ($parks);
+	}
+	/**
+	 * get check in by check in date
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param \DateTime $sunriseCheckInDateTime beginning date to search for
+	 * @param \DateTime $sunsetCheckInDateTime ending date to search for
+	 * @return \SplFixedArray of check ins found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 * @throws \InvalidArgumentException if either sun dates are in the wrong format
+	 **/
+	public static function getCheckInByCheckInDateRange(\PDO $pdo, \DateTime $sunriseCheckInDateTime, \DateTime $sunsetCheckInDateTime ) : \SplFixedArray {
+		// enforce both dates present
+		if((empty ($sunriseCheckInDateTime) === true) || (empty($sunsetCheckInDateTime) === true)) {
+			throw (new \InvalidArgumentException("dates are empty or insecure"));
+		}
+		// ensure both dates are in the correct format and are secure
+		try {
+			$sunriseCheckInDateTime = self::validateDateTime($sunriseCheckInDateTime);
+			$sunsetCheckInDateTime = self::validateDateTime($sunsetCheckInDateTime);
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0 , $exception));
+		}
+		// create query template
+		$query = "SELECT checkInId, checkInDogId, checkInParkId, checkInDateTime FROM checkIn WHERE checkInDateTime >= :sunriseCheckInDateTime AND checkInDateTime <= :sunsetCheckInDateTime";
+		$statement = $pdo->prepare($query);
+		// format the dates so that mySQL can use them
+		$formattedSunriseDate = $sunriseCheckInDateTime->format("Y-m-d H:i:s");
+		$formattedSunsetDate = $sunsetCheckInDateTime->format("Y-m-d H:i:s");
+		$parameters = ["sunriseCheckInDateTime" => $formattedSunriseDate, "sunsetCheckInDateTime" => $formattedSunsetDate];
+		$statement->execute($parameters);
+		// build an array of check ins
+		$checkIns = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$checkIn = new CheckIn($row["checkInId"], $row ["checkInDogId"], $row ["checkInParkId"],["checkInDateTime"]);
+				$checkIns[$checkIns->key()] = $checkIn;
+				$checkIns->next();
+			} catch(\Exception $exception) {
+				throw (new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($checkIns);
 	}
 	/**
 	 * formats state vars for JSON serialization
