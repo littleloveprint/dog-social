@@ -369,14 +369,54 @@ Class dog implements \JsonSerializable {
 	}
 
 	/**
+	 * get dog by profile id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $dogProfileId profile id to search by
+	 * @return \SplFixedArray SplFixedArray of dogs found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getDogByDogProfileId(\PDO $pdo, int $dogProfileId) : \SplFixedArray {
+		// sanitize the profile Id before searching
+		if($dogProfileId <= 0) {
+			throw(new \RangeException("dog profile Id must be positive"));
+		}
+		//create query template
+		$query ="SELECT dogId, dogProfileId, dogAge, dogCloudinaryId, dogBio, dogBreed, dogAtHandle FROM dog WHERE dogProfileId = :dogProfileId";
+		$statement = $pdo->prepare($query);
+		//bind the dog profile id to the place holder in template
+		$parameters = ["dogProfileId" => $dogProfileId];
+		$statement->execute($parameters);
+		//build an array of dogs
+		$dogs = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+				try {
+					$dog = new dog($row{"dogId"}, $row["dogProfileId"], $row["dogAge"], $row["dogCloudinaryId"], $row["dogBio"], $row["dogBreed"], $row["dogAtHandle"]);
+					$dogs[$dogs->key()] = $dog;
+					$dogs->next();
+				} catch(\Exception $exception) {
+					// if the row can't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+		}
+		return($dogs);
+
+
+	}
+
+
+
+	/**
 	 * get dog by breed
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $dogBreed dog breed to search for
-	 * @return \SPLFixedArray of all dogs found
+	 * @return \SplFixedArray of all dogs found
 	 * @throws \PDOException
 	 */
-	public static function getDogByDogBreed(\PDO $pdo, string $dogBreed) : \SPLFixedArray {
+	public static function getDogByDogBreed(\PDO $pdo, string $dogBreed) : \SplFixedArray {
 
 		//sanitize the breed string before searching
 		$dogBreed = trim($dogBreed);
@@ -389,6 +429,7 @@ Class dog implements \JsonSerializable {
 			$statement = $pdo->prepare($query);
 
 			//bind the dogBreed to the placeholder in the template
+
 			$parameters = ["dogBreed" => $dogBreed];
 			$statement->execute($parameters);
 
@@ -406,7 +447,7 @@ Class dog implements \JsonSerializable {
 				}
 
 			}
-			return ($dogs);
+			return($dogs);
 		}
 	}
 
