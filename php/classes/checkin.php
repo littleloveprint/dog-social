@@ -186,6 +186,39 @@ class CheckIn implements \JsonSerializable {
 		$this->checkOutDateTime = $newCheckOutDateTime;
 	}
 	/**
+	 * inserts check in into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) : void {
+		// ensure object exist before insert
+		// not sure if i should if $this->checkInId
+		if($this->checkInId === null || $this->checkInParkId === null || $this->checkInDogId) {
+			throw (new \PDOException("not a valid check in"));
+		}
+		$query = "INSERT INTO checkIn (checkInDogId, checkInParkId, checkInDateTime, checkOutDateTime) VALUES(:checkInDogId, checkInParkId, checkInDateTime, checkOutDateTime)";
+		$statement = $pdo->prepare($query);
+		// bind the member vars to the place holders in the template
+		// because i have check in and out im sure how to write this
+		$formattedDate = $this->checkInDateTime->format("Y-m-d H:i:s");
+		$formattedDate = $this->checkOutDateTime->format("Y-m-d H:i:s");
+		$parameters = ["checkInId" => $this->checkInId, "checkInDogId" => $this->checkInDogId, "checkInParkId" => $this->checkInParkId, "checkInDateTime" => $formattedDate, "checkOutDateTime" => $formattedDate];
+		$statement->execute($parameters);
+	}
+	/**
+	 * deletes check in from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mysql errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) : void {
+		// ensure the object exist before deleting
+		if($this->checkInId === null || $this->checkInParkId === null || $this->checkInDogId)
+	}
+	/**
 	 * formats state vars for JSON serialization
 	 * first time doing dates HMB
 	 *
