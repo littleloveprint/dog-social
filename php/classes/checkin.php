@@ -216,7 +216,36 @@ class CheckIn implements \JsonSerializable {
 	 **/
 	public function delete(\PDO $pdo) : void {
 		// ensure the object exist before deleting
-		if($this->checkInId === null || $this->checkInParkId === null || $this->checkInDogId)
+		if($this->checkInId === null || $this->checkInParkId === null || $this->checkInDogId){
+			throw(new \PDOException("not a valid check in"));
+		}
+		// create query template
+		$query = "DELETE FROM checkIn WHERE checkInId = :checkInId AND checkInParkId = :checkInParkId AND checkInDogId = :checkInDogId";
+		$statement = $pdo->prepare($query);
+		// bind the member vars to the place holds in the template
+		$parameters = ["checkInId" => $this->checkInId, "checkInParkId" => $this->checkInParkId, "checkInDogId" => $this->checkInDogId];
+		$statement->execute($parameters);
+	}
+	/**
+	 * updates checkin in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) : void {
+		// enforce the checkInId is not null
+		if($this->checkInId === null) {
+			throw(new \PDOException("unable to update a check in that does not exist"));
+		}
+		// create query template
+		$query = "UPDATE checkIn SET checkInDogId = :checkInDogId, checkInParkId = :checkInParkId, checkInDateTime = :checkInDateTime, checkOutDateTime = :checkOutDateTime WHERE checkInId = :checkInId";
+		$statement = $pdo->prepare($query);
+		// bind the member vars to the place holders in the template
+		$formattedDateIn = $this->checkInDateTime->format("Y-m-d H:i:s");
+		$formattedDateOut = $this->checkOutDateTime->format("Y-m-d H:i:s");
+		$parameters = ["checkInId" => $this->checkInId, "checkInDogId" => $this->checkInDogId, "checkInParkId" => $this->checkInParkId, "checkInDateTime" => $formattedDateIn, "checkOutDateTime" => $formattedDateOut];
+		$statement->execute($parameters);
 	}
 	/**
 	 * formats state vars for JSON serialization
