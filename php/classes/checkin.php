@@ -253,7 +253,7 @@ class CheckIn implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $checkInId check in id to search
-	 * @return checkIn|null checkInId or null if naah
+	 * @return checkIn|null checkInId or null if nah
 	 * @throws \PDOException when mySQL errors occur
 	 * @throws \TypeError when vars are not the correct data type
 	 **/
@@ -287,7 +287,7 @@ class CheckIn implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $checkInDogId dog id to search for
-	 * @return \SplFixedArray splfixedarray of dogs founds or null if not found
+	 * @return \SplFixedArray SplFixedArray of dogs founds or null if not found
 	 * @throws \PDOException when mySQL errors occur
 	 * @throws \TypeError when vars are not the correct data type
 	 **/
