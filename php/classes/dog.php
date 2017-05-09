@@ -367,6 +367,43 @@ Class dog implements \JsonSerializable {
 		$statement->execute($parameters);
 
 	}
+	/**
+	 * get dog by dogId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $dogId profile id to search by
+	 * @return \SplFixedArray SplFixedArray of dogs found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getDogByDogId(\PDO $pdo, int $dogId) : \SplFixedArray {
+		// sanitize the profile Id before searching
+		if($dogId <= 0) {
+			throw(new \RangeException("dog Id must be positive"));
+		}
+		//create query template
+		$query ="SELECT dogId, dogProfileId, dogAge, dogCloudinaryId, dogBio, dogBreed, dogAtHandle FROM dog WHERE dogId = :dogId";
+		$statement = $pdo->prepare($query);
+		//bind the dogId to the place holder in template
+		$parameters = ["dogId" => $dogId];
+		$statement->execute($parameters);
+		//build an array of dogs
+		$dogs = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$dog = new dog($row{"dogId"}, $row["dogProfileId"], $row["dogAge"], $row["dogCloudinaryId"], $row["dogBio"], $row["dogBreed"], $row["dogAtHandle"]);
+				$dogs[$dogs->key()] = $dog;
+				$dogs->next();
+			} catch(\Exception $exception) {
+				// if the row can't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($dogs);
+
+
+	}
 
 	/**
 	 * get dog by profile id
