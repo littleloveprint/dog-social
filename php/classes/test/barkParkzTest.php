@@ -78,6 +78,36 @@ public final function getSetUpOperation() {
 		]);
 
 }
+/**
+ * templates the tearDown method that runs after each test; this method expunges the database after each run
+ * @return Operation delete command for the database
+ */
+public final function getTearDownOperation() {
+		return(Factory::DELETE_ALL());
+}
+/**
+ * sets up the database connection and provides it to PHPUnit
+ * @return Connection PHPUnit database connection interface
+ */
 
+public final function getConnection() {
+	// if the connection hasn't been established, create it
+	if($this->connection === null) {
+		// connect to mySQL and provide the interface to PHPUnit
+		$config = readConfig("/etc/apache2/capstone-mysql/barkparkz.ini");
+		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
+		$this->connection = $this->createDefaultDBConnection($pdo, $config["database"]);
+
+	}
+	return($this->connection);
+}
+/**
+ * returns the actual PDO object; this is a convenience method
+ *
+ * @return \PDO active PDO object
+ */
+public final function getPDO() {
+		return($this->getConnection()->getConnection());
+}
 
 
