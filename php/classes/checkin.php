@@ -274,7 +274,7 @@ class CheckIn implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$checkIn = new CheckIn($row["checkInId"], $row["checkInDogId"], $row["checkInParkId"]);
+				$checkIn = new CheckIn($row["checkInId"], $row["checkInDogId"], $row["checkInParkId"], $row["checkInDateTime"], $row["checkOutDateTime"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted rethrow
@@ -307,7 +307,7 @@ class CheckIn implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$dogId = new DogId($row["checkInId"], $row["checkInDogId"], $row["checkInParkId"]);
+				$dogId = new CheckIn($row["checkInId"], $row["checkInDogId"], $row["checkInParkId"], $row["checkInDateTime"], $row["checkOutDateTime"]);
 				$dogIds[$dogIds->key()] = $dogId;
 				$dogIds->next();
 			} catch(\Exception $exception) {
@@ -340,7 +340,7 @@ class CheckIn implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$park = new Park($row["checkInParkId"], $row["checkInId"], $row["checkInDogId"]);
+				$park = new Park($row["checkInParkId"], $row["checkInId"], $row["checkInDogId"], $row["checkInDateTime"], $row["checkOutDateTime"]);
 				$parks[$parks->key()] = $park;
 				$parks->next();
 			} catch(\Exception $exception) {
@@ -387,7 +387,7 @@ class CheckIn implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$checkIn = new CheckIn($row["checkInId"], $row ["checkInDogId"], $row ["checkInParkId"],["checkInDateTime"]);
+				$checkIn = new CheckIn($row["checkInId"], $row ["checkInDogId"], $row ["checkInParkId"], $row["checkInDateTime"], $row["checkOutDateTime"]);
 				$checkIns[$checkIns->key()] = $checkIn;
 				$checkIns->next();
 			} catch(\Exception $exception) {
