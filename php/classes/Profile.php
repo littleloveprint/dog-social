@@ -47,7 +47,6 @@ class Profile implements \JsonSerializable {
 	 * location x of this Profile.
 	 * @var string $profileLocationX
 	 **/
-
 	private $profileLocationX;
 	/**
 	 * location y of this Profile.
