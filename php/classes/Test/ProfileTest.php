@@ -7,9 +7,9 @@ use Edu\Cnm\BarkParkz\Profile;
 require_once(dirname(__DIR__) . "/autoload.php");
 
 /**
- * Full PHPUnit test for the Profile class.
+ * Full PHPUnit testx for the Profile class.
  *
- * This is a complete PHPUnit test of the Profile class. It is complete because all mySQL and PDO enabled methods are tested for both invalid and valid inputs.
+ * This is a complete PHPUnit testx of the Profile class. It is complete because all mySQL and PDO enabled methods are tested for both invalid and valid inputs.
  *
  * @see Profile
  * @author Lea McDuffie <lea@littleloveprint.io>
@@ -37,7 +37,7 @@ class ProfileTest extends BarkParkzTest {
 	 * Valid email to use
 	 * @var string $VALID_EMAIL
 	 **/
-	protected $VALID_EMAIL = "test@phpunit.de";
+	protected $VALID_EMAIL = "testx@phpunit.de";
 
 	/**
 	 * Valid hash to use.
@@ -46,7 +46,7 @@ class ProfileTest extends BarkParkzTest {
 	protected $VALID_HASH;
 
 	/**
-	 * Valid salt to use to create the profile object to own the test.
+	 * Valid salt to use to create the profile object to own the testx.
 	 * @var string $VALID_SALT;
 	 **/
 	protected $VALID_SALT;

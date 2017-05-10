@@ -67,7 +67,7 @@ abstract class barkParkzTest extends TestCase {
 }
 
 /**
- * templates the setup method that runs before each test; this method expunges the database before each run
+ * templates the setup method that runs before each testx; this method expunges the database before each run
  * @return composite array containing delete and insert commands
  */
 
@@ -79,7 +79,7 @@ public final function getSetUpOperation() {
 
 }
 /**
- * templates the tearDown method that runs after each test; this method expunges the database after each run
+ * templates the tearDown method that runs after each testx; this method expunges the database after each run
  * @return Operation delete command for the database
  */
 public final function getTearDownOperation() {
