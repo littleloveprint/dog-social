@@ -60,54 +60,57 @@ abstract class barkParkzTest extends TestCase {
 		$dataset->addTable("friend");
 		$dataset->addTable("park");
 		$dataset->addTable("checkIn");
-		$dataset->addTable("favortie");
+		$dataset->addTable("favorite");
 		return ($dataset);
 
 	}
-}
 
-/**
- * templates the setup method that runs before each testx; this method expunges the database before each run
- * @return composite array containing delete and insert commands
- */
+	/**
+	 * templates the setup method that runs before each testx; this method expunges the database before each run
+	 * @return composite array containing delete and insert commands
+	 */
 
-public final function getSetUpOperation() {
-	return new Composite([
-				Factory::DELETE_ALL(),
-				Factory::INSERT()
+	public final function getSetUpOperation() {
+		return new Composite([
+			Factory::DELETE_ALL(),
+			Factory::INSERT()
 		]);
 
-}
-/**
- * templates the tearDown method that runs after each testx; this method expunges the database after each run
- * @return Operation delete command for the database
- */
-public final function getTearDownOperation() {
-		return(Factory::DELETE_ALL());
-}
-/**
- * sets up the database connection and provides it to PHPUnit
- * @return Connection PHPUnit database connection interface
- */
-
-public final function getConnection() {
-	// if the connection hasn't been established, create it
-	if($this->connection === null) {
-		// connect to mySQL and provide the interface to PHPUnit
-		$config = readConfig("/etc/apache2/capstone-mysql/barkparkz.ini");
-		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
-		$this->connection = $this->createDefaultDBConnection($pdo, $config["database"]);
-
 	}
-	return($this->connection);
-}
-/**
- * returns the actual PDO object; this is a convenience method
- *
- * @return \PDO active PDO object
- */
-public final function getPDO() {
-		return($this->getConnection()->getConnection());
-}
+
+	/**
+	 * templates the tearDown method that runs after each testx; this method expunges the database after each run
+	 * @return Operation delete command for the database
+	 */
+	public final function getTearDownOperation() {
+		return (Factory::DELETE_ALL());
+	}
+
+	/**
+	 * sets up the database connection and provides it to PHPUnit
+	 * @return Connection PHPUnit database connection interface
+	 */
+
+	public final function getConnection() {
+		// if the connection hasn't been established, create it
+		if($this->connection === null) {
+			// connect to mySQL and provide the interface to PHPUnit
+			$config = readConfig("/etc/apache2/capstone-mysql/barkparkz.ini");
+			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
+			$this->connection = $this->createDefaultDBConnection($pdo, $config["database"]);
+
+		}
+		return ($this->connection);
+	}
+
+	/**
+	 * returns the actual PDO object; this is a convenience method
+	 *
+	 * @return \PDO active PDO object
+	 */
+	public final function getPDO() {
+		return ($this->getConnection()->getConnection());
+	}
 
 
+}
