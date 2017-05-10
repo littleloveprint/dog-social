@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\BarkParkz\test;
+namespace Edu\Cnm\BarkParkz\Test;
 // this throws error ask for feedback
 // use Edu\Cnm\BarkParkz\classes{Favorite,Profile,Park};
 
@@ -12,7 +12,7 @@ require_once(dirname (__DIR__) . "autoload.php");
 /**
  * full unit test for the favorite class
  **/
-class FavoriteTest extends TestCase {
+class FavoriteTest extends BarkParkzTest {
 /**
  * profile that created a favorite for a park.
  * @var Profile $profile

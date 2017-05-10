@@ -5,7 +5,7 @@
  * Date: 5/8/2017
  * Time: 9:05 PM
  */
-namespace Edu\Cnm\BarkParkz;
+namespace Edu\Cnm\BarkParkz\Test;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
