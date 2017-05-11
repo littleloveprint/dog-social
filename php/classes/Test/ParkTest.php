@@ -17,8 +17,36 @@ require_once (dirname(__DIR__) . "/autoload.php");
  **/
 class ParkTest extends BarkParkzTest {
 /**
- * Placeholder until account activation is created
- * @var string $VALID_ACTIVATION
+ * Valid Park Id to use
+ * @var string $VALID_PARKID
  **/
-protected $VALID_ACTIVATION;
-}
+protected $VALID_PARKID;
+
+/**
+ * Valid Park Name to use
+ * @var string $VALID_PARKNAME
+ **/
+protected $VALID_PARKNAME;
+
+/**
+ * Valid cloudinary id to use
+ * @var string $VALID_CLOUDINARYID
+ **/
+
+protected $VALID_CLOUDINARYID;
+
+/**
+ * Valid location x to use
+ * @var string $VALID_LOCATIONX
+ **/
+protected $VALID_LOCATIONX;
+
+/**
+ * Valid location y to use
+ * @var string $VALID_LOCATIONY;
+ **/
+protected $VALID_LOCATIONY;
+
+/**
+ *
+ */

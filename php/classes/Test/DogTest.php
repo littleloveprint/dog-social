@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: GV8484
- * Date: 5/11/2017
- * Time: 10:43 AM
- */
-
 namespace Edu\Cnm\BarkParkz\Test;
 
 use Edu\Cnm\BarkParkz\Dog;
