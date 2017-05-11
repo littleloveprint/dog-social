@@ -42,7 +42,7 @@ class ProfileTest extends BarkParkzTest {
 
 	/**
 	 * Valid hash to use.
-	 * @var $VALID_HASH
+	 * @var string $VALID_HASH
 	 **/
 	protected $VALID_HASH;
 
