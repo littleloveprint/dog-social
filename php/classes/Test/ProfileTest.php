@@ -28,12 +28,6 @@ class ProfileTest extends BarkParkzTest {
 	protected $VALID_ATHANDLE = "@barkparkz";
 
 	/**
-	 * Second valid at handle to use
-	 * @var string $VALID_ATHANDLE2
-	 **/
-	protected $VALID_ATHANDLE2 = "@dogsocial";
-
-	/**
 	 * Valid cloudinary id to use
 	 * @var string $VALID_CLOUDINARYID
 	 **/
@@ -95,7 +89,7 @@ class ProfileTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Profile and insert into mySQL.
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_ATHANDLE2, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
 
 		// var_dump($profile);
 
@@ -112,5 +106,28 @@ class ProfileTest extends BarkParkzTest {
 		$this->assertSame($pdoProfile->getProfileSalt(), $this->VALID_SALT);
 		$this->assertSame($pdoProfile->getProfileLocationX(), $this->VALID_LOCATIONX);
 		$this->assertSame($pdoProfile->getProfileLocationY(), $this->VALID_LOCATIONY);
+	}
+
+	/** Test inserting a Profile that already exists.
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testInsertInvalidProfile() : void {
+
+		// Create a profile with a non null profileId and watch it fail hahaha
+		$profile = new Profile(BarkParkzTest::INVALID_KEY, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile->insert($this->getPDO());
+	}
+
+	/**
+	 * Test inserting a Profile, editing it, and then updating it.
+	 **/
+	public function testUpdateValidProfile() {
+
+		// Count the number of rows, and save it for later.
+
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// Create a new Profile and insert into mySQL.
 	}
 }
