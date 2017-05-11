@@ -5,7 +5,7 @@ namespace Edu\Cnm\BarkParkz\Test;
 
 //grab the class under scrutiny
 use Edu\Cnm\BarkParkz\Favorite;
-use Edu\CNM\BarkParkz\Park;
+use Edu\Cnm\BarkParkz\Park;
 use Edu\Cnm\BarkParkz\Profile;
 
 require_once(dirname (__DIR__) . "autoload.php");
@@ -87,6 +87,70 @@ public function testDeleteValidFavorite() : void {
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 	$favorite->delete($this->getPDO());
 	// grab the data from mySQl and the favorite does not exist
+	$pdoFavorite = Favorite::getFavoriteByFavoriteParkIdAndFavoriteProfileId($this->getPDO(), $this->profile->getProfileId(), $this->park->getParkId());
+	$this->assertNull($pdoFavorite);
+	$this->assertNull($numRows, $this->getConnection()->getRowCount("favorite"));
+	}
 
+	/**
+	 * test inserting a favorite and regrabbing it from mySQL
+	 **/
+	public function testGetInvalidFavoriteByParkIdAndProfileId() {
+		// grab a park and profile id that exceeds the maximum allowable park id and profile id
+		$favorite = Favorite::getFavoriteByFavoriteParkIdAndFavoriteProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY, BarkParkZTest::INVALID_KEY);
+		$this->assertNull($favorite);
+	}
+	public function testGetValidFavoriteByParkId() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("favorite");
+		// create a new favorite and insert to into mySQL
+		$favorite = new Favorite($this->profile->getProfileId(), $this->park->getParkId());
+		$favorite->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields to match our expectations
+		$results = Favorite::getFavoriteByFavoriteParkId($this->getPDO(), $this->park->getParkId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$this->assertCount(1, $results);
+		// not sure if this is accurate namespace?
+		$this->assertContainsOnlyInstancesOf("Edu\Cnm\BarkParkz\Favorite", $results);
+		// grab the result from the array and validate
+		$pdoFavorite = $results[0];
+		$this->assertEquals($pdoFavorite->getFavoriteProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoFavorite->getFavoriteParkId(), $this->park->getParkId());
+	}
+	/**
+	 * test grabbing a Favorite by a park id that does not exist
+	 **/
+	public function testGetInvalidFavoriteByParkId() : void {
+		// grab a park id that exceeds the maximum allowable park id
+		$favorite = Favorite::getFavoriteByFavoriteParkId($this->getPDO(), BarkParkzTest::INVALID_KEY);
+		$this->assertCount(0, $favorite);
+	}
+	/**
+	 * test grabbing a favorite by profile id
+	 **/
+	public function testGetValidFavoriteByProfile() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("favorite");
+		// create a new favorite and insert it into mySQL
+		$favorite = new Favorite($this->profile-getProfileId(), $this->park->getParkId());
+		$favorite->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields to match our expectations
+		$results = Favorite::getFavoriteByFavoriteProfileId($this->getPDO(), $this->profile->getProfileID());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$this->assertCount(1, $results);
+		// enforce no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("Edu\Cnm\BarkParkz\Test", $results);
+		// grab the result from the array and validate it
+		$pdoFavorite = $results[0];
+		$this->assertEquals($pdoFavorite->getFavoriteProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoFavorite->getFavoriteParkId(), $this->park->getParkId());
+	}
+	/**
+	 * test grabbing a favorite by a profile id that does not exist
+	 **/
+	public function testGetInvalidFavoriteByProfileId() : void {
+		// grab a park id that exceeds the max allowed profile id
+		$favorite = Favorite::getFavoriteByFavoriteProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY);
+		$this->assertCount(0, $favorite);
 	}
 }
