@@ -41,6 +41,18 @@ protected $VALID_HASH;
  * @var string $VALID HASH
  */
 protected $VALID_SALT;
+
+/**
+ * create dependent objects before running each test
+ */
+public final function setUp() : void {
+	//run the default setup
+	parent::setUp();
+	//create a salt and hash for the mock profile
+	$password = "mjIsWeird23";
+	$this->VALID_SALT = bin2hex(random_bytes(32));
+	$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT,262144);
+}
 }
 
 
