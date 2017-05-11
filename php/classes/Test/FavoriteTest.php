@@ -48,7 +48,7 @@ public final function setUp() : void {
 	$this->profile = new Park(null, null,"@php_unit", "test@phpunit.de",$this->VALID_HASH, "+12125551212", $this->VALID_SALT);
 	$this->profile->insert($this->getPDO());
 	//create the park and insert it
-	$this->park = new Park(null, $this->park->getParkId(), "PHP unit favroite test passing");
+	$this->park = new Park(null, $this->park->getParkId(), "PHP unit favorite test passing");
 }
 /**
  * test inserting a valid favorite and verify that the actual mySQL data matches
@@ -88,7 +88,7 @@ public function testDeleteValidFavorite() : void {
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 	$favorite->delete($this->getPDO());
 	// grab the data from mySQl and the favorite does not exist
-	$pdoFavorite = Favorite::getFavoriteByFavoriteProfileIdAndFavoriteParkId()($this->getPDO(), $this->profile->getProfileId(), $this->park->getParkId());
+	$pdoFavorite = Favorite::getFavoriteByFavoriteProfileIdAndFavoriteParkId($this->getPDO(), $this->profile->getProfileId(), $this->park->getParkId());
 	$this->assertNull($pdoFavorite);
 	$this->assertNull($numRows, $this->getConnection()->getRowCount("favorite"));
 	}
