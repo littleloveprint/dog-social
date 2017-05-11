@@ -77,5 +77,14 @@ class ProfileTest extends BarkParkzTest {
 		// var_dump($profile);
 
 		$profile->insert($this->getPDO());
+
+		// Grab the data from mySQL and be sure the fields match our expectations.
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertSame($numRows + 1, $this->getConnection()-getRowCount("profile"));
+		$this->assertSame($pdoProfile-getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertSame($pdoProfile->getProfileAtHandle(), $this->VALID_ATHANDLE);
+		$this->assertSame($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
+		$this->assertSame($pdoProfile->getProfileHash(), $this->VALID_HASH);
+		$this->assertSame($pdoProfile->getProfileSalt(), $this->VALID_SALT);
 	}
 }
