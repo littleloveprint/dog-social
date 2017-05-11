@@ -48,5 +48,14 @@ protected $VALID_LOCATIONX;
 protected $VALID_LOCATIONY;
 
 /**
- *
- */
+ * Test inserting a valid Park and verify that the actual mySQL data matches
+ **/
+public function testInsertValidProfile() : void {
+
+	// Count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("profile");
+
+	// Create a new Park and insert into mySQL
+	$profile = new Park ( newParkId: null, $this-> )
+}
+}

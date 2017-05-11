@@ -14,17 +14,17 @@ class CheckinTest extends BarkParkzTest {
 	 * dog that checks into a park
 	 * @var Dog $dog
 	 **/
-	protected $dog;
+	protected $dog = null;
 	/**
 	 * park that was checked into
 	 * @var Park $park
 	 **/
-	protected $park;
+	protected $park = null;
 	/**
 	 * valid hash to use
-	 * @var $VALID_HASH;
+	 * @var $VALID_PROFILE_HASH;
 	 **/
-	protected $VALID_HASH;
+	protected $VALID_PROFILE_HASH;
 	/**
 	 * timestamp of the check in this starts as null and is assigned later
 	 * @var \DateTime $VALID_CHECKINDATE
@@ -40,9 +40,9 @@ class CheckinTest extends BarkParkzTest {
 	protected $VALID_SUNSETCHECKINDATETIME = null;
 	/**
 	 * valid salt to use to create the profile to own the test
-	 * @var string $VALID_SALT;
+	 * @var string $VALID_PROFILE_SALT;
 	 **/
-	protected $VALID_SALT;
+	protected $VALID_PROFILE_SALT;
 	/**
 	 * create dependents objects before running each test
 	 **/
@@ -50,5 +50,10 @@ class CheckinTest extends BarkParkzTest {
 		// run the default setUp() method first
 		parent::setUp();
 		// create a salt and hash for the mocked profile
+		$password = "abc123";
+		$this->VALID_PROFILE_SALT = bin2hex(random_bytes(32));
+		$this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
+		// create and insert a dog to own the test checkin
+		$this->dog = new Dog()
 	}
 }
