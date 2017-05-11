@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\BarkParkz\test;
+namespace Edu\Cnm\BarkParkz\Test;
 // this throws error ask for feedback
 // use Edu\Cnm\BarkParkz\classes{Favorite,Profile,Park};
 
@@ -10,9 +10,9 @@ use Edu\Cnm\BarkParkz\Profile;
 
 require_once(dirname (__DIR__) . "autoload.php");
 /**
- * full unit testx for the favorite class
+ * full unit test for the favorite class
  **/
-class FavoriteTest extends TestCase {
+class FavoriteTest extends BarkParkzTest {
 /**
  * profile that created a favorite for a park.
  * @var Profile $profile
@@ -29,12 +29,12 @@ protected $park;
  **/
 protected $VALID_HASH;
 /**
- * valid salt to use to create the profile object to own the testx
+ * valid salt to use to create the profile object to own the test
  * @var string $VALID_SALT
  **/
 protected $VALID_SALT;
 /**
- * create dependent objects before running each testx
+ * create dependent objects before running each test
  **/
 public final function setUp() : void {
 	// run the default setup
@@ -45,13 +45,13 @@ public final function setUp() : void {
 	$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 262144);
 	$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 	//create and insert the mocked profile
-	$this->profile = new Park(null, null,"@php_unit", "testx@phpunit.de",$this->VALID_HASH, "+12125551212", $this->VALID_SALT);
+	$this->profile = new Park(null, null,"@php_unit", "test@phpunit.de",$this->VALID_HASH, "+12125551212", $this->VALID_SALT);
 	$this->profile->insert($this->getPDO());
 	//create the park and insert it
-	$this->park = new Park(null, $this->park->getParkId(), "PHP unit favroite testx passing");
+	$this->park = new Park(null, $this->park->getParkId(), "PHP unit favroite test passing");
 }
 /**
- * testx inserting a valid favorite and verify that the actual mySQL data matches
+ * test inserting a valid favorite and verify that the actual mySQL data matches
  **/
 public function testInsertValidFavorite() : void {
 	// count the number of rows and save it for later
@@ -66,7 +66,7 @@ public function testInsertValidFavorite() : void {
 	$this->assertEquals($pdoFavorite->getFavoriteParkId(), $this->park->getParkId());
 }
 /**
- * testx creating a favorite that makes no sense
+ * test creating a favorite that makes no sense
  * @expectedException \TypeError
  **/
 public function testInsertInvalidFavorite() : void {
@@ -75,7 +75,7 @@ public function testInsertInvalidFavorite() : void {
 	$favorite->insert($favorite->getPDO());
 }
 /**
- * testx creating a favorite and then deleting it
+ * test creating a favorite and then deleting it
  **/
 public function testDeleteValidFavorite() : void {
 	// count the number row and save it for later
@@ -84,6 +84,9 @@ public function testDeleteValidFavorite() : void {
 	$favorite = new Favorite($this->profile->getProfileId(), $this->park->getParkId());
 	$favorite->insert($this->getPDO());
 	// deletes the favorite from mySQL
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+	$favorite->delete($this->getPDO());
+	// grab the data from mySQl and the favorite does not exist
 
-}
+	}
 }
