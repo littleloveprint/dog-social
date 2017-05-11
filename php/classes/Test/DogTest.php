@@ -22,57 +22,70 @@ class DogTest extends BarkParkzTest {
 	 * profile that created the dog
 	 * @ var Profile $profile
 	 */
-protected $profile;
+	protected $profile;
 
-/**
- * Placeholder until account activation is created
-*/
-protected $VALID_ACTIVATION;
+	/**
+	 * Placeholder until account activation is created
+	 */
+	protected $VALID_ACTIVATION;
 
 	/**valid hash to use
- * @var $VALID_HASH;
- **/
-protected $VALID_HASH;
+	 * @var $VALID_HASH ;
+	 **/
+	protected $VALID_HASH;
 
-/**
- * valid salt to use to create the profile for this test
- * @var string $VALID_SALT
- */
-protected $VALID_SALT;
+	/**
+	 * valid salt to use to create the profile for this test
+	 * @var string $VALID_SALT
+	 */
+	protected $VALID_SALT;
 	/**
 	 * valid dogAge to use to create the dog class
 	 */
-protected $VALID_DOG_AGE = 1;
+	protected $VALID_DOG_AGE = 1;
 	/**
 	 * valid dogCloudinaryId in the dog class
 	 */
-protected $VALID_DOG_CLOUDINARY_ID = 7788885555554445454545454;
+	protected $VALID_DOG_CLOUDINARY_ID = 778888555555444545454;
 	/**
 	 * valid dogBio used in the dog class
 	 */
-protected $VALID_DOG_BIO = "Scruffy is such a cool little rascal.";
+	protected $VALID_DOG_BIO = "Scruffy is such a cool little rascal.";
 
 	/**
 	 * valid dogBreed used in the dog class
 	 */
-protected $VALID_DOG_BREED = "Bulldog Shitzu mix";
+	protected $VALID_DOG_BREED = "Bulldog Shitzu mix";
 	/**
 	 * valid dogAtHanadle used in the dog class
 	 */
-protected $VALID_DOG_AT_HANDLE = "@ScruffyLovesHimSomeTail";
+	protected $VALID_DOG_AT_HANDLE = "@ScruffyLovesHimSomeTail";
 
 	/**
- * create dependent objects before running each test
- */
+	 * create dependent objects before running each test
+	 */
 
-public final function setUp() : void {
-	//run the default setup
-	parent::setUp();
-	//create a salt and hash for the mock profile
-	$password = "mjIsWeird23";
-	$this->VALID_SALT = bin2hex(random_bytes(32));
-	$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT,262144);
-}
+	public final function setUp(): void {
+		//run the default setup
+		parent::setUp();
+		//create a salt and hash for the mock profile
+		$password = "mjIsWeird23";
+		$this->VALID_SALT = bin2hex(random_bytes(32));
+		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 262144);
+		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
+	}
+	/**
+	 * Test inserting a valid Dog and verfiy that the actual mySQL data matches
+	 **/
+	public function testInsertValidDog() : void {
+
+		//count the number of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("dog");
+
+		//create a new Dog and insert into mySQL
+		$dog = new Dog(null, null, $this->VALID_DOG_AGE, $this-> )
+	}
+
 }
 
 
