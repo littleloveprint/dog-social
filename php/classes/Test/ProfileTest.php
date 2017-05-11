@@ -239,6 +239,7 @@ class ProfileTest extends BarkParkzTest {
 		$profile->insert($this->getPDO());
 
 		// Grab the data from mySQL.
-		$results = Profile::getProfileByProfileAtHandle()
+		$results = Profile::getProfileByProfileAtHandle($this->getPDO(), $this->VALID_ATHANDLE);
+		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("profile"));
 	}
 }
