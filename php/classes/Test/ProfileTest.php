@@ -98,7 +98,7 @@ class ProfileTest extends BarkParkzTest {
 		// Grab the data from mySQL and be sure the fields match our expectations.
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertSame($numRows + 1, $this->getConnection()-getRowCount("profile"));
-		$this->assertSame($pdoProfile-getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertSame($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
 		$this->assertSame($pdoProfile->getProfileAtHandle(), $this->VALID_ATHANDLE);
 		$this->assertSame($pdoProfile->getProfileCloudinaryId(), $this->VALID_CLOUDINARYID);
 		$this->assertSame($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
@@ -139,7 +139,7 @@ class ProfileTest extends BarkParkzTest {
 		// Grab the data from mySQL and enforce the fields match our expectations.
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertSame($numRows + 1, $this->getConnection()-getRowCount("profile"));
-		$this->assertSame($pdoProfile-getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertSame($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
 		$this->assertSame($pdoProfile->getProfileAtHandle(), $this->VALID_ATHANDLE);
 		$this->assertSame($pdoProfile->getProfileCloudinaryId(), $this->VALID_CLOUDINARYID);
 		$this->assertSame($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
@@ -209,7 +209,7 @@ class ProfileTest extends BarkParkzTest {
 		// Grab the data from mySQL and be sure the fields match our expectations.
 		$pdoProfile = Profile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertSame($numRows + 1, $this->getConnection()-getRowCount("profile"));
-		$this->assertSame($pdoProfile-getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertSame($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
 		$this->assertSame($pdoProfile->getProfileAtHandle(), $this->VALID_ATHANDLE);
 		$this->assertSame($pdoProfile->getProfileCloudinaryId(), $this->VALID_CLOUDINARYID);
 		$this->assertSame($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
@@ -219,6 +219,29 @@ class ProfileTest extends BarkParkzTest {
 		$this->assertSame($pdoProfile->getProfileLocationY(), $this->VALID_LOCATIONY);
 	}
 
+	/**
+	 * Test grabbing a profile by its activation.
+	 **/
+	public function testGetValidProfileByActivationToken() : void {
+
+		// Count the number of rows, and save it for later.
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// Create a new Profile and insert it into mySQL.
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+
+		// Grab the data from mySQL and be sure the fields match our expectations.
+		$pdoProfile = Profile::getProfileByProfileActivationToken($this->getPDO(), $profile->getProfileActivationToken());
+		$this->assertSame($numRows + 1, $this->getConnection()-getRowCount("profile"));
+		$this->assertSame($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertSame($pdoProfile->getProfileAtHandle(), $this->VALID_ATHANDLE);
+		$this->assertSame($pdoProfile->getProfileCloudinaryId(), $this->VALID_CLOUDINARYID);
+		$this->assertSame($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
+		$this->assertSame($pdoProfile->getProfileHash(), $this->VALID_HASH);
+		$this->assertSame($pdoProfile->getProfileSalt(), $this->VALID_SALT);
+		$this->assertSame($pdoProfile->getProfileLocationX(), $this->VALID_LOCATIONX);
+		$this->assertSame($pdoProfile->getProfileLocationY(), $this->VALID_LOCATIONY);
+	}
 	/**
 	 * Test grabbing a Profile that does not exist.
 	 **/
@@ -241,5 +264,30 @@ class ProfileTest extends BarkParkzTest {
 		// Grab the data from mySQL.
 		$results = Profile::getProfileByProfileAtHandle($this->getPDO(), $this->VALID_ATHANDLE);
 		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("profile"));
+
+		// Enforce no other objects are bleeding into profile.
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BrakParkz\\Profile", $results);
+
+		// Enforce the results meet expectations.
+		$pdoProfile = $results[0];
+		$this->assertSame($numRows + 1, $this->getConnection()-getRowCount("profile"));
+		$this->assertSame($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertSame($pdoProfile->getProfileAtHandle(), $this->VALID_ATHANDLE);
+		$this->assertSame($pdoProfile->getProfileCloudinaryId(), $this->VALID_CLOUDINARYID);
+		$this->assertSame($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
+		$this->assertSame($pdoProfile->getProfileHash(), $this->VALID_HASH);
+		$this->assertSame($pdoProfile->getProfileSalt(), $this->VALID_SALT);
+		$this->assertSame($pdoProfile->getProfileLocationX(), $this->VALID_LOCATIONX);
+		$this->assertSame($pdoProfile->getProfileLocationY(), $this->VALID_LOCATIONY);
+	}
+
+	/**
+	 * Test grabbing a Profile by at handle that does not exist
+	 **/
+	public function testGetInvalidProfileByAtHandle() : void {
+
+		// Grab an at handle that does not exist.
+		$profile = Profile::getProfileByProfileAtHandle($this->getPDO(), "@nonexisting");
+		$this->assertCount(0, $profile);
 	}
 }
