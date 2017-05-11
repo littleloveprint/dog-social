@@ -25,19 +25,26 @@ class ProfileTest extends BarkParkzTest {
 	 * Valid at handle to use
 	 * @var string $VALID_ATHANDLE
 	 **/
-	protected $VALID_ATHANDLE = "@phpunit";
+	protected $VALID_ATHANDLE = "@barkparkz";
 
 	/**
-	 * Second valid at handle to use.
+	 * Second valid at handle to use
 	 * @var string $VALID_ATHANDLE2
 	 **/
-	protected $VALID_ATHANDLE2 = "passingtests";
+	protected $VALID_ATHANDLE2 = "@dogsocial";
+
+	/**
+	 * Valid cloudinary id to use
+	 * @var string $VALID_CLOUDINARYID
+	 **/
+
+	protected $VALID_CLOUDINARYID;
 
 	/**
 	 * Valid email to use
 	 * @var string $VALID_EMAIL
 	 **/
-	protected $VALID_EMAIL = "test@phpunit.de";
+	protected $VALID_EMAIL = "lea@barkparkz.com";
 
 	/**
 	 * Valid hash to use.
@@ -50,6 +57,19 @@ class ProfileTest extends BarkParkzTest {
 	 * @var string $VALID_SALT;
 	 **/
 	protected $VALID_SALT;
+
+	/**
+	 * Valid location x to use.
+	 * @var string $VALID_LOCATIONX
+	 **/
+	protected $VALID_LOCATIONX;
+
+	/**
+	 * Valid location y to use.
+	 * @var string $VALID_LOCATIONY
+	 **/
+	protected $VALID_LOCATIONY;
+
 	/**
 	 * Run the default setup operation to create salt and hash.
 	 **/
@@ -58,8 +78,11 @@ class ProfileTest extends BarkParkzTest {
 
 		//
 		$password = "abc123";
+		$this->VALID_LOCATIONY = bin2hex(random_bytes(32));
+		$this->VALID_LOCATIONY = bin2hex(random_bytes(32));
 		$this->VALID_SALT = bin2hex(random_bytes(32));
 		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 722988);
+		$this->VALID_CLOUDINARYID = bin2hex(random_bytes(32));
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 	}
 
@@ -72,7 +95,7 @@ class ProfileTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Profile and insert into mySQL.
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_ATHANDLE2, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT);
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_ATHANDLE2, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
 
 		// var_dump($profile);
 
@@ -83,8 +106,11 @@ class ProfileTest extends BarkParkzTest {
 		$this->assertSame($numRows + 1, $this->getConnection()-getRowCount("profile"));
 		$this->assertSame($pdoProfile-getProfileActivationToken(), $this->VALID_ACTIVATION);
 		$this->assertSame($pdoProfile->getProfileAtHandle(), $this->VALID_ATHANDLE);
+		$this->assertSame($pdoProfile->getProfileCloudinaryId(), $this->VALID_CLOUDINARYID);
 		$this->assertSame($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
 		$this->assertSame($pdoProfile->getProfileHash(), $this->VALID_HASH);
 		$this->assertSame($pdoProfile->getProfileSalt(), $this->VALID_SALT);
+		$this->assertSame($pdoProfile->getProfileLocationX(), $this->VALID_LOCATIONX);
+		$this->assertSame($pdoProfile->getProfileLocationY(), $this->VALID_LOCATIONY);
 	}
 }
