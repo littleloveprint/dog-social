@@ -108,7 +108,8 @@ class ProfileTest extends BarkParkzTest {
 		$this->assertSame($pdoProfile->getProfileLocationY(), $this->VALID_LOCATIONY);
 	}
 
-	/** Test inserting a Profile that already exists.
+	/**
+	 * Test inserting a Profile that already exists.
 	 *
 	 * @expectedException \PDOException
 	 **/
@@ -125,9 +126,119 @@ class ProfileTest extends BarkParkzTest {
 	public function testUpdateValidProfile() {
 
 		// Count the number of rows, and save it for later.
-
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Profile and insert into mySQL.
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile->insert($this->getPDO());
+
+		// Edit the Profile and update it in mySQL.
+		$profile->setProfileAtHandle($this->VALID_ATHANDLE);
+		$profile->update($this->getPDO());
+
+		// Grab the data from mySQL and enforce the fields match our expectations.
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertSame($numRows + 1, $this->getConnection()-getRowCount("profile"));
+		$this->assertSame($pdoProfile-getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertSame($pdoProfile->getProfileAtHandle(), $this->VALID_ATHANDLE);
+		$this->assertSame($pdoProfile->getProfileCloudinaryId(), $this->VALID_CLOUDINARYID);
+		$this->assertSame($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
+		$this->assertSame($pdoProfile->getProfileHash(), $this->VALID_HASH);
+		$this->assertSame($pdoProfile->getProfileSalt(), $this->VALID_SALT);
+		$this->assertSame($pdoProfile->getProfileLocationX(), $this->VALID_LOCATIONX);
+		$this->assertSame($pdoProfile->getProfileLocationY(), $this->VALID_LOCATIONY);
+	}
+
+	/**
+	 * Test updating a Profile that does not exist.
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testUpdateInvalidProfile() {
+
+		// Create a Profile and try to update it without actually inserting it.
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile->update($this->getPDO());
+	}
+
+	/**
+	 * Test creating a Profile and then deleting it.
+	 **/
+	public function testDeleteValidProfile() : void {
+
+		// Count the number of rows, and save it for later.
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// Create a new Profile and insert it into mySQL.
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile->update($this->getPDO());
+
+		// Delete the Profile from mySQL.
+		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$profile->delete($this->getPDO());
+
+		// Grab the data from mySQL and be sure the Profile does not exist.
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertSame($numRows, $this->getConnection()->getRowCount("profile"));
+	}
+
+	/**
+	 * Test deleting a Profile that does not exist
+
+	 @expectedException \PDOException
+	 **/
+	public function testDeleteInvalidProfile() : void {
+
+		// Create a Profile and try to delete it without actually inserting it.
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile->delete($this->getPDO());
+	}
+
+	/**
+	 * Test inserting a Profile and regrabbing it from mySQL.
+	 **/
+	public function testGetValidProfileByProfileId() : void {
+
+		// Count the number of rows, and save it for later.
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// Create a new Profile and insert it into mySQL.
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile->insert($this->getPDO());
+
+		// Grab the data from mySQL and be sure the fields match our expectations.
+		$pdoProfile = Profile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertSame($numRows + 1, $this->getConnection()-getRowCount("profile"));
+		$this->assertSame($pdoProfile-getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertSame($pdoProfile->getProfileAtHandle(), $this->VALID_ATHANDLE);
+		$this->assertSame($pdoProfile->getProfileCloudinaryId(), $this->VALID_CLOUDINARYID);
+		$this->assertSame($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
+		$this->assertSame($pdoProfile->getProfileHash(), $this->VALID_HASH);
+		$this->assertSame($pdoProfile->getProfileSalt(), $this->VALID_SALT);
+		$this->assertSame($pdoProfile->getProfileLocationX(), $this->VALID_LOCATIONX);
+		$this->assertSame($pdoProfile->getProfileLocationY(), $this->VALID_LOCATIONY);
+	}
+
+	/**
+	 * Test grabbing a Profile that does not exist.
+	 **/
+	public function testGetInvalidProfileByProfileId() : void {
+
+		// Grab a profile id that exceeds the maximum allowable profile id.
+		$profile = Profile::getProfileByProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY);
+		$this->assertNull($profile);
+	}
+
+	public function testGetValidProfileByAtHandle() {
+
+		// Count the number of rows, and save it for later.
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// Create a new Profile and insert it into mySQL.
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile->insert($this->getPDO());
+
+		// Grab the data from mySQL.
+		$results = Profile::getProfileByProfileAtHandle()
 	}
 }
