@@ -130,7 +130,7 @@ class Favorite implements \JsonSerializable {
 	 * @param int $favoriteParkId tweet id to search for
 	 * @return Favorite|null Like found or null if not found
 	 **/
-	public static function getFavoriteByFavoriteParkIdAndFavoriteProfileId(\PDO $pdo, int $favoriteProfileId, int $favoriteParkId) : ?Favorite {
+	public static function getFavoriteByFavoriteProfileIdAndFavoriteParkId(\PDO $pdo, int $favoriteProfileId, int $favoriteParkId) : ?Favorite {
 		// sanitize the favorite id and profile id before search
 		if($favoriteProfileId <= 0) {
 			throw(new \PDOException("profile id is not positive"));
@@ -167,7 +167,7 @@ class Favorite implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when vars are not the correct data type
 	 **/
-	public static function getFavoriteByFavoriteProfileId(\PDO $pdo, int $favoriteProfileId) : \SPLFixedArray {
+	public static function getFavoritesByFavoriteProfileId(\PDO $pdo, int $favoriteProfileId) : \SPLFixedArray {
 		// sanitize the profile id
 		if($favoriteProfileId <= 0) {
 			throw(new \PDOException("profile id is not positive"));

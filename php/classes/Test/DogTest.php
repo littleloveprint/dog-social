@@ -24,20 +24,47 @@ class DogTest extends BarkParkzTest {
 	 */
 protected $profile;
 
-/**valid hash to use
+/**
+ * Placeholder until account activation is created
+*/
+protected $VALID_ACTIVATION;
+
+	/**valid hash to use
  * @var $VALID_HASH;
  **/
 protected $VALID_HASH;
 
 /**
  * valid salt to use to create the profile for this test
- * @var string $VALID HASH
+ * @var string $VALID_SALT
  */
 protected $VALID_SALT;
+	/**
+	 * valid dogAge to use to create the dog class
+	 */
+protected $VALID_DOG_AGE = 1;
+	/**
+	 * valid dogCloudinaryId in the dog class
+	 */
+protected $VALID_DOG_CLOUDINARY_ID = 7788885555554445454545454;
+	/**
+	 * valid dogBio used in the dog class
+	 */
+protected $VALID_DOG_BIO = "Scruffy is such a cool little rascal.";
 
-/**
+	/**
+	 * valid dogBreed used in the dog class
+	 */
+protected $VALID_DOG_BREED = "Bulldog Shitzu mix";
+	/**
+	 * valid dogAtHanadle used in the dog class
+	 */
+protected $VALID_DOG_AT_HANDLE = "@ScruffyLovesHimSomeTail";
+
+	/**
  * create dependent objects before running each test
  */
+
 public final function setUp() : void {
 	//run the default setup
 	parent::setUp();
