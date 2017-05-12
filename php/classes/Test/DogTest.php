@@ -1,8 +1,9 @@
 <?php
 namespace Edu\Cnm\BarkParkz\Test;
 
-use Edu\Cnm\BarkParkz\Dog;
 use Edu\Cnm\BarkParkz\Profile;
+use Edu\Cnm\BarkParkz\Dog;
+
 
 
 //Grab the class under scrutiny
@@ -126,7 +127,7 @@ class DogTest extends BarkParkzTest {
 		$dog->update($this->getPDO());
 
 		// Grab data from mySQL and ensure the fields match expectations
-//grab the data from mySQL and ensure the fields match expectations
+
 		$pdoDog = Dog::getDogByDogId($this->getPDO(), $dog->getDogId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("dog"));
 		$this->assertSame($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
@@ -136,6 +137,38 @@ class DogTest extends BarkParkzTest {
 		$this->assertSame($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
 
 	}
+
+	/**Test updating a Dog that does not exist
+	 *
+	 * @expectedException \PDOException
+	 */
+
+	public function testUpdateInvalidDog() {
+
+		//Create a Dog and try updating it without inserting it first
+		$dog = new Dog(null, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+		$dog->update($this->getPDO());
+	}
+		/**
+		 * Test creating a Dog and then deleting it.
+		 */
+		public function testDeleteValidDog() : void {
+//count # of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("dog");
+
+		//create a new Dog and insert into mySQL
+			$dog = new Dog(null, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+			$dog->insert($this->getPDO());
+
+			//Delete the Dog from mySQL
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("dog"));
+			$dog->delete($this->getPDO());
+
+			//grab data from mySQL and ensure the Dog doesn't exist
+			$pdoDog = Dog::getDogByDogId($this->getPDO(), $dog->getDogId());
+			$this->assertSame($numRows, $this->getConnection()->getRowCount("dog"));
+		}
+
 
 
 
