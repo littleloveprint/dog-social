@@ -203,10 +203,59 @@ class DogTest extends BarkParkzTest {
 			$this->assertSame($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
 			$this->assertSame($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
 			$this->assertSame($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
-
-
 		}
 
+		/**
+		 * Test grabbing a Dog that doesn't exist
+		 */
+
+		public function testGetInvalidDogbyDogId() : void {
+
+			//Grab a dog Id that exceeds the max allowable characters
+			$dog = Dog::getDogByDogId($this->getPDO(), BarkParkzTest::INVALID_KEY);
+			$this->assertNull($dog);
+		}
+
+		/**
+		 * test grabbing a dog by breed
+		 */
+
+		public function testGetValidDogByBreed() {
+
+			// count # of rows and save for later
+			$numRows = $this->getConnection()->getRowCount("dog");
+
+			//create a new Dog and insert into mySQL
+			$dog= new Dog(null, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+			$dog->insert($this->getPDO());
+
+			// Grab data from mySQL and ensure the fields match expectations
+
+			$results = Dog::getDogByDogBreed($this->getPDO(), $this->VALID_DOG_BREED);
+			$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("dog"));
+
+			//Enforce that no other objects are bleeding into profile
+			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz\\Dog", $results);
+
+			//Ensure the results meet expectations
+			$pdoDog = $results[0];
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("dog"));
+			$this->assertSame($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
+			$this->assertSame($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
+			$this->assertSame($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
+			$this->assertSame($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
+			$this->assertSame($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
+		}
+
+		/**
+		 * Test grabbing a Dog by breed that does not exist
+		 */
+		public function testGetInvalidDogByBreed() : void {
+
+			//grab a breed that does not exist
+			$dog = Dog::getDogByDogBreed($this->getPDO(), "ugly rat dog");
+			$this->assertCount(0, $dog);
+		}
 
 
 }
