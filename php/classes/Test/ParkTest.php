@@ -53,9 +53,9 @@ protected $VALID_LOCATIONY;
 public function testInsertValidProfile() : void {
 
 	// Count the number of rows and save it for later
-	$numRows = $this->getConnection()->getRowCount("profile");
+	$numRows = $this->getConnection()->getRowCount("park");
 
 	// Create a new Park and insert into mySQL
-	$profile = new Park ( newParkId: null, $this-> )
+	$park = new Park ( newParkId: null, $this-> )
 }
 }
