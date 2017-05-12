@@ -47,7 +47,7 @@ class DogTest extends BarkParkzTest {
 	/**
 	 * valid dogCloudinaryId in the dog class
 	 */
-	protected $VALID_DOG_CLOUDINARY_ID = 778888555555444545454;
+	protected $VALID_DOG_CLOUDINARY_ID = 7788;
 	/**
 	 * valid dogBio used in the dog class
 	 */
@@ -76,7 +76,7 @@ class DogTest extends BarkParkzTest {
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 	}
 	/**
-	 * Test inserting a valid Dog and verfiy that the actual mySQL data matches
+	 * Test inserting a valid Dog and verfiy that the mySQL data matches
 	 **/
 	public function testInsertValidDog() : void {
 
@@ -234,7 +234,7 @@ class DogTest extends BarkParkzTest {
 			$results = Dog::getDogByDogBreed($this->getPDO(), $this->VALID_DOG_BREED);
 			$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("dog"));
 
-			//Enforce that no other objects are bleeding into profile
+			//Enforce that no other objects are bleeding into Dog
 			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz\\Dog", $results);
 
 			//Ensure the results meet expectations
