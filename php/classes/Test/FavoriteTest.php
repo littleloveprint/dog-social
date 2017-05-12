@@ -8,7 +8,7 @@ use Edu\Cnm\BarkParkz\Favorite;
 use Edu\Cnm\BarkParkz\Park;
 use Edu\Cnm\BarkParkz\Profile;
 
-require_once(dirname (__DIR__) . "autoload.php");
+require_once(dirname (__DIR__) . "/autoload.php");
 /**
  * full unit test for the favorite class
  **/
@@ -33,6 +33,10 @@ protected $VALID_HASH;
  * @var string $VALID_SALT
  **/
 protected $VALID_SALT;
+	/**
+	 * Placeholder until account activation is created
+	 */
+	protected $VALID_ACTIVATION;
 /**
  * create dependent objects before running each test
  **/
@@ -46,7 +50,7 @@ public final function setUp() : void {
 	$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 	//create and insert the mocked profile
 	$this->profile = new Park(null, null,"@php_unit", "test@phpunit.de",$this->VALID_HASH, "+12125551212", $this->VALID_SALT);
-	$this->profile->insert($this->getPDO());
+	$this->park->insert($this->getPDO());
 	//create the park and insert it
 	$this->park = new Park(null, $this->park->getParkId(), "PHP unit favorite test passing");
 }
