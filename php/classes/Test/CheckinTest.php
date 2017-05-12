@@ -4,6 +4,7 @@ namespace Edu\Cnm\BarkParkz\Test;
 use Edu\Cnm\BarkParkz\CheckIn;
 use Edu\Cnm\BarkParkz\Dog;
 use Edu\Cnm\BarkParkz\Park;
+use Edu\Cnm\BarkParkz\Profile;
 
 require_once(dirname (__DIR__) . "autoload.php");
 /**
@@ -20,6 +21,11 @@ class CheckinTest extends BarkParkzTest {
 	 * @var Park $park
 	 **/
 	protected $park = null;
+	/**
+	 * profile that owns the dog
+	 * @var Profile $profile
+	 **/
+	protected $profile = null;
 	/**
 	 * valid hash to use
 	 * @var $VALID_PROFILE_HASH;
@@ -53,7 +59,22 @@ class CheckinTest extends BarkParkzTest {
 		$password = "abc123";
 		$this->VALID_PROFILE_SALT = bin2hex(random_bytes(32));
 		$this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
-		// create and insert a dog to own the test checkin
-		$this->dog = new Dog()
+		// create and insert a profile/dog to own the test checkin not sure wth
+		$this->dog = new Dog(null, null,"scruffy", "scruffy@gmail.com", $this->VALID_PROFILE_HASH, "+12125551212", $this->VALID_PROFILE_SALT);
+		// calculate the date
+		$this->VALID_CHECKINDATETIME = new \DateTime();
+		//format the sunrise date to use for testing
+		$this->VALID_SUNRISECHECKINDATETIME = new \DateTime();
+		$this->VALID_SUNRISECHECKINDATETIME->sub(new \DateInterval("P10D"));
+		// format the sunset date to use for testing
+		$this->VALID_SUNSETCHECKINDATETIME = new \DateTime();
+		$this->VALID_SUNSETCHECKINDATETIME->add(new \DateInterval("P10D"));
+	}
+	// test inserting a valid tweet and verify that the actual mySQL data matches
+	public function testInsertValidCheckin() : void {
+		// count the rows and save
+		$numRows = $this->getConnection()->getRowCount("checkin");
+		// create a new checkin and insert into mySQL
+		$checkin = new Checkin(null, $this->dog->getDogId(), $this->park->getParkId(), $thi)
 	}
 }
