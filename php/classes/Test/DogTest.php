@@ -99,13 +99,13 @@ class DogTest extends BarkParkzTest {
 
 		//grab the data from mySQL and ensure the fields match expectations
 		$pdoDog = Dog::getDogByDogId($this->getPDO(), $dog->getDogId());
-		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("dog"));
-		$this->assertSame($pdoDog->getDogProfileId(), $this->profile->getProfileId);
-		$this->assertSame($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
-		$this->assertSame($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
-		$this->assertSame($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
-		$this->assertSame($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
-		$this->assertSame($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("dog"));
+		$this->assertEquals($pdoDog->getDogProfileId(), $this->profile->getProfileId);
+		$this->assertEquals($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
+		$this->assertEquals($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
+		$this->assertEquals($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
+		$this->assertEquals($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
+		$this->assertEquals($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
 
 	}
 	/**
@@ -137,13 +137,13 @@ class DogTest extends BarkParkzTest {
 		// Grab data from mySQL and ensure the fields match expectations
 
 		$pdoDog = Dog::getDogByDogId($this->getPDO(), $dog->getDogId());
-		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("dog"));
-		$this->assertSame($pdoDog->getDogProfileId(), $this->profile->getProfileId);
-		$this->assertSame($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
-		$this->assertSame($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
-		$this->assertSame($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
-		$this->assertSame($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
-		$this->assertSame($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("dog"));
+		$this->assertEquals($pdoDog->getDogProfileId(), $this->profile->getProfileId);
+		$this->assertEquals($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
+		$this->assertEquals($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
+		$this->assertEquals($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
+		$this->assertEquals($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
+		$this->assertEquals($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
 
 	}
 
@@ -170,12 +170,12 @@ class DogTest extends BarkParkzTest {
 			$dog->insert($this->getPDO());
 
 			//Delete the Dog from mySQL
-			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("dog"));
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("dog"));
 			$dog->delete($this->getPDO());
 
 			//grab data from mySQL and ensure the Dog doesn't exist
 			$pdoDog = Dog::getDogByDogId($this->getPDO(), $dog->getDogId());
-			$this->assertSame($numRows, $this->getConnection()->getRowCount("dog"));
+			$this->assertEquals($numRows, $this->getConnection()->getRowCount("dog"));
 		}
 
 		/**
@@ -206,13 +206,13 @@ class DogTest extends BarkParkzTest {
 			// Grab data from mySQL and ensure the fields match expectations
 
 			$pdoDog = Dog::getDogByDogId($this->getPDO(), $dog->getDogId());
-			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("dog"));
-			$this->assertSame($pdoDog->getDogProfileId, $this->profile->getProfileId);
-			$this->assertSame($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
-			$this->assertSame($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
-			$this->assertSame($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
-			$this->assertSame($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
-			$this->assertSame($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("dog"));
+			$this->assertEquals($pdoDog->getDogProfileId, $this->profile->getProfileId);
+			$this->assertEquals($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
+			$this->assertEquals($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
+			$this->assertEquals($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
+			$this->assertEquals($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
+			$this->assertEquals($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
 		}
 
 		/**
@@ -249,13 +249,13 @@ class DogTest extends BarkParkzTest {
 
 			//Ensure the results meet expectations
 			$pdoDog = $results[0];
-			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("dog"));
-			$this->assertSame($pdoDog->getDogProfileId(), $this->profile->getProfileId);
-			$this->assertSame($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
-			$this->assertSame($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
-			$this->assertSame($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
-			$this->assertSame($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
-			$this->assertSame($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("dog"));
+			$this->assertEquals($pdoDog->getDogProfileId(), $this->profile->getProfileId);
+			$this->assertEquals($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
+			$this->assertEquals($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
+			$this->assertEquals($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
+			$this->assertEquals($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
+			$this->assertEquals($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
 		}
 
 		/**
@@ -286,15 +286,24 @@ class DogTest extends BarkParkzTest {
 
 			//Ensure the results meet expectations
 			$pdoDog = $results[0];
-			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("dog"));
-			$this->assertSame($pdoDog->getDogProfileId(), $this->profile->getProfileId);
-			$this->assertSame($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
-			$this->assertSame($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
-			$this->assertSame($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
-			$this->assertSame($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
-			$this->assertSame($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("dog"));
+			$this->assertEquals($pdoDog->getDogProfileId(), $this->profile->getProfileId);
+			$this->assertEquals($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
+			$this->assertEquals($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
+			$this->assertEquals($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
+			$this->assertEquals($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
+			$this->assertEquals($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
 		}
+		/**
+		 * test grabbing a Dog by a profile Id that doesn't exist
+		 *
+		 */
+
+		public function testGetInvalidDogByProfileId() : void {
+			// grab a park id that exceeds the max # of characters
+			$dog = Dog::getDogByProfileId($this->getPDO(), $this->getProfileId:BarkParkzTest::INVALID KEY);
 		}
+}
 
 
 
