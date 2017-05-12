@@ -187,6 +187,7 @@ class ProfileTest extends BarkParkzTest {
 
 	 @expectedException \PDOException
 	 **/
+
 	public function testDeleteInvalidProfile() : void {
 
 		// Create a Profile and try to delete it without actually inserting it.
