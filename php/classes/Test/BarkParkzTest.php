@@ -28,7 +28,7 @@ require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
  *
  */
 
-abstract class barkParkzTest extends TestCase {
+abstract class BarkParkzTest extends TestCase {
 	use TestCaseTrait;
 
 	/**
@@ -36,7 +36,7 @@ abstract class barkParkzTest extends TestCase {
 	 * @var int INVALID_KEY
 	 */
 
-	const INVALID_KEY = 2468642468;
+	const INVALID_KEY = 4294967296;
 
 	/**
 	 * PHPUnit database connection interface

@@ -55,7 +55,7 @@ class FriendTest extends BarkParkzTest {
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 
 		// Create and insert the first mocked profile.
-		$this->friendFirstProfileId = new Profile(null, null, "@barkparkz", null, "lea@barkparkz.com", $this->VALID_HASH, $this->VALID_SALT, "somewhere", "someplace");
+		$this->friendFirstProfileId = new Profile(null, profileId, "@barkparkz", null, "lea@barkparkz.com", $this->VALID_HASH, $this->VALID_SALT, "somewhere", "someplace");
 		$this->friendFirstProfileId->insert($this->getPDO());
 
 		// Create and insert the second mocked profile.
