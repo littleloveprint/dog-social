@@ -169,6 +169,20 @@ class DogTest extends BarkParkzTest {
 			$this->assertSame($numRows, $this->getConnection()->getRowCount("dog"));
 		}
 
+		/**
+		 * Try deleting a Dog that doesn't exist
+		 * @expectedException \PDOException
+		 */
+
+		public function testDeleteInvalidDog() : void {
+
+			//create a Dog and try deleting it without inserting it
+			$dog = new Dog(null, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+			$dog->insert($this->getPDO());
+		}
+
+
+
 
 
 
