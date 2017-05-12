@@ -83,8 +83,61 @@ class DogTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("dog");
 
 		//create a new Dog and insert into mySQL
-		$dog = new Dog(null, null, $this->VALID_DOG_AGE, $this-> )
+		$dog = new Dog(null, null, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+
+		//var_dump($dog);
+
+		$dog->insert($this->getPDO());
+
+		//grab the data from mySQL and ensure the fields match expectations
+		$pdoDog = Dog::getDogByDogId($this->getPDO(), $dog->getDogId());
+		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("dog"));
+		$this->assertSame($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
+		$this->assertSame($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
+		$this->assertSame($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
+		$this->assertSame($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
+		$this->assertSame($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
+
 	}
+	/**
+	 * Test Inserting a Dog that already exists
+	 * @expectedException \PDOException
+	 */
+	public function testInsertInvalidDog() : void {
+		//create dog with a non null dogId and watch it fail
+		$dog = new Dog(BarkparkzTest::INVALID_KEY, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+		$dog->insert($this->getPDO());
+
+	}
+	/**
+	 * Test inserting a Dog, editing it, and updating it
+	 */
+
+	public function testUpdateValidDog() {
+		//count # of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("dog");
+
+		// Create a new Dog and insert into mySQL
+		$dog = new Dog(null, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+		$dog->insert($this->getPDO());
+
+		//Edit the Dog and update in mySQL
+		$dog->setDogAtHandle($this->VALID_DOG_AT_HANDLE);
+		$dog->update($this->getPDO());
+
+		// Grab data from mySQL and ensure the fields match expectations
+//grab the data from mySQL and ensure the fields match expectations
+		$pdoDog = Dog::getDogByDogId($this->getPDO(), $dog->getDogId());
+		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("dog"));
+		$this->assertSame($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
+		$this->assertSame($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
+		$this->assertSame($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
+		$this->assertSame($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
+		$this->assertSame($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
+
+	}
+
+
 
 }
 
