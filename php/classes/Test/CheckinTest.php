@@ -1,10 +1,7 @@
 <?php
 namespace Edu\Cnm\BarkParkz\Test;
 // grab the classes under scrutiny
-use Edu\Cnm\BarkParkz\CheckIn;
-use Edu\Cnm\BarkParkz\Dog;
-use Edu\Cnm\BarkParkz\Park;
-use Edu\Cnm\BarkParkz\Profile;
+use Edu\Cnm\BarkParkz\{CheckIn, Dog, Park, Profile};
 
 require_once(dirname (__DIR__) . "autoload.php");
 /**
@@ -59,13 +56,22 @@ class CheckInTest extends BarkParkzTest {
 	public final function setUp() : void {
 		// run the default setUp() method first
 		parent::setUp();
+
+		// @TODO: Add profile, and park to the setup method, just like you created the dog object
+
 		// create a salt and hash for the mocked profile
 		$password = "abc123";
+
 		$this->VALID_PROFILE_SALT = bin2hex(random_bytes(32));
 		$this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
 		// create and insert a profile/dog to own the test checkin not sure wth
+		$this->profile = new Profile(null, null,"@handle","324324288888899432","test@test.com",$this->VALID_PROFILE_HASH,"23.4324324","32.43243242",$this->VALID_PROFILE_SALT);
+		$this->profile->insert($this->getPDO());
 		$this->dog = new Dog(null, $this->profile->getProfileId(),11,"kjkhgjghjhgkjhg","jlhlhlhl","ljhkjhljhljh","woof" );
 		$this->dog->insert($this->getPDO());
+		// create park
+		$this->park = new Park(null,"23.4324324","32.43243242","NE back park");
+		$this->park->insert($this->getPDO());
 		// calculate the date
 		$this->VALID_CHECKINDATETIME = new \DateTime();
 		//format the sunrise date to use for testing
@@ -83,13 +89,15 @@ class CheckInTest extends BarkParkzTest {
 		$checkin = new CheckIn(null, $this->dog->getDogId(), $this->park->getParkId(), $this->VALID_CHECKINDATETIME);
 		$checkin->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match
-		$pdoCheckin = CheckIn::getCheckInByDogIdAndParkId($this->getPDO(), $this->dog->getDogId(), $this->park->getParkId());
+		$pdoCheckin = CheckIn::getCheckInByCheckInId($this->getPDO(), $checkin->getCheckInId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("checkin"));
 		$this->assertEquals($pdoCheckin->getCheckInDogId(), $this->dog->getDogId());
 		$this->assertEquals($pdoCheckin->getCheckInParkId(), $this->park->getParkId());
 		// format the date too seconds since the beginning of time to avoid round off error
 		$this->assertEquals($pdoCheckin->getCheckInDateTime()->getTimestamp(), $this->VALID_CHECKINDATETIME->getTimestamp());
 	}
+
+	// TODO: Add Test valid update,
 	/**
 	 * test creating checkin  that makes no sense
 	 * @expectedException \TypeError
