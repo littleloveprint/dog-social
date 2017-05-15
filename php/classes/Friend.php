@@ -213,7 +213,7 @@ class Friend implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$friend = new Friend($row["friendFirstProfileId"], $row["friendSecondProfileId"]);
-				$friends[$friends->key()] = friend;
+				$friends[$friends->key()] = $friend;
 				$friends->next();
 			} catch(\Exception $exception) {
 
