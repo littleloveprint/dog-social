@@ -56,12 +56,8 @@ class CheckInTest extends BarkParkzTest {
 	public final function setUp() : void {
 		// run the default setUp() method first
 		parent::setUp();
-
-		// @TODO: Add profile, and park to the setup method, just like you created the dog object
-
 		// create a salt and hash for the mocked profile
 		$password = "abc123";
-
 		$this->VALID_PROFILE_SALT = bin2hex(random_bytes(32));
 		$this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
 		// create and insert a profile/dog to own the test checkin not sure wth
@@ -96,8 +92,6 @@ class CheckInTest extends BarkParkzTest {
 		// format the date too seconds since the beginning of time to avoid round off error
 		$this->assertEquals($pdoCheckin->getCheckInDateTime()->getTimestamp(), $this->VALID_CHECKINDATETIME->getTimestamp());
 	}
-
-	// TODO: Add Test valid update,
 	/**
 	 * test creating checkin  that makes no sense
 	 * @expectedException \TypeError
@@ -108,45 +102,63 @@ class CheckInTest extends BarkParkzTest {
 		$checkin->insert($this->getPDO());
 	}
 	/**
-	 * test creating a checkin then deleting it
+	 * test valid delete checkin
 	 **/
 	public function testDeleteValidCheckIn() : void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("checkin");
 		// create a new checkin and insert to into mySQL
-		$checkin = new Checkin($this->dog->getDogId(), $this->park->getParkId(), $this->VALID_CHECKINDATETIME);
+		$checkin = new CheckIn(null, $this->dog->getDogId(), $this->park->getParkId(), $this->VALID_CHECKINDATETIME);
 		$checkin->insert($this->getPDO());
 		// delete the checkin from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("checkin"));
 		$checkin->delete($this->getPDO());
 		// grab the data from mySQL and enforce the checkin does not exist
-		$pdoCheckin = CheckIn::getCheckInByDogIdAndParkId($this->getPDO(), $this->checkin->getCheckInDogId(), $this->park->getCheckInParkID);
+		$pdoCheckin = CheckIn::getCheckInByCheckInId($this->getPDO(), $checkin->getCheckInId());
 		$this->assertNull($pdoCheckin);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("checkin"));
 	}
 	/**
-	 * test inserting a checkin and regrabbing it from mySQL
+	 * test delete invalid checkin
 	 **/
-	public function testGetValidCheckinByDogIdAndParkId() : void {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("checkin");
-		// create a new checkin and insert to into mySQL
-		$checkin = new CheckIn($this->dog->getDogId(), $this->park->getParkId(), $this->VALID_CHECKINDATETIME);
-		$checkin->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoCheckin = CheckIn::getCheckInByCheckinDogidAndCheckinParkID($this->getPDO(), $this->dog->getDogId(), $this->park->getParkId());
-		$checkin->assertEquals($numRows + 1, $this->getConnection()->getRowCount("checkin"));
-		$checkin->assertEquals($pdoCheckin->getCheckinDogId(), $this->dog->getDogId());
-		$checkin->assertEquals($pdoCheckin->getCheckinParkId(), $this->park->getParkId());
-		// format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoCheckin->getCheckInDateTime()->getTimeStamp(), $this->VALID_CHECKINDATETIME->getTimestamp());
+	public function testDeleteInValidCheckIn() : void {
+		// create a checkin and try to delete it without actually inserting it
+		$checkin new CheckIn(null,null,null,null,null);
+		$checkin->delete($this->getPDO());
 	}
 	/**
-	 * test grabbing a checkin that does not exist
+	 * test valid update checkin
 	 **/
-	public function testGetInvalidCheckinByDogIdAndParkId() {
-		// grab a park id and dog id that exceeds the max allowable
-		$checkin = CheckIn::getCheckInByDogIdAndParkId($this->getPDO(), BarkParkzTest::INVALID_KEY, BarkParkzTest::INVALID_KEY);
+	public function testUpdateValidCheckIn() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("checkin");
+		// create a new checkin and insert it into mysql
+		$checkin = new CheckIn(null, $this->dog->getDogId(), $this->park->getParkId(), $this->VALID_CHECKINDATETIME);
+		$checkin->insert($this->getPDO());
+		// edit the check in and update it into mysql
+		$checkin->setCheckInId($this->dog->getDogId(), $this->park->getParkId(),$this->VALID_CHECKINDATETIME);
+		$checkin->update($this->getPDO());
+		// grab the date from mysql and enforce the fields match
+		$pdoCheckin = CheckIn::getCheckInByCheckInId($this->getPDO(), $checkin->getCheckInId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("checkin"));
+		$this->assertEquals($pdoCheckin->getCheckInDogId(),$this->dog->getDogId());
+		$this->assertEquals($pdoCheckin->getCheckInParkId(),$this->park->getParkId());
+		// format the date
+		$this->assertEquals($pdoCheckin->getCheckInDateTime()->getTimestamp(), $this->VALID_CHECKINDATETIME->getTimestamp());
+	}
+	/**
+	 * test invalid update checkin
+	 **/
+	public function testUpdateInValidCheckin() : void {
+		$checkin new Checkin(null,null,null,null,null,null);
+		$checkin->update($this->getPDO());
+	}
+
+	/**
+	 * test get invalid checkin by checkin id
+	 **/
+	public function testGetInvalidCheckInByCheckInId() : void {
+		$checkin = CheckIn::getCheckInByCheckInId($this->getPDO(), BarkParkzTest::INVALID_KEY);
 		$this->assertNull($checkin);
 	}
 	/**
@@ -159,7 +171,7 @@ class CheckInTest extends BarkParkzTest {
 		$checkin = new CheckIn($this->dog->getDogId(), $this->park->getParkId(), $this->VALID_CHECKINDATETIME);
 		$checkin->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = CheckIn::getCheckInByCheckInId($this->getPDO(), $this->dog->getDogId());
+		$results = CheckIn::getCheckInByCheckInDogId($this->getPDO(), $this->dog->getDogId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("checkin"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz\\CheckIn", $results);
@@ -175,7 +187,7 @@ class CheckInTest extends BarkParkzTest {
 	 **/
 	public function testGetInvalidCheckInByDogId() : void {
 		// grab a dog id that exceeds the max allowable
-		$checkin = CheckIn::getCheckInByDogId($this->getPDO(), BarkParkzTest::INVALID_KEY);
+		$checkin = CheckIn::getCheckInByCheckInDogId($this->getPDO(), BarkParkzTest::INVALID_KEY);
 		$this->assertCount(0, $checkin);
 	}
 	/**
