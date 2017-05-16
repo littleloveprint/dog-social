@@ -125,6 +125,7 @@ class CheckInTest extends BarkParkzTest {
 	}
 	/**
 	 * test delete invalid checkin
+	 * @expectedException \TypeError
 	 **/
 	public function testDeleteInValidCheckIn() : void {
 		// create a checkin and try to delete it without actually inserting it
@@ -153,6 +154,7 @@ class CheckInTest extends BarkParkzTest {
 	}
 	/**
 	 * test invalid update checkin
+	 * @expectedException \TypeError
 	 **/
 	public function testUpdateInValidCheckin() : void {
 		$checkin = new Checkin(null, $this->dog->getDogId(), $this->park->getParkId(), $this->VALID_CHECKINDATETIME);
@@ -161,6 +163,7 @@ class CheckInTest extends BarkParkzTest {
 
 	/**
 	 * test get invalid checkin by checkin id
+	 * @expectedException \TypeError
 	 **/
 	public function testGetInvalidCheckInByCheckInId() : void {
 		$checkin = CheckIn::getCheckInByCheckInId($this->getPDO(), BarkParkzTest::INVALID_KEY);
@@ -189,6 +192,7 @@ class CheckInTest extends BarkParkzTest {
 	}
 	/**
 	 * test grabbing a checkin by a dog id that does not exist
+	 * @expectedException \TypeError
 	 **/
 	public function testGetInvalidCheckInByDogId() : void {
 		// grab a dog id that exceeds the max allowable
@@ -219,6 +223,7 @@ class CheckInTest extends BarkParkzTest {
 	}
 	/**
 	 * test grabbing a checkin by a park id that does not exist
+	 * @expectedException \TypeError
 	 **/
 	public function testGetInvalidCheckInByParkId() : void {
 		// grab a check in that exceeds blablabla
@@ -249,6 +254,7 @@ class CheckInTest extends BarkParkzTest {
 	}
 	/**
 	 * test get invalid checkin by checkindaterange
+	 * @expectedException \TypeError
 	 **/
 	public function testGetInvalidCheckInByCheckInDateRange() : void {
 		$checkin = CheckIn::getCheckInByCheckInDateRange($this->getPDO(),$this->VALID_SUNRISECHECKINDATETIME, $this->VALID_SUNSETCHECKINDATETIME);
