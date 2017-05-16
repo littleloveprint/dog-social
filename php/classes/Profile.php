@@ -71,7 +71,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct(?int $newProfileId, string $newProfileActivationToken, string $newProfileAtHandle, string $newProfileCloudinaryId, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, string $newProfileLocationX, string $newProfileLocationY) {
+	public function __construct(?int $newProfileId, string $newProfileActivationToken, string $newProfileAtHandle, string $newProfileCloudinaryId, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, float $newProfileLocationX, float $newProfileLocationY) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileActivationToken($newProfileActivationToken);
@@ -86,7 +86,7 @@ class Profile implements \JsonSerializable {
 			// determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
 	/**
