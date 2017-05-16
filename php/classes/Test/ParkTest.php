@@ -44,7 +44,7 @@ class ParkTest extends BarkParkzTest {
 	/**
 	 * Test inserting a valid Park and verify that the actual mySQL data matches
 	 **/
-	public function testInsertValidProfile(): void {
+	public function testInsertValidPark(): void {
 
 		// Count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("park");
@@ -65,7 +65,7 @@ class ParkTest extends BarkParkzTest {
 }
 
 	/**
-	 * Test inserting a Profile that already exists
+	 * Test inserting a Park that already exists
 	 *
 	 * @expectException \PDOException
 	 **/
@@ -129,10 +129,10 @@ class ParkTest extends BarkParkzTest {
 	 *
 	 * @expectedException \PDOException
 	 **/
-	public function testUpdateInvalid() {
+	public function testUpdateInvalidPark() {
 
 		// Create a Park and try to update it without actually inserting it
-		$park = new Park(newProfileId: null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$park = new Park(newParkId: null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
 $park->update($this->getPDO());
 }
 
@@ -154,7 +154,7 @@ $park->update($this->getPDO());
 
 		// Grab the data from mySQL and be sure the Park does not exist
 		$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
-		$this->assertEqual($numRows, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("park"));
 	}
 
 	/**
@@ -175,7 +175,7 @@ $park->update($this->getPDO());
 	 * @expectedException \PDOException
 	 **/
 
-	public function testDeleteInvalidProfile(): void {
+	public function testDeleteInvalidPark(): void {
 
 		// Create a Park and try to delete it without actually inserting it
 		$park = new Park(null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
