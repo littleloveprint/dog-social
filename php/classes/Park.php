@@ -37,18 +37,19 @@ class Park implements \JsonSerializable {
 	 * constructor for this Park
 	 *
 	 * @param int|null $newParkId id of this Park or null if a new Park
-	 * @param string $newParkLocationX
-	 * @param string $newParkLocationY
-	 * @param $newParkName
+	 * @param float $newParkLocationX containing a user's declared location
+	 * @param float $newParkLocationY containing a user's declared location
+	 * @param string $newParkName string containing park name
 	 * @internal param string $newParkName string containing actual park name
 	 */
-	public function _construct(?int $newParkId, string $newParkLocationX, string $newParkLocationY, $newParkName) {
+	public function _construct(?int $newParkId, float $newParkLocationX, float $newParkLocationY, $newParkName) {
 		try {
 			$this->setParkId($newParkId);
 			$this->setParkLocationX($newParkLocationX);
 			$this->setParkLocationY($newParkLocationY);
 			$this->setParkName($newParkName);
-		} //determine what exception type was thrown
+		}
+		//determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -88,20 +89,20 @@ class Park implements \JsonSerializable {
 	/**
 	 * accessor method for park location X
 	 *
-	 * @return string of park location X
+	 * @return float of park location X
 	 **/
-	public function getParkLocationX(): string {
+	public function getParkLocationX(): float {
 		return ($this->parkLocationX);
 	}
 
 	/**
 	 * mutator method for park location X
 	 *
-	 * @param string $newParkLocationX new value of park location X
+	 * @param float $newParkLocationX new value of park location X
 	 * @throws \RangeException if $newParkLocationX is not positive
 	 * @throws \TypeError if $newParkLocationX is not a string
 	 **/
-	public function setParkLocationX(string $newParkLocationX): void {
+	public function setParkLocationX(float $newParkLocationX): void {
 
 		// verify the park location x is secure
 		if($newParkLocationX <= 0) {
@@ -115,19 +116,19 @@ class Park implements \JsonSerializable {
 	/**
 	 * accessor method for park location Y
 	 *
-	 * @return string value of park location Y
+	 * @return float value of park location Y
 	 **/
-	public function getParkLocationY(): string {
+	public function getParkLocationY(): float {
 		return ($this->parkLocationY);
 	}
 
 	/**
 	 * mutator method for park location y
-	 * @param string $newParkLocationY new value of park location y
+	 * @param float $newParkLocationY new value of park location y
 	 * @throws \RangeException if $newParkLocationY is not positive
 	 * @throws \TypeError if $newParkId is not a string
 	 **/
-	public function setParkLocationY(string $newParkLocationY): void {
+	public function setParkLocationY(float $newParkLocationY): void {
 
 		// verify the park location y is positive
 		if(strlen($newParkLocationY) > 32) {
