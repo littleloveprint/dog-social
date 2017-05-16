@@ -45,12 +45,12 @@ class Profile implements \JsonSerializable {
 	private $profileSalt;
 	/**
 	 * location x of this Profile.
-	 * @var string $profileLocationX
+	 * @var float $profileLocationX
 	 **/
 	private $profileLocationX;
 	/**
 	 * location y of this Profile.
-	 * @var string $profileLocationY
+	 * @var float $profileLocationY
 	 **/
 	private $profileLocationY;
 	/**
@@ -63,8 +63,8 @@ class Profile implements \JsonSerializable {
 	 * @param string $newProfileEmail user email address
 	 * @param string $newProfileHash string containing password hash
 	 * @param string $newProfileSalt string containing profile salt
-	 * @param string $newProfileLocationX string containing user's declared location
-	 * @param string $newProfileLocationY string containing user's declared location
+	 * @param float $newProfileLocationX string containing user's declared location
+	 * @param float $newProfileLocationY string containing user's declared location
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
@@ -331,8 +331,8 @@ class Profile implements \JsonSerializable {
 		}
 
 		// Enforce that the salt is exactly 128 characters.
-		if(strlen($newProfileSalt) !== 128) {
-			throw(new \RangeException("profile salt must be 128 characters"));
+		if(strlen($newProfileSalt) !== 64) {
+			throw(new \RangeException("profile salt must be 64 characters"));
 		}
 
 		// Store the salt.
@@ -342,72 +342,70 @@ class Profile implements \JsonSerializable {
 	/**
 	 * Accessor method for profile location x.
 	 *
-	 * @return string value of profile location x
+	 * @return float value of profile location x
 	 **/
-	public function getProfileLocationX() {
+	public function getProfileLocationX() : float {
 		return($this->profileLocationX);
 	}
 
 	/**
 	 * Mutator method for profile location x.
 	 *
-	 * @param string @newProfileLocationX new value of profile location x
-	 * @throws \InvalidArgumentException if $newProfileLocationX is insecure
+	 * @param float @newProfileLocationX new value of profile location x
 	 * @throws \RangeException if $newProfileLocationX is > 32 characters
-	 * @throws \TypeError if $newProfileLocationX is not a string
+	 * @throws \TypeError if $newProfileLocationX is not an integer
 	 **/
-	public function setProfileLocationX(string $newProfileLocationX) {
+	public function setProfileLocationX(float $newProfileLocationX): void {
 
-		// Verify that profile location x is secure.
-		$newProfileLocationX = trim($newProfileLocationX);
-		$newProfileLocationX = filter_var($newProfileLocationX, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newProfileLocationX) === true) {
-			throw( new \InvalidArgumentException( "profile location x is empty or malicious" ));
+		// If the profile location x is null, immediately return it.
+		$newProfileLocationX = filter_var($newProfileLocationX, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_THOUSAND);
+		if(empty($newProfileLocationX) === null) {
+			$this->profileLocationX = null;
+			return;
 		}
 
-		// Verify that profile location x will fit in the database.
-		if(strlen($newProfileLocationX) > 32) {
-			throw(new \RangeException("location x is too large"));
+		// Verify that profile location x is positive.
+		if($newProfileLocationX <= 0) {
+			throw(new \RangeException("location x is not positive"));
 		}
 
-		// Store profile location x if all else passes.
+		// Convert and store profile location x.
 		$this->profileLocationX = $newProfileLocationX;
 	}
+
 	/**
 	 * Accessor method for profile location y.
 	 *
-	 * @return string value of profile location y
+	 * @return float value of profile location y
 	 **/
-	public function getProfileLocationY() {
+	public function getProfileLocationY() : float {
 		return($this->profileLocationY);
 	}
 
 	/**
 	 * Mutator method for profile location y.
 	 *
-	 * @param string @newProfileLocationY new value of profile location y
-	 * @throws \InvalidArgumentException if $newProfileLocationY is insecure
+	 * @param float @newProfileLocationY new value of profile location y
 	 * @throws \RangeException if $newProfileLocationY is > 32 characters
-	 * @throws \TypeError if $newProfileLocationY is not a string
+	 * @throws \TypeError if $newProfileLocationY is not an integer
 	 **/
-	public function setProfileLocationY(string $newProfileLocationY) {
+	public function setProfileLocationY(float $newProfileLocationY): void {
 
-		// Verify that profile location y is secure.
-		$newProfileLocationY = trim($newProfileLocationY);
-		$newProfileLocationY = filter_var($newProfileLocationY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newProfileLocationY) === true) {
-			throw( new \InvalidArgumentException( "profile location y is empty or malicious" ));
+		// If the profile location y is null, immediately return it.
+		$newProfileLocationY = filter_var($newProfileLocationY, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_THOUSAND);
+		if(empty($newProfileLocationY) === null) {
+			$this->profileLocationY = null;
+			return;
 		}
 
-		// Verify that profile location y will fit in the database.
-		if(strlen($newProfileLocationY) > 32) {
-			throw(new \RangeException("location y is too large"));
+		// Verify that profile location y is positive.
+		if($newProfileLocationY <= 0) {
+			throw(new \RangeException("location y is not positive"));
 		}
 
-		// Store profile location y if all else passes.
+		// Convert and store profile location y.
 		$this->profileLocationY = $newProfileLocationY;
 	}
-
 /**
 * Inserts this profile into mySQL.
 *
