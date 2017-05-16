@@ -56,13 +56,13 @@ class ProfileTest extends BarkParkzTest {
 	 * Valid location x to use.
 	 * @var string $VALID_LOCATIONX
 	 **/
-	protected $VALID_LOCATIONX;
+	protected $VALID_LOCATIONX = 123456789123.123456789;
 
 	/**
 	 * Valid location y to use.
 	 * @var string $VALID_LOCATIONY
 	 **/
-	protected $VALID_LOCATIONY;
+	protected $VALID_LOCATIONY = 321987654321.987654321;
 
 	/**
 	 * Run the default setup operation to create salt and hash.

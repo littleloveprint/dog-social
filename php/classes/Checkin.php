@@ -324,7 +324,7 @@ class CheckIn implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when vars are not the correct data type
 	 **/
-	public static function getCheckInByCheckParkId(\PDO $pdo, int $checkInParkId) : \SplFixedArray {
+	public static function getCheckInByCheckInParkId(\PDO $pdo, int $checkInParkId) : \SplFixedArray {
 		// sanitize the park id
 		if($checkInParkId <= 0) {
 			throw(new \PDOException("park id is not positive"));
