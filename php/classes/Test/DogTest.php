@@ -91,7 +91,7 @@ class DogTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("dog");
 
 		//create a new Dog and insert into mySQL
-		$dog = new Dog(null, $this->profile->getProfileId, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+		$dog = new Dog(null, $this->profile->getProfileId(), $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
 
 		//var_dump($dog);
 
@@ -114,7 +114,7 @@ class DogTest extends BarkParkzTest {
 	 */
 	public function testInsertInvalidDog() : void {
 		//create dog with a non null dogId and watch it fail
-		$dog = new Dog(BarkparkzTest::INVALID_KEY, $this->profile->getProfileId, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+		$dog = new Dog(BarkparkzTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
 		$dog->insert($this->getPDO());
 
 	}
@@ -127,7 +127,7 @@ class DogTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("dog");
 
 		// Create a new Dog and insert into mySQL
-		$dog = new Dog(null, $this->profile->getProfileId, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+		$dog = new Dog(null, $this->profile->getProfileId(), $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
 		$dog->insert($this->getPDO());
 
 		//Edit the Dog and update in mySQL
@@ -155,7 +155,7 @@ class DogTest extends BarkParkzTest {
 	public function testUpdateInvalidDog() {
 
 		//Create a Dog and try updating it without inserting it first
-		$dog = new Dog(null, $this->profile->getProfileId, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+		$dog = new Dog(null, $this->profile->getProfileId(), $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
 		$dog->update($this->getPDO());
 	}
 		/**
@@ -166,7 +166,7 @@ class DogTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("dog");
 
 		//create a new Dog and insert into mySQL
-			$dog = new Dog(null, $this->profile->getProfileId, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+			$dog = new Dog(null, $this->profile->getProfileId(), $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
 			$dog->insert($this->getPDO());
 
 			//Delete the Dog from mySQL
@@ -186,7 +186,7 @@ class DogTest extends BarkParkzTest {
 		public function testDeleteInvalidDog() : void {
 
 			//create a Dog and try deleting it without inserting it
-			$dog = new Dog(null, $this->profile->getProfileId, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+			$dog = new Dog(null, $this->profile->getProfileId(), $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
 			$dog->insert($this->getPDO());
 		}
 
@@ -200,14 +200,14 @@ class DogTest extends BarkParkzTest {
 			$numRows = $this->getConnection()->getRowCount("dog");
 
 			//create a new Dog and insert into mySQL
-			$dog= new Dog(null, $this->profile->getProfileId, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+			$dog= new Dog(null, $this->profile->getProfileId(), $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
 			$dog->insert($this->getPDO());
 
 			// Grab data from mySQL and ensure the fields match expectations
 
 			$pdoDog = Dog::getDogByDogId($this->getPDO(), $dog->getDogId());
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("dog"));
-			$this->assertEquals($pdoDog->getDogProfileId, $this->profile->getProfileId);
+			$this->assertEquals($pdoDog->getDogProfileId(), $this->profile->getProfileId);
 			$this->assertEquals($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
 			$this->assertEquals($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
 			$this->assertEquals($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
@@ -236,7 +236,7 @@ class DogTest extends BarkParkzTest {
 			$numRows = $this->getConnection()->getRowCount("dog");
 
 			//create a new Dog and insert into mySQL
-			$dog= new Dog(null, $this->profile->getProfileId, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+			$dog= new Dog(null, $this->profile->getProfileId(), $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
 			$dog->insert($this->getPDO());
 
 			// Grab data from mySQL and ensure the fields match expectations
@@ -273,12 +273,12 @@ class DogTest extends BarkParkzTest {
 			$numRows = $this->getConnection()->getRowCount("dog");
 
 			//create a new Dog and insert into mySQL
-			$dog= new Dog(null, $this->profile->getProfileId, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
+			$dog= new Dog(null, $this->profile->getProfileId(), $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE);
 			$dog->insert($this->getPDO());
 
 			// Grab data from mySQL and ensure the fields match expectations
 
-			$results = Dog::getDogByProfileId($this->getPDO(), $this->profile->getProfileId();
+			$results = Dog::getDogByProfileId($this->getPDO(), $this->profile->getProfileId());
 			$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("dog"));
 
 			//Enforce that no other objects are bleeding into Dog
@@ -301,7 +301,7 @@ class DogTest extends BarkParkzTest {
 
 		public function testGetInvalidDogByProfileId() : void {
 			// grab a park id that exceeds the max # of characters
-			$dog = Dog::getDogByProfileId($this->getPDO(), $this->getProfileIdBarkParkzTest::INVALID KEY);
+			$dog = Dog::getDogByProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY);
 		}
 }
 
