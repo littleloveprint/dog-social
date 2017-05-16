@@ -54,13 +54,13 @@ class ProfileTest extends BarkParkzTest {
 
 	/**
 	 * Valid location x to use.
-	 * @var string $VALID_LOCATIONX
+	 * @var float $VALID_LOCATIONX
 	 **/
 	protected $VALID_LOCATIONX = 43.5945;
 
 	/**
 	 * Valid location y to use.
-	 * @var string $VALID_LOCATIONY
+	 * @var float $VALID_LOCATIONY
 	 **/
 	protected $VALID_LOCATIONY = 83.8889;
 
