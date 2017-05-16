@@ -78,7 +78,7 @@ class DogTest extends BarkParkzTest {
 		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 262144);
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 
-		$profile = new Profile(null, null, "@barkparkz", null, "lea@barkparkz.com", null, 123456789123.123456789, 321987654321.987654321, null);
+		$profile = new Profile(null, null, "@barkparkz", null, "lea@barkparkz.com", null, null, 43.5945, 83.8889);
 	}
 
 
