@@ -153,7 +153,7 @@ $park->update($this->getPDO());
 		$park->delete($this->getPDO());
 
 		// Grab the data from mySQL and be sure the Park does not exist
-		$pdoPark = Park::getProfileByProfileId($this->getPDO(), $park->getParkId());
+		$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
 		$this->assertEqual($numRows, $this->getConnection()->getRowCount("profile"));
 	}
 
@@ -226,5 +226,45 @@ $park->insert($this->getPDO());
 /**
  * Test grabbing a Park that does not exist
  **/
+public function testGetInvalidParkByParkId() : void {
 
+	// Grab a park id that exceeds the maximum allowable park id
+	$park = Park::getParkByParkId($this->getPDO(), BarkParkzTest::INVALID_KEY);
+	$this->assertNull($park);
+}
+
+public function testGetValidParkByParkName() {
+
+	// Count the number of rows, and save it for later.
+	$numRows = $this->getConnection()->getRowCount("park");
+
+	// Create a new Park and insert it into mySQL.
+	$park = new Park(null, $this->VALID_PARKNAME, $this->VALID_PARKID, $this->VALID_PARKLOCATIONX, $this->VALID_PARKLOCATIONY);
+	$park->insert($this->getPDO());
+
+	// Grab the data from mySQL.
+	$results = Park::getParkByParkName($this->getPDO(), $this->VALID_PARKNAME);
+	$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("park"));
+
+	// Enforce no other objects are bleeding into park.
+	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz\\Profile", $results);
+
+	// Enforce the results met expectations.
+	$pdoPark = $results[0];
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
+	$this->assertEquals($pdoPark->getParkId(), $this->VALID_PARKID);
+	$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
+	$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_PARKLOCATIONX);
+	$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_PARKLOCATIONY);
+}
+
+/**
+ * Test grabbing a Park by at handle that does not exist
+ **/
+public function testGetValidParkByParkName() : void {
+
+	// Grab a park name that does not exist.
+	$profile = Park::getParkByParkName($this->getPDO(),"nonexisting");
+	$this->assertCount(0, $park);
+}
 

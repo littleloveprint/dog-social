@@ -71,9 +71,6 @@ class ProfileTest extends BarkParkzTest {
 		parent::setUp();
 
 		//
-
-		$this->VALID_CLOUDINARYID = bin2hex(random_bytes(14));
-
 		$password = "abc123";
 		$this->VALID_LOCATIONY = bin2hex(random_bytes(32));
 		$this->VALID_LOCATIONY = bin2hex(random_bytes(32));
