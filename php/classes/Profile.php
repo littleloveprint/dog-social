@@ -330,8 +330,8 @@ class Profile implements \JsonSerializable {
 			throw(new \InvalidArgumentException("profile password salt is empty or insecure"));
 		}
 
-		// Enforce that the salt is exactly 64 characters.
-		if(strlen($newProfileSalt) !== 64) {
+		// Enforce that the salt is exactly 128 characters.
+		if(strlen($newProfileSalt) !== 128) {
 			throw(new \RangeException("profile salt must be 128 characters"));
 		}
 
