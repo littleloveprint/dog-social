@@ -12,7 +12,7 @@ CREATE TABLE profile (
  -- Not null means the attribute is required!
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	-- ^Primary Key^
-	profileActivationToken VARCHAR(32) NOT NULL,
+	profileActivationToken VARCHAR(32),
 	profileAtHandle VARCHAR(32) NOT NULL,
 	profileCloudinaryId VARCHAR(32),
 	profileEmail VARCHAR(64) NOT NULL,
