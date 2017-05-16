@@ -79,7 +79,7 @@ class ParkTest extends BarkParkzTest {
 	/**
 	 * Test inserting a Park, editing it, and then updating it
 	 **/
-	public function testInsertInvalidPark() {
+	public function testInsertValidPark() {
 
 		// Count the number of rows, and save it for later.
 		$numRows = $this->getConnection()->getRowCount("park");
