@@ -30,9 +30,14 @@ class CheckInTest extends BarkParkzTest {
 	protected $VALID_PROFILE_HASH;
 	/**
 	 * timestamp of the check in this starts as null and is assigned later
-	 * @var \DateTime $VALID_CHECKINDATE
+	 * @var \DateTime $VALID_CHECKINDATETIME
 	 **/
 	protected $VALID_CHECKINDATETIME;
+	/**
+	 * created an additional timestamp for testing update
+	 * @var \DateTime $VALID_CHECKINDATETIME2
+	 */
+	protected $VALID_CHECKINDATETIME2;
 	/**
 	 * valid timestamp to use as sunriseCheckInDateTime
 	 **/
@@ -136,7 +141,7 @@ class CheckInTest extends BarkParkzTest {
 		$checkin = new CheckIn(null, $this->dog->getDogId(), $this->park->getParkId(), $this->VALID_CHECKINDATETIME);
 		$checkin->insert($this->getPDO());
 		// edit the check in and update it into mysql
-		$checkin->setCheckInId($this->dog->getDogId(), $this->park->getParkId(),$this->VALID_CHECKINDATETIME);
+		$checkin->setCheckInDateTime($this->VALID_CHECKINDATETIME2);
 		$checkin->update($this->getPDO());
 		// grab the date from mysql and enforce the fields match
 		$pdoCheckin = CheckIn::getCheckInByCheckInId($this->getPDO(), $checkin->getCheckInId());
