@@ -50,7 +50,7 @@ class DogTest extends BarkParkzTest {
 	/**
 	 * valid dogCloudinaryId in the dog class
 	 */
-	protected $VALID_DOG_CLOUDINARY_ID = 7788;
+	protected $VALID_DOG_CLOUDINARY_ID;
 	/**
 	 * valid dogBio used in the dog class
 	 */
@@ -78,7 +78,7 @@ class DogTest extends BarkParkzTest {
 		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 262144);
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 
-		$profile = new Profile(null, null, null, null, null, null, null, null, null)
+		$profile = new Profile(null, null, "@barkparkz", null, "lea@barkparkz.com", null, 123456789123.123456789, 321987654321.987654321, null);
 	}
 
 
@@ -301,7 +301,7 @@ class DogTest extends BarkParkzTest {
 
 		public function testGetInvalidDogByProfileId() : void {
 			// grab a park id that exceeds the max # of characters
-			$dog = Dog::getDogByProfileId($this->getPDO(), $this->getProfileId:BarkParkzTest::INVALID KEY);
+			$dog = Dog::getDogByProfileId($this->getPDO(), $this->getProfileIdBarkParkzTest::INVALID KEY);
 		}
 }
 
