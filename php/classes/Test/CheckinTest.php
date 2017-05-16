@@ -227,7 +227,7 @@ class CheckInTest extends BarkParkzTest {
 		// the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("checkin");
 		//create a new checkin and insert it into mysql
-		$checkin = new CheckIn($this->dog->getDogId(), $this->park->getParkId(),$this->VALID_CHECKINDATETIME);
+		$checkin = new CheckIn(null,$this->dog->getDogId(), $this->park->getParkId(),$this->VALID_CHECKINDATETIME);
 		$checkin->insert($this->getPDO());
 		// grab the data from mysql and enforce the fields match
 		$results = CheckIn::getCheckInByCheckInDateRange($this->getPDO(),$this->VALID_SUNRISECHECKINDATETIME, $this->VALID_SUNSETCHECKINDATETIME);
