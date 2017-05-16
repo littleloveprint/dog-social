@@ -33,13 +33,13 @@ class ParkTest extends BarkParkzTest {
 	 * Valid location x to use
 	 * @var string $VALID_LOCATIONX
 	 **/
-	protected $VALID_LOCATIONX;
+	protected $VALID_LOCATIONX = 43.5945;
 
 	/**
 	 * Valid location y to use
 	 * @var string $VALID_LOCATIONY ;
 	 **/
-	protected $VALID_LOCATIONY;
+	protected $VALID_LOCATIONY = 83.8889;
 
 	/**
 	 * Test inserting a valid Park and verify that the actual mySQL data matches
