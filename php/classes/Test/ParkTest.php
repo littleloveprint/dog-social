@@ -170,19 +170,6 @@ $park->update($this->getPDO());
 	}
 
 	/**
-	 * Test deleting a Park that does not exist
-	 *
-	 * @expectedException \PDOException
-	 **/
-
-	public function testDeleteInvalidPark(): void {
-
-		// Create a Park and try to delete it without actually inserting it
-		$park = new Park(null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
-		$park->delete($this->getPDO());
-	}
-
-	/**
 	 * Test inserting a Park and regrabbing it from mySQL
 	 **/
 	public function testGetValidParkbyParkId(): void {
@@ -227,16 +214,14 @@ public function testGetValidParkById(): void {
 /**
  * Test grabbing a Park that does not exist
  **/
-public
-function testGetInvalidParkByParkId(): void {
+public function testGetInvalidParkByParkId(): void {
 
 	// Grab a park id that exceeds the maximum allowable park id
 	$park = Park::getParkByParkId($this->getPDO(), BarkParkzTest::INVALID_KEY);
 	$this->assertNull($park);
 }
 
-public
-function testGetValidParkByParkName() {
+public function testGetValidParkByParkName() {
 
 	// Count the number of rows, and save it for later.
 	$numRows = $this->getConnection()->getRowCount("park");
@@ -264,12 +249,12 @@ function testGetValidParkByParkName() {
 /**
  * Test grabbing a Park by Park Name that does not exist
  **/
-public
-function testGetValidParkByParkName(): void {
+public function testGetValidParkByParkName(): void {
 
 	// Grab a park name that does not exist.
 	$park = Park::getParkByParkName($this->getPDO(), "nonexisting");
 	$this->assertCount(0, $park);
 }
+
 
 
