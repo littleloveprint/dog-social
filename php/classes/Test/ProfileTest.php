@@ -89,7 +89,16 @@ class ProfileTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Profile and insert into mySQL.
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile = new Profile(
+			null,
+				$this->VALID_ACTIVATION,
+				$this->VALID_ATHANDLE,
+				$this->VALID_CLOUDINARYID,
+				$this->VALID_EMAIL,
+				$this->VALID_HASH,
+				$this->VALID_SALT,
+				$this->VALID_LOCATIONX,
+				$this->VALID_LOCATIONY);
 
 		// var_dump($profile);
 
@@ -116,7 +125,16 @@ class ProfileTest extends BarkParkzTest {
 	public function testInsertInvalidProfile() : void {
 
 		// Create a profile with a non null profileId and watch it fail hahaha
-		$profile = new Profile(BarkParkzTest::INVALID_KEY, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile = new Profile(
+			BarkParkzTest::INVALID_KEY, null,
+				$this->VALID_ACTIVATION,
+				$this->VALID_ATHANDLE,
+				$this->VALID_CLOUDINARYID,
+				$this->VALID_EMAIL,
+				$this->VALID_HASH,
+				$this->VALID_SALT,
+				$this->VALID_LOCATIONX,
+				$this->VALID_LOCATIONY);
 		$profile->insert($this->getPDO());
 	}
 
@@ -129,7 +147,16 @@ class ProfileTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Profile and insert into mySQL.
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile = new Profile(
+			null,
+				$this->VALID_ACTIVATION,
+				$this->VALID_ATHANDLE,
+				$this->VALID_CLOUDINARYID,
+				$this->VALID_EMAIL,
+				$this->VALID_HASH,
+				$this->VALID_SALT,
+				$this->VALID_LOCATIONX,
+				$this->VALID_LOCATIONY);
 		$profile->insert($this->getPDO());
 
 		// Edit the Profile and update it in mySQL.
@@ -157,7 +184,16 @@ class ProfileTest extends BarkParkzTest {
 	public function testUpdateInvalidProfile() {
 
 		// Create a Profile and try to update it without actually inserting it.
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile = new Profile(
+			null,
+				$this->VALID_ACTIVATION,
+				$this->VALID_ATHANDLE,
+				$this->VALID_CLOUDINARYID,
+				$this->VALID_EMAIL,
+				$this->VALID_HASH,
+				$this->VALID_SALT,
+				$this->VALID_LOCATIONX,
+				$this->VALID_LOCATIONY);
 		$profile->update($this->getPDO());
 	}
 
@@ -170,7 +206,16 @@ class ProfileTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Profile and insert it into mySQL.
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile = new Profile(
+			null,
+				$this->VALID_ACTIVATION,
+				$this->VALID_ATHANDLE,
+				$this->VALID_CLOUDINARYID,
+				$this->VALID_EMAIL,
+				$this->VALID_HASH,
+				$this->VALID_SALT,
+				$this->VALID_LOCATIONX,
+				$this->VALID_LOCATIONY);
 		$profile->update($this->getPDO());
 
 		// Delete the Profile from mySQL.
@@ -191,7 +236,16 @@ class ProfileTest extends BarkParkzTest {
 	public function testDeleteInvalidProfile() : void {
 
 		// Create a Profile and try to delete it without actually inserting it.
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile = new Profile(
+			null,
+				$this->VALID_ACTIVATION,
+				$this->VALID_ATHANDLE,
+				$this->VALID_CLOUDINARYID,
+				$this->VALID_EMAIL,
+				$this->VALID_HASH,
+				$this->VALID_SALT,
+				$this->VALID_LOCATIONX,
+				$this->VALID_LOCATIONY);
 		$profile->delete($this->getPDO());
 	}
 
@@ -204,7 +258,16 @@ class ProfileTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Profile and insert it into mySQL.
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile = new Profile(
+			null,
+				$this->VALID_ACTIVATION,
+				$this->VALID_ATHANDLE,
+				$this->VALID_CLOUDINARYID,
+				$this->VALID_EMAIL,
+				$this->VALID_HASH,
+				$this->VALID_SALT,
+				$this->VALID_LOCATIONX,
+				$this->VALID_LOCATIONY);
 		$profile->insert($this->getPDO());
 
 		// Grab the data from mySQL and be sure the fields match our expectations.
@@ -229,7 +292,16 @@ class ProfileTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Profile and insert it into mySQL.
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile = new Profile(
+			null,
+				$this->VALID_ACTIVATION,
+				$this->VALID_ATHANDLE,
+				$this->VALID_CLOUDINARYID,
+				$this->VALID_EMAIL,
+				$this->VALID_HASH,
+				$this->VALID_SALT,
+				$this->VALID_LOCATIONX,
+				$this->VALID_LOCATIONY);
 
 		// Grab the data from mySQL and be sure the fields match our expectations.
 		$pdoProfile = Profile::getProfileByProfileActivationToken($this->getPDO(), $profile->getProfileActivationToken());
@@ -259,7 +331,16 @@ class ProfileTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Profile and insert it into mySQL.
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_ATHANDLE, $this->VALID_CLOUDINARYID, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$profile = new Profile(
+			null,
+				$this->VALID_ACTIVATION,
+				$this->VALID_ATHANDLE,
+				$this->VALID_CLOUDINARYID,
+				$this->VALID_EMAIL,
+				$this->VALID_HASH,
+				$this->VALID_SALT,
+				$this->VALID_LOCATIONX,
+				$this->VALID_LOCATIONY);
 		$profile->insert($this->getPDO());
 
 		// Grab the data from mySQL.
