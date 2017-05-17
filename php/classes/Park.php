@@ -48,8 +48,7 @@ class Park implements \JsonSerializable {
 			$this->setParkLocationX($newParkLocationX);
 			$this->setParkLocationY($newParkLocationY);
 			$this->setParkName($newParkName);
-		}
-		//determine what exception type was thrown
+		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -141,92 +140,92 @@ class Park implements \JsonSerializable {
 	}
 
 
-		/**
-		 * accessor method for parkName
-		 *
-		 * @return string value of park name
-		 **/
-		public function getParkName(): string {
-			return ($this->parkName);
+	/**
+	 * accessor method for parkName
+	 *
+	 * @return string value of park name
+	 **/
+	public function getParkName(): string {
+		return ($this->parkName);
+	}
+
+	/**
+	 * mutator method for park name
+	 *
+	 * @param string $newParkName new value of park name
+	 * @throws \InvalidArgumentException if $newParkname is not a string or insecure
+	 * @throws \RangeException if $newParkName is > 32 characters
+	 * @throws \TypeError if $newParkName
+	 **/
+
+	/**
+	 * @param string $newParkName
+	 **/
+	public function setParkName(string $newParkName): void {
+		// verify the park name is secure
+		$newParkName = trim($newParkName);
+		$newParkName = filter_var($newParkName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newParkName) === true) {
+			throw(new \InvalidArgumentException("park name is empty or insecure"));
+		}
+		// verify the park name will fit in the database
+		if(strlen($newParkName) > 32) {
+			throw(new \RangeException("park name is too large"));
 		}
 
-		/**
-		 * mutator method for park name
-		 *
-		 * @param string $newParkName new value of park name
-		 * @throws \InvalidArgumentException if $newParkname is not a string or insecure
-		 * @throws \RangeException if $newParkName is > 32 characters
-		 * @throws \TypeError if $newParkName
-		 **/
-		public
-		/**
-		 * @param string $newParkName
-		 */
-		function setParkName(string $newParkName): void {
-			// verify the park name is secure
-			$newParkName = trim($newParkName);
-			$newParkName = filter_var($newParkName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			if(empty($newParkName) === true) {
-				throw(new \InvalidArgumentException("park name is empty or insecure"));
-			}
-			// verify the park name will fit in the database
-			if(strlen($newParkName) > 32) {
-				throw(new \RangeException("park name is too large"));
-			}
-
-			// store the park name
-			$this->parkName = $newParkName;
-		}
+		// store the park name
+		$this->parkName = $newParkName;
+	}
 
 	/**
 	 * inserts this Park into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 */
-		public
+	public
 		/**
 		 * @param \PDO $pdo
 		 */
-		function insert(\PDO $pdo): void {
-			// enforce the parkId is null (i.e., don't insert a park that already exists)
-			if($this->parkId !== null) {
-				throw(new \PDOException("not a new park"));
-			}
-
-			// create a query template
-			$query = "INSERT INTO park(parkId, parkLocationX, parkLocationY, parkName) VALUES(:parkId, :parkLocationX, :parkLocationY, :parkName)";
-			$statement = $pdo->prepare($query);
-
-			// bind the member variables to the place holders in the template
-			$parameters = ["parkId" => $this->parkId, "parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName];
-			$statement->execute($parameters);
-
-			// update the null parkId with what mySQL just gave us
-			$this->parkId = intval($pdo->lastInsertId());
+	function insert(\PDO $pdo): void {
+		// enforce the parkId is null (i.e., don't insert a park that already exists)
+		if($this->parkId !== null) {
+			throw(new \PDOException("not a new park"));
 		}
 
-		/**
-		 * deletes this Park from mySQL
-		 *
-		 * @param \PDO $pdo PDO connection object
-		 * @throws \PDOException when mySQL related errors occur
-		 * @throws \TypeError if $pdo is not a PDO connection object
-		 *
-		 **/
-		public function delete(\PDO $pdo): void {
-			// enforce the parkId is not null (i.e., don't delete a park that hasn't been inserted)
-			if($this->parkId === null) {
-				throw(new \PDOException("unable to delete a park that does not exist"));
-			}
+		// create a query template
+		$query = "INSERT INTO park(parkId, parkLocationX, parkLocationY, parkName) VALUES(:parkId, :parkLocationX, :parkLocationY, :parkName)";
+		$statement = $pdo->prepare($query);
 
-			//create query template
-			$query = "DELETE FROM park WHERE parkId = :parkId";
-			$statement = $pdo->prepare($query);
+		// bind the member variables to the place holders in the template
+		$parameters = ["parkId" => $this->parkId, "parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName];
+		$statement->execute($parameters);
 
-			// bind the member variables to the place holder in the template
-			$parameters = ["parkId => $this->parkId"];
-			$statement->execute($parameters);
+		// update the null parkId with what mySQL just gave us
+		$this->parkId = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * deletes this Park from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 *
+	 **/
+	public function delete(\PDO $pdo): void {
+		// enforce the parkId is not null (i.e., don't delete a park that hasn't been inserted)
+		if($this->parkId === null) {
+			throw(new \PDOException("unable to delete a park that does not exist"));
 		}
+
+		//create query template
+		$query = "DELETE FROM park WHERE parkId = :parkId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["parkId => $this->parkId"];
+		$statement->execute($parameters);
+	}
 
 	/**
 	 * updates this Park in mySQL
@@ -235,17 +234,22 @@ class Park implements \JsonSerializable {
 	 * @throws \PDOException
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public
-		/**
-		 * @param \PDO $pdo
-		 */
-	function update(\PDO $pdo, $execute): void {
+
+	/**
+	 * @param \PDO $pdo
+	 * @param $execute
+	 */
+	public function update(\PDO $pdo, $execute): void {
 		// enforce the parkId is not null (i.e., don't update a park that hasn't been inserted)
 		if($this->parkId === null) {
 			throw(new \PDOException("unable to update a park that does not exist"));
 		}
 
-		// create query template
+		/**
+		 * create query template
+		 *@var TYPE_NAME $statement
+		 **/
+
 		$query = "UPDATE park SET parkLocationX = :parkLocationX, parkLocationY = :parkLocationY, parkName = :parkName WHERE parkId = :parkId";
 		$statement = $pdo->prepare($query);
 
@@ -256,13 +260,10 @@ class Park implements \JsonSerializable {
 
 	/**
 	 * gets the Park by parkId
-	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $parkId park id to search for
-	 * @return Park|null Park found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
+	 * @return Park|parkId|null Park found or null if not found
+	 */
 	public static function getParkByParkId(\PDO $pdo, int $parkId): ?parkId {
 		// sanitize the parkId before searching
 		if($parkId <= 0) {
@@ -281,10 +282,10 @@ class Park implements \JsonSerializable {
 		try {
 			$park = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-					$row = $statement->fetch();
-					if($row !== false) {
-						$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
-					}
+			$row = $statement->fetch();
+			if($row !== false) {
+				$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
+			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -326,13 +327,13 @@ class Park implements \JsonSerializable {
 				$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
 				$parks[$parks->key()] = $park;
 				$parks->next();
-			}catch(\Exception $exception) {
+			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-return ($parks);
-}
+		return ($parks);
+	}
 
 	/**
 	 * gets all Parks
@@ -362,13 +363,13 @@ return ($parks);
 		return ($parks);
 	}
 
-				/**
-				 * formats the state variables for JSON serialization
-				 *
-				 * @return array resulting state variables to serialize
-				 **/
-				public
-				function jsonSerialize() {
-					return (get_object_vars($this));
-				}
-			}
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public
+	function jsonSerialize() {
+		return (get_object_vars($this));
+	}
+}
