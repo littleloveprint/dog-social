@@ -249,11 +249,12 @@ public function testGetValidParkByParkName() {
 /**
  * Test grabbing a Park by Park Name that does not exist
  **/
-public function testGetValidParkByParkName(): void {
+public function testGetInvalidParkByParkName(): void {
 
 	// Grab a park name that does not exist.
 	$park = Park::getParkByParkName($this->getPDO(), "nonexisting");
 	$this->assertCount(0, $park);
+}
 }
 
 
