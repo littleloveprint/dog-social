@@ -14,6 +14,11 @@ class CheckInTest extends BarkParkzTest {
 	 **/
 	protected $dog = null;
 	/**
+	 * dogCloudinaryId picture of the doggies
+	 *
+	 **/
+	protected $VALID_CLOUDINARYID;
+	/**
 	 * park that was checked into
 	 * @var Park $park
 	 **/
@@ -63,12 +68,13 @@ class CheckInTest extends BarkParkzTest {
 		parent::setUp();
 		// create a salt and hash for the mocked profile
 		$password = "abc123";
+		$this->VALID_CLOUDINARYID = bin2hex(random_bytes(16));
 		$this->VALID_PROFILE_SALT = bin2hex(random_bytes(32));
 		$this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
 		// create and insert a profile/dog to own the test checkin not sure wth
-		$this->profile = new Profile(null, null,"@handle","324324288888899432","test@test.com",$this->VALID_PROFILE_HASH,"23.4324324","32.43243242",$this->VALID_PROFILE_SALT);
+		$this->profile = new Profile(null, null,"@BobDobalina","324324288888899432","test@test.com",$this->VALID_PROFILE_HASH,"23.4324324","32.43243242",$this->VALID_PROFILE_SALT);
 		$this->profile->insert($this->getPDO());
-		$this->dog = new Dog(null, $this->profile->getProfileId(),11,"kjkhgjghjhgkjhg","jlhlhlhl","ljhkjhljhljh","woof" );
+		$this->dog = new Dog(null, $this->profile->getProfileId(),11,"$this->VALID_CLOUDINARYID","born and raised in the south side of philly","Shitzu mixed with a bull dog","Malachi" );
 		$this->dog->insert($this->getPDO());
 		// create park
 		$this->park = new Park(null,"23.4324324","32.43243242","NE back park");
@@ -82,7 +88,7 @@ class CheckInTest extends BarkParkzTest {
 		$this->VALID_SUNSETCHECKINDATETIME = new \DateTime();
 		$this->VALID_SUNSETCHECKINDATETIME->add(new \DateInterval("P10D"));
 	}
-	// test inserting a valid tweet and verify that the actual mySQL data matches
+	// test inserting a valid checkin and verify that the actual mySQL data matches
 	public function testInsertValidCheckIn() : void {
 		// count the rows and save
 		$numRows = $this->getConnection()->getRowCount("checkin");
@@ -129,7 +135,7 @@ class CheckInTest extends BarkParkzTest {
 	 **/
 	public function testDeleteInValidCheckIn() : void {
 		// create a checkin and try to delete it without actually inserting it
-		$checkin = new CheckIn(null,null,null,null,null);
+		$checkin = new CheckIn(null, $this->dog->getDogId(), $this->park->getParkId(), $this->VALID_CHECKINDATETIME);
 		$checkin->delete($this->getPDO());
 	}
 	/**
