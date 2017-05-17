@@ -72,8 +72,6 @@ class ProfileTest extends BarkParkzTest {
 
 		//
 		$password = "abc123";
-		$this->VALID_LOCATIONY = floatval($this->VALID_LOCATIONY);
-		$this->VALID_LOCATIONX = floatval($this->VALID_LOCATIONX);
 		$this->VALID_SALT = bin2hex(random_bytes(32));
 		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 722988);
 		$this->VALID_CLOUDINARYID = bin2hex(random_bytes(16));
@@ -100,7 +98,6 @@ class ProfileTest extends BarkParkzTest {
 				$this->VALID_LOCATIONX,
 				$this->VALID_LOCATIONY);
 
-		// var_dump($profile);
 
 		$profile->insert($this->getPDO());
 
@@ -124,9 +121,11 @@ class ProfileTest extends BarkParkzTest {
 	 **/
 	public function testInsertInvalidProfile() : void {
 
+		var_dump($this->VALID_LOCATIONY);
+
 		// Create a profile with a non null profileId and watch it fail hahaha
 		$profile = new Profile(
-			BarkParkzTest::INVALID_KEY, null,
+			BarkParkzTest::INVALID_KEY,
 				$this->VALID_ACTIVATION,
 				$this->VALID_ATHANDLE,
 				$this->VALID_CLOUDINARYID,
