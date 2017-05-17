@@ -63,8 +63,8 @@ class Profile implements \JsonSerializable {
 	 * @param string $newProfileEmail user email address
 	 * @param string $newProfileHash string containing password hash
 	 * @param string $newProfileSalt string containing profile salt
-	 * @param float $newProfileLocationX string containing user's declared location
-	 * @param float $newProfileLocationY string containing user's declared location
+	 * @param float $newProfileLocationX float containing user's declared location
+	 * @param float $newProfileLocationY float containing user's declared location
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
@@ -85,14 +85,14 @@ class Profile implements \JsonSerializable {
 		}
 			// determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
+			$exception = get_class($exception);
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
 	/**
 	 * Accessor method for profile id.
 	 *
-	 * @return int value of profile id
+	 * @return int|null value of profile id
 	 **/
 	public function getProfileId(): ?int {
 		return ($this->profileId);

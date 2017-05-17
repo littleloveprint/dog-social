@@ -23,16 +23,16 @@ protected $profile;
  * @var Park $park
  **/
 protected $park;
-/**
- * valid hash to use
- * @var $VALID_HASH;
- **/
-protected $VALID_HASH;
-/**
- * valid salt to use to create the profile object to own the test
- * @var string $VALID_SALT
- **/
-protected $VALID_SALT;
+	/**
+	 * valid hash to use
+	 * @var $VALID_PROFILE_HASH;
+	 **/
+	protected $VALID_PROFILE_HASH;
+	/**
+	 * valid salt to use to create the profile to own the test
+	 * @var string $VALID_PROFILE_SALT;
+	 **/
+	protected $VALID_PROFILE_SALT;
 	/**
 	 * Placeholder until account activation is created
 	 */
@@ -45,11 +45,11 @@ public final function setUp() : void {
 	parent::setUp();
 	// create a salt and has for the mocked profile
 	$password = "higeorge123";
-	$this->VALID_SALT = bin2hex(random_bytes(32));
-	$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 262144);
+	$this->VALID_PROFILE_SALT = bin2hex(random_bytes(32));
+	$this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
 	$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 	//create and insert the mocked profile
-	$this->profile = new Park(null, null,"@php_unit", "test@phpunit.de",$this->VALID_HASH, "+12125551212", $this->VALID_SALT);
+	$this->profile = new Profile(null, null,"@BobDobalina","324324288888899432","test@test.com",$this->VALID_PROFILE_HASH,"23.4324324","32.43243242",$this->VALID_PROFILE_SALT);;
 	$this->park->insert($this->getPDO());
 	//create the park and insert it
 	$this->park = new Park(null, $this->park->getParkId(), "PHP unit favorite test passing");

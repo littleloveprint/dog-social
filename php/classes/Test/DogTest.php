@@ -77,12 +77,12 @@ class DogTest extends BarkParkzTest {
 		//run the default setup
 		parent::setUp();
 		//create a salt and hash for the mock profile
-		$password = "mjIsWeird23";
-		$this->VALID_SALT = bin2hex(random_bytes(32));
-		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 262144);
+		$password = "abc123";
+		$this->VALID_SALT = bin2hex(random_bytes(64));
+		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 722988);
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 
-		$profile = new Profile(null, null, "@barkparkz", null, "lea@barkparkz.com", null, null, 43.5945, 83.8889);
+		$this->profile = new Profile(null, null, "@barkparkz", null, "lea@barkparkz.com", null, null, 43.5945, 83.8889);
 	}
 
 
