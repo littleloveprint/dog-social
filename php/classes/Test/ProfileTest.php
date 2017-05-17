@@ -215,7 +215,7 @@ class ProfileTest extends BarkParkzTest {
 				$this->VALID_SALT,
 				$this->VALID_LOCATIONX,
 				$this->VALID_LOCATIONY);
-		$profile->update($this->getPDO());
+		$profile->insert($this->getPDO());
 
 		// Delete the Profile from mySQL.
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
