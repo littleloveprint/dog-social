@@ -140,14 +140,14 @@ class Profile implements \JsonSerializable {
 	 **/
 	public function setProfileActivationToken(?string $newProfileActivationToken) : void {
 		if($newProfileActivationToken === null) {
-		$this->profileActivationToken = null;
-		return;
-	}
-	$newProfileActivationToken = strtolower(trim($newProfileActivationToken));
-	if(ctype_xdigit($newProfileActivationToken) === false) {
-	throw(new\RangeException("user activation is not valid"));
-	}
-	$this->getProfileActivationToken = $newProfileActivationToken;
+			$this->profileActivationToken = null;
+			return;
+		}
+		$newProfileActivationToken = strtolower(trim($newProfileActivationToken));
+		if(ctype_xdigit($newProfileActivationToken) === false) {
+			throw(new\RangeException("user activation is not valid"));
+		}
+		$this->profileActivationToken = $newProfileActivationToken;
 	}
 
 	/**

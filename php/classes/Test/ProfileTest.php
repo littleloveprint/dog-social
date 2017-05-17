@@ -87,6 +87,8 @@ class ProfileTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Profile and insert into mySQL.
+		echo "valid activation dump";
+		var_dump($this->VALID_ACTIVATION);
 		$profile = new Profile(
 			null,
 				$this->VALID_ACTIVATION,
@@ -121,7 +123,7 @@ class ProfileTest extends BarkParkzTest {
 	 **/
 	public function testInsertInvalidProfile() : void {
 
-		var_dump($this->VALID_LOCATIONY);
+		//var_dump($this->VALID_LOCATIONY);
 
 		// Create a profile with a non null profileId and watch it fail hahaha
 		$profile = new Profile(
@@ -164,6 +166,7 @@ class ProfileTest extends BarkParkzTest {
 
 		// Grab the data from mySQL and enforce the fields match our expectations.
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		//var_dump($pdoProfile->getProfileActivationToken());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
 		$this->assertEquals($pdoProfile->getProfileAtHandle(), $this->VALID_ATHANDLE);
@@ -303,6 +306,7 @@ class ProfileTest extends BarkParkzTest {
 				$this->VALID_LOCATIONY);
 
 		// Grab the data from mySQL and be sure the fields match our expectations.
+		//var_dump($profile);
 		$pdoProfile = Profile::getProfileByProfileActivationToken($this->getPDO(), $profile->getProfileActivationToken());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
