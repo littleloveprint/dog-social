@@ -18,8 +18,8 @@ CREATE TABLE profile (
 	profileEmail VARCHAR(64) NOT NULL,
 	profileHash CHAR(128) NOT NULL,
 	profileSalt CHAR(64) NOT NULL,
-	profileLocationX DECIMAL(12,9) NOT NULL,
-	profileLocationY DECIMAL(12,9) NOT NULL,
+	profileLocationX DECIMAL(12,9),
+	profileLocationY DECIMAL(12,9),
 	UNIQUE(profileEmail),
 	UNIQUE(profileAtHandle),
 	PRIMARY KEY(profileId)

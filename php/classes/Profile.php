@@ -57,7 +57,7 @@ class Profile implements \JsonSerializable {
 	 * Constructor for this Profile.
 	 *
 	 * @param int $newProfileId id of the Profile
-	 * @param string $newProfileActivationToken activation token
+	 * @param string|null $newProfileActivationToken activation token
 	 * @param string $newProfileAtHandle string containing new profile at handle
 	 * @param string $newProfileCloudinaryId string containing user profile image data
 	 * @param string $newProfileEmail user email address
@@ -71,7 +71,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct(?int $newProfileId, string $newProfileActivationToken, string $newProfileAtHandle, string $newProfileCloudinaryId, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, float $newProfileLocationX, float $newProfileLocationY) {
+	public function __construct(?int $newProfileId, ?string $newProfileActivationToken, string $newProfileAtHandle, string $newProfileCloudinaryId, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, ?float $newProfileLocationX, ?float $newProfileLocationY) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileActivationToken($newProfileActivationToken);
@@ -358,7 +358,6 @@ class Profile implements \JsonSerializable {
 	public function setProfileLocationX(float $newProfileLocationX): void {
 
 		// If the profile location x is null, immediately return it.
-		$newProfileLocationX = filter_var($newProfileLocationX, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_THOUSAND);
 		if(empty($newProfileLocationX) === null) {
 			$this->profileLocationX = null;
 			return;
@@ -392,7 +391,6 @@ class Profile implements \JsonSerializable {
 	public function setProfileLocationY(float $newProfileLocationY): void {
 
 		// If the profile location y is null, immediately return it.
-		$newProfileLocationY = filter_var($newProfileLocationY, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_THOUSAND);
 		if(empty($newProfileLocationY) === null) {
 			$this->profileLocationY = null;
 			return;
@@ -524,7 +522,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : ?Profile {
+	public static function getProfileByProfileActivationToken(\PDO $pdo, ?string $profileActivationToken) : ?Profile {
 
 		// Make sure activation token is in the right format and that it is a string representation of a hexadecimal
 		$profileActivationToken = trim($profileActivationToken);

@@ -27,11 +27,12 @@ class DogTest extends BarkParkzTest {
 
 	/**
 	 * Placeholder until account activation is created
+	 * @var string $VALID_ACTIVATION
 	 */
 	protected $VALID_ACTIVATION;
 
 	/**valid hash to use
-	 * @var $VALID_HASH ;
+	 * @var string $VALID_HASH ;
 	 **/
 	protected $VALID_HASH;
 
@@ -82,7 +83,7 @@ class DogTest extends BarkParkzTest {
 		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 722988);
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 
-		$this->profile = new Profile(null, null, "@barkparkz", null, "lea@barkparkz.com", null, null, 43.5945, 83.8889);
+		$this->profile = new Profile(null, $this->VALID_ACTIVATION , "@barkparkz", "3243351545658525", "lea@barkparkz.com", $this->VALID_HASH, $this->VALID_SALT, 43.5945, 83.8889);
 	}
 
 
