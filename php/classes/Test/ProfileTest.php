@@ -72,8 +72,8 @@ class ProfileTest extends BarkParkzTest {
 
 		//
 		$password = "abc123";
-		$this->VALID_LOCATIONY = bin2hex(random_bytes(16));
-		$this->VALID_LOCATIONX = bin2hex(random_bytes(16));
+		$this->VALID_LOCATIONY = floatval($this->VALID_LOCATIONY);
+		$this->VALID_LOCATIONX = floatval($this->VALID_LOCATIONX);
 		$this->VALID_SALT = bin2hex(random_bytes(32));
 		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 722988);
 		$this->VALID_CLOUDINARYID = bin2hex(random_bytes(16));

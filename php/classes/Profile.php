@@ -85,14 +85,14 @@ class Profile implements \JsonSerializable {
 		}
 			// determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
+			$exception = get_class($exception);
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
 	/**
 	 * Accessor method for profile id.
 	 *
-	 * @return int value of profile id
+	 * @return int|null value of profile id
 	 **/
 	public function getProfileId(): ?int {
 		return ($this->profileId);
