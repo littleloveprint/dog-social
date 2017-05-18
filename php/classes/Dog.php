@@ -175,7 +175,7 @@ Class dog implements \JsonSerializable {
 	 * Mutator method for dog cloudinary Id
 	 * @param string $newDogCloudinaryId new value of dog cloudinary Id
 	 * @throws \InvalidArgumentException if $newDogCloudinaryId is insecure
-	 * @throws \RangeException if $newDogCloudinaryId is > 32 characters
+	 * @throws \RangeException if $newDogCloudinaryId is < 32 characters
 	 * @throws \TypeError if $newDogCloudinaryId isn't a string
 	 *
 	 */
@@ -312,6 +312,8 @@ Class dog implements \JsonSerializable {
 		}
 
 		//create query template
+
+
 		$query = "INSERT INTO dog(dogProfileId, dogAge, dogCloudinaryId, dogBio, dogBreed, dogAtHandle) VALUES(:dogProfileId, :dogAge, :dogCloudinaryId, :dogBio, :dogBreed, :dogAtHandle)";
 		$statement = $pdo->prepare($query);
 

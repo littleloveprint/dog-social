@@ -49,10 +49,10 @@ public final function setUp() : void {
 	$this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
 	$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 	//create and insert the mocked profile
-	$this->profile = new Profile(null, null,"@BobDobalina","324324288888899432","test@test.com",$this->VALID_PROFILE_HASH,"23.4324324","32.43243242",$this->VALID_PROFILE_SALT);;
-	$this->park->insert($this->getPDO());
+	$this->profile = new Profile(null, $this->VALID_ACTIVATION,"@BobDobalina","324324288888899432","test@test.com",$this->VALID_PROFILE_HASH,"23.4324324","32.43243242",$this->VALID_PROFILE_SALT);
+	$this->profile->insert($this->getPDO());
 	//create the park and insert it
-	$this->park = new Park(null, $this->park->getParkId(), "PHP unit favorite test passing");
+	$this->park = new Park(null, 106.33333, 40.66666, "Tramway Park");
 }
 /**
  * test inserting a valid favorite and verify that the actual mySQL data matches
