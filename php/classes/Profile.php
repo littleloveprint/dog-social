@@ -342,9 +342,10 @@ class Profile implements \JsonSerializable {
 	/**
 	 * Accessor method for profile location x.
 	 *
-	 * @return float value of profile location x
+	 * @param float $profileLocationX
+	 * @return float $profileLocationX value of profile location x
 	 **/
-	public function getProfileLocationX() : float {
+	public function getProfileLocationX() {
 		return($this->profileLocationX);
 	}
 
@@ -352,20 +353,20 @@ class Profile implements \JsonSerializable {
 	 * Mutator method for profile location x.
 	 *
 	 * @param float @newProfileLocationX new value of profile location x
-	 * @throws \RangeException if $newProfileLocationX is > 32 characters
+	 * @throws \RangeException if $newProfileLocationX is not between -180 and 180
 	 * @throws \TypeError if $newProfileLocationX is not an integer
 	 **/
-	public function setProfileLocationX(float $newProfileLocationX): void {
+	public function setProfileLocationX(float $newProfileLocationX) {
+		$newProfileLocationX = $newProfileLocationX == 0.0 ? 0.0 : filter_var($newProfileLocationX, FILTER_VALIDATE_FLOAT);
 
 		// If the profile location x is null, immediately return it.
-		if(empty($newProfileLocationX) === null) {
-			$this->profileLocationX = null;
-			return;
+		if($newProfileLocationX === false) {
+	throw(new \InvalidArgumentException("location x is not a valid data type"));
 		}
 
 		// Verify that profile location x is positive.
-		if($newProfileLocationX <= 0) {
-			throw(new \RangeException("location x is not positive"));
+		if($newProfileLocationX < -180 || $newProfileLocationX > 180) {
+			throw(new \RangeException("location x is not within range"));
 		}
 
 		// Convert and store profile location x.
@@ -375,9 +376,10 @@ class Profile implements \JsonSerializable {
 	/**
 	 * Accessor method for profile location y.
 	 *
-	 * @return float value of profile location y
+	 * @param float $profileLocationY
+	 * @return float $profileLocationY value of profile location y
 	 **/
-	public function getProfileLocationY() : float {
+	public function getProfileLocationY() {
 		return($this->profileLocationY);
 	}
 
@@ -385,25 +387,26 @@ class Profile implements \JsonSerializable {
 	 * Mutator method for profile location y.
 	 *
 	 * @param float @newProfileLocationY new value of profile location y
-	 * @throws \RangeException if $newProfileLocationY is > 32 characters
+	 * @throws \RangeException if $newProfileLocationY is not between -190 and 90
 	 * @throws \TypeError if $newProfileLocationY is not an integer
 	 **/
-	public function setProfileLocationY(float $newProfileLocationY): void {
+	public function setProfileLocationY(float $newProfileLocationY) {
+		$newProfileLocationY = $newProfileLocationY == 0.0 ? 0.0 : filter_var($newProfileLocationY, FILTER_VALIDATE_FLOAT);
 
 		// If the profile location y is null, immediately return it.
-		if(empty($newProfileLocationY) === null) {
-			$this->profileLocationY = null;
-			return;
+		if($newProfileLocationY === false) {
+			throw(new \InvalidArgumentException("location y is not a valid data type"));
 		}
 
 		// Verify that profile location y is positive.
-		if($newProfileLocationY <= 0) {
-			throw(new \RangeException("location y is not positive"));
+		if($newProfileLocationY < -90 || $newProfileLocationY > 90) {
+			throw(new \RangeException("location y is not within range"));
 		}
 
 		// Convert and store profile location y.
 		$this->profileLocationY = $newProfileLocationY;
 	}
+
 /**
 * Inserts this profile into mySQL.
 *

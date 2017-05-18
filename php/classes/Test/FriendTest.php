@@ -17,7 +17,12 @@ require_once(dirname(__DIR__) . "/autoload.php");
 class FriendTest extends BarkParkzTest {
 
 	/**
-	 * Profile that is a Friend of another profile; this is for foreign key relations.
+	 * Friend
+	 * @var Friend friend
+	 **/
+	protected $friend;
+	/**
+	 * Profile that is a friend of another profile; this is for foreign key relations.
 	 * @var int $VALID_FRIENDFIRSTPROFILEID
 	 **/
 	protected $VALID_FRIENDFIRSTPROFILEID;
@@ -27,6 +32,12 @@ class FriendTest extends BarkParkzTest {
 	 * @var int $VALID_FRIENDSECONDPROFILEID
 	 **/
 	protected $VALID_FRIENDSECONDPROFILEID;
+
+	/**
+	 * Placeholder until account activation is created.
+	 * @var string $VALID_ACTIVATION
+	 **/
+	protected $VALID_ACTIVATION;
 
 	/**
 	 * Valid hash to use
@@ -55,8 +66,13 @@ class FriendTest extends BarkParkzTest {
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 
 		// Create and insert the first mocked profile.
-		$this->friendFirstProfileId = new Profile(null, profileId, "@barkparkz", null, "lea@barkparkz.com", $this->VALID_HASH, $this->VALID_SALT, "somewhere", "someplace");
-		$this->friendFirstProfileId->insert($this->getPDO());
+		$profile = new Friend(
+			$this->VALID_FRIENDFIRSTPROFILEID,
+			$this->VALID_ACTIVATION,
+			$this->VALID_HASH,
+			$this->VALID_SALT);
+
+		$this->profile->insert($this->getPDO());
 
 		// Create and insert the second mocked profile.
 		$this->friendSecondProfileId = new Profile(null, null, "@barkparkz", null, "lea@barkparkz.com", $this->VALID_HASH, $this->VALID_SALT, "somewhere", "someplace");
@@ -127,10 +143,10 @@ class FriendTest extends BarkParkzTest {
 		$friend->insert($this->getPDO());
 
 		// Grab the data from mySQL, and be sure the fields match our expectations.
-		$pdoFriend = Friend::getFriendByFriendFirstProfileIdAndFriendSecondProfileId($this->getPDO(), $this->profile->getFriendFirstProfileId(), $this->friend->getFriendSecondProfileId());
+		$pdoFriend = Friend::getFriendByFriendFirstProfileIdAndFriendSecondProfileId($this->getPDO(), $friend->getFriendFirstProfileIdAndFriendSecondProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("friend"));
-		$this->assertEquals($pdoFriend->getFriendFirstProfileId(), $this->friend->getProfileId());
-		$this->assertEquals($pdoFriend->getFriendSecondProfileId(), $this->friend->getProfileId());
+		$this->assertEquals($pdoFriend->getFriendFirstProfileId(), $this->friend->getFriendId());
+		$this->assertEquals($pdoFriend->getFriendSecondProfileId(), $this->friend->getFriendId());
 	}
 
 	/**
