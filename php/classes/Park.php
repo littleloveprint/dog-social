@@ -135,7 +135,7 @@ class Park implements \JsonSerializable {
 		}
 
 		// convert and store the park location Y
-		/** @var parkLocationY $this */
+		// @var parkLocationY $this
 		$this->parkLocationY = $newParkLocationY;
 	}
 
@@ -238,17 +238,14 @@ class Park implements \JsonSerializable {
 	/**
 	 * @param \PDO $pdo
 	 * @param $execute
-	 */
+	 * create query template
+	 * @var TYPE_NAME $statement
+	 **/
 	public function update(\PDO $pdo, $execute): void {
 		// enforce the parkId is not null (i.e., don't update a park that hasn't been inserted)
 		if($this->parkId === null) {
 			throw(new \PDOException("unable to update a park that does not exist"));
 		}
-
-		/**
-		 * create query template
-		 *@var TYPE_NAME $statement
-		 **/
 
 		$query = "UPDATE park SET parkLocationX = :parkLocationX, parkLocationY = :parkLocationY, parkName = :parkName WHERE parkId = :parkId";
 		$statement = $pdo->prepare($query);
