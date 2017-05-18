@@ -17,11 +17,6 @@ require_once(dirname(__DIR__) . "/autoload.php");
  * @author Emily Rose Halleran
  **/
 class ParkTest extends BarkParkzTest {
-	/**
-	 * Valid Park Id to use
-	 * @var string $VALID_PARKID
-	 **/
-	protected $VALID_PARKID;
 
 	/**
 	 * Valid Park Name to use
@@ -50,7 +45,7 @@ class ParkTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Park and insert into mySQL
-		$park = new Park (null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$park = new Park (null, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY, $this->VALID_PARKNAME);
 
 		// var_dump($park);
 
@@ -67,12 +62,12 @@ class ParkTest extends BarkParkzTest {
 	/**
 	 * Test inserting an invalid Park, editing it, and then updating it
 	 **/
-	public function testInsertInvalidPark() : void {
+	public function testInsertInvalidPark(): void {
 
 		//var_dump($this->>VALID_LOCATION);
 
 		// Create a park with a non null parkId and watch it fail
-		$park = new Park(BarkParkzTest::INVALID_KeY, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$park = new Park(BarkParkzTest::INVALID_KEY, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY,$this->VALID_PARKNAME);
 		$park->insert($this->PDO());
 	}
 
@@ -85,7 +80,7 @@ class ParkTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Profile and insert it into mySQL
-		$park = new Park(null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
 		$park->update($this->getPDO());
 
 		// Delete this Park from mySQL
@@ -105,9 +100,9 @@ class ParkTest extends BarkParkzTest {
 	public function testUpdateInvalidPark() {
 
 		// Create a Park and try to update it without actually inserting it
-		$park = new Park(newParkId: null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX);
-$park->update($this->getPDO());
-}
+		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
+		$park->update($this->getPDO());
+	}
 
 	/**
 	 * Test deleting a Park that does not exist
@@ -117,7 +112,7 @@ $park->update($this->getPDO());
 	public function testDeleteInvalidPark(): void {
 
 		// Create a Park and try to delete it without actually inserting it
-		$park = new park(null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
 		$park->delete($this->getPDO());
 	}
 
@@ -130,83 +125,81 @@ $park->update($this->getPDO());
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Park and insert it into mySQL
-		$park = new Park(null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
 		$park->insert($this->getPDO());
 
 
-	// Grab the data from mySQL and be sure the fields match our expectations
-$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
-$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
-$this->assertEquals($pdoPark->getParkID(), $this->VALID_PARKID);
-$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
-$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_PARKLOCATIONX);
-$this->assertEquals($pdoPArk->getParkLocationY(), $this->VALID_PARKLOCATIONY);
-}
+		// Grab the data from mySQL and be sure the fields match our expectations
+		$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
+		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
+		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
+		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
+	}
 
-/**
- * Test grabbing a Park by its Id
- **/
-public function testGetValidParkById(): void {
+	/**
+	 * Test grabbing a Park by its Id
+	 **/
+	public function testGetValidParkById(): void {
 
-	// Count the number of rows, and save it for later
-	$numRows = $this->getConnection()->getRowCount("park");
+		// Count the number of rows, and save it for later
+		$numRows = $this->getConnection()->getRowCount("park");
 
-	// Create a new Park and insert it into mySQL
-	$park = new Park(null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_PARKLOCATIONX, $this->VALID_PARKLOCATIONY);
-	$park->insert($this->getPDO());
+		// Create a new Park and insert it into mySQL
+		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
+		$park->insert($this->getPDO());
 
 // Grab the data from mySQL and be sure the fields match our expectations
-	$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
-	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
-	$this->assertEquals(pdoPark->getParkName(), $this->VALID_PARKNAME);
-	$this->assertEquals(pdoPark->getParkLocationX(), $this->VALID_PARKLOCATIONX);
-	$this->assertEquals(pdoPark->getParkLocationY(), $this->VALID_PARKLOCATIONY);
+		$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
+		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
+	$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
+	$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
 }
 
-/**
- * Test grabbing a Park that does not exist
- **/
-public function testGetInvalidParkByParkId(): void {
+	/**
+	 * Test grabbing a Park that does not exist
+	 **/
+	public function testGetInvalidParkByParkId(): void {
 
-	// Grab a park id that exceeds the maximum allowable park id
-	$park = Park::getParkByParkId($this->getPDO(), BarkParkzTest::INVALID_KEY);
-	$this->assertNull($park);
-}
+		// Grab a park id that exceeds the maximum allowable park id
+		$park = Park::getParkByParkId($this->getPDO(), BarkParkzTest::INVALID_KEY);
+		$this->assertNull($park);
+	}
 
-public function testGetValidParkByParkName() {
+	public function testGetValidParkByParkName() {
 
-	// Count the number of rows, and save it for later.
-	$numRows = $this->getConnection()->getRowCount("park");
+		// Count the number of rows, and save it for later.
+		$numRows = $this->getConnection()->getRowCount("park");
 
-	// Create a new Park and insert it into mySQL.
-	$park = new Park(null, $this->VALID_PARKNAME, $this->VALID_PARKID, $this->VALID_PARKLOCATIONX, $this->VALID_PARKLOCATIONY);
-	$park->insert($this->getPDO());
+		// Create a new Park and insert it into mySQL.
+		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
+		$park->insert($this->getPDO());
 
-	// Grab the data from mySQL.
-	$results = Park::getParkByParkName($this->getPDO(), $this->VALID_PARKNAME);
-	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
+		// Grab the data from mySQL.
+		$results = Park::getParkByParkName($this->getPDO(), $this->VALID_PARKNAME);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
 
-	// Enforce no other objects are bleeding into park.
-	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz\\Profile", $results);
+		// Enforce no other objects are bleeding into park.
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz\\Profile", $results);
 
-	// Enforce the results met expectations.
-	$pdoPark = $results[0];
-	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
-	$this->assertEquals($pdoPark->getParkId(), $this->VALID_PARKID);
-	$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
-	$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_PARKLOCATIONX);
-	$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_PARKLOCATIONY);
-}
+		// Enforce the results met expectations.
+		$pdoPark = $results[0];
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
+		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
+		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
+		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
+	}
 
-/**
- * Test grabbing a Park by Park Name that does not exist
- **/
-public function testGetInvalidParkByParkName(): void {
+	/**
+	 * Test grabbing a Park by Park Name that does not exist
+	 **/
+	public function testGetInvalidParkByParkName(): void {
 
-	// Grab a park name that does not exist.
-	$park = Park::getParkByParkName($this->getPDO(), "nonexisting");
-	$this->assertCount(0, $park);
-}
+		// Grab a park name that does not exist.
+		$park = Park::getParkByParkName($this->getPDO(), "nonexisting");
+		$this->assertCount(0, $park);
+	}
 }
 
 
