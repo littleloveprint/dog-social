@@ -312,6 +312,8 @@ Class dog implements \JsonSerializable {
 		}
 
 		//create query template
+
+
 		$query = "INSERT INTO dog(dogProfileId, dogAge, dogCloudinaryId, dogBio, dogBreed, dogAtHandle) VALUES(:dogProfileId, :dogAge, :dogCloudinaryId, :dogBio, :dogBreed, :dogAtHandle)";
 		$statement = $pdo->prepare($query);
 
