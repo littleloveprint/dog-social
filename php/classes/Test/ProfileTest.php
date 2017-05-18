@@ -166,6 +166,7 @@ class ProfileTest extends BarkParkzTest {
 
 		// Grab the data from mySQL and enforce the fields match our expectations.
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+
 		//var_dump($pdoProfile->getProfileActivationToken());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
@@ -376,5 +377,49 @@ class ProfileTest extends BarkParkzTest {
 		// Grab an at handle that does not exist.
 		$profile = Profile::getProfileByProfileAtHandle($this->getPDO(), "@nonexisting");
 		$this->assertCount(0, $profile);
+	}
+
+	/**
+	 * Test grabbing a profile by email
+	 **/
+	public function testGetValidProfileByEmail() : void {
+
+		// Count the number of rows, and save it for later.
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// Create a new profile, and insert it into mySQL
+		$profile = new Profile(
+			null,
+			$this->VALID_ACTIVATION,
+			$this->VALID_ATHANDLE,
+			$this->VALID_CLOUDINARYID,
+			$this->VALID_EMAIL,
+			$this->VALID_HASH,
+			$this->VALID_SALT,
+			$this->VALID_LOCATIONX,
+			$this->VALID_LOCATIONY);
+		$profile->insert($this->getPDO());
+
+		// Grab the data from mySQL and be sure the fields match our expectations.
+		$pdoProfile = Profile::getProfileByProfileEmail($this->getPDO(), $profile->getProfileEmail());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertEquals($pdoProfile->getProfileAtHandle(), $this->VALID_ATHANDLE);
+		$this->assertEquals($pdoProfile->getProfileCloudinaryId(), $this->VALID_CLOUDINARYID);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
+		$this->assertEquals($pdoProfile->getProfileHash(), $this->VALID_HASH);
+		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_SALT);
+		$this->assertEquals($pdoProfile->getProfileLocationX(), $this->VALID_LOCATIONX);
+		$this->assertEquals($pdoProfile->getProfileLocationY(), $this->VALID_LOCATIONY);
+	}
+
+	/**
+	 * Test grabbing a profile by an email that does not exist.
+	 **/
+	public function testGetInvalidProfileActivation() : void {
+
+		// Grab an email that does not exist.
+		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "lea@barkparkz.com");
+		$this->assertNull($profile);
 	}
 }
