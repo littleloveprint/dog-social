@@ -41,7 +41,7 @@ class Park implements \JsonSerializable {
 	 * @param string $newParkName string containing park name
 	 * @internal param string $newParkName string containing actual park name
 	 **/
-	public function _construct(?int $newParkId, float $newParkLocationX, float $newParkLocationY, $newParkName) {
+	public function _construct(?int $newParkId, float $newParkLocationX, float $newParkLocationY, string $newParkName) {
 		try {
 			$this->setParkId($newParkId);
 			$this->setParkLocationX($newParkLocationX);
@@ -103,8 +103,8 @@ class Park implements \JsonSerializable {
 	public function setParkLocationX(float $newParkLocationX): void {
 
 		// verify the park location x is secure
-		if($newParkLocationX <= 0) {
-			throw(new \RangeException("park location x is too large"));
+		if($newParkLocationX < -180 || $newParkLocationX > 180) {
+			throw(new \RangeException("park location x is out of range"));
 		}
 
 		// convert and store the park location x
@@ -129,8 +129,8 @@ class Park implements \JsonSerializable {
 	public function setParkLocationY(float $newParkLocationY): void {
 
 		// verify the park location y is positive
-		if(strlen($newParkLocationY) > 32) {
-			throw(new \RangeException("park location y is too large"));
+		if($newParkLocationY < -90 || $newParkLocationY > 90) {
+			throw(new \RangeException("park location y is out of range"));
 		}
 
 		// convert and store the park location Y
@@ -157,9 +157,6 @@ class Park implements \JsonSerializable {
 	 * @throws \TypeError if $newParkName
 	 **/
 
-	/**
-	 * @param string $newParkName
-	 **/
 	public function setParkName(string $newParkName): void {
 		// verify the park name is secure
 		$newParkName = trim($newParkName);
@@ -219,7 +216,7 @@ class Park implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["parkId => $this->parkId"];
+		$parameters = ["parkId" => $this->parkId];
 		$statement->execute($parameters);
 	}
 
@@ -231,11 +228,6 @@ class Park implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 
-	/**
-	 * @param \PDO $pdo
-	 * create query template
-	 * @var Park $statement
-	 **/
 	public function update(\PDO $pdo): void {
 		// enforce the parkId is not null (i.e., don't update a park that hasn't been inserted)
 		if($this->parkId === null) {
@@ -256,7 +248,7 @@ class Park implements \JsonSerializable {
 	 * @param int $parkId park id to search for
 	 * @return Park|null
 	 **/
-	public static function getParkByParkId(\PDO $pdo, int $parkId): ?park {
+	public static function getParkByParkId(\PDO $pdo, int $parkId): ?Park {
 		// sanitize the parkId before searching
 		if($parkId <= 0) {
 			throw(new \PDOException("park id is not positive"));

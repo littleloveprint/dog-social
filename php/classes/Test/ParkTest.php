@@ -9,7 +9,7 @@ require_once(dirname(__DIR__) . "/autoload.php");
 
 
 /**
- * Full PHPUnit testx for the Park class
+ * Full PHPUnit test for the Park class
  *
  *This is a complete unit testx for the Park class. It is complete because all mySQL and PDO methods are tested for both invalid and valid inputs.
  *
@@ -53,7 +53,7 @@ class ParkTest extends BarkParkzTest {
 
 		// Grab the data from mySQL and be sure the fields match our expectations.
 		$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"), $park->));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
 		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
 		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
@@ -153,8 +153,8 @@ class ParkTest extends BarkParkzTest {
 		$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
-	$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
-	$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
+		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
+		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
 }
 
 	/**
