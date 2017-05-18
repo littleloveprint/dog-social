@@ -30,7 +30,7 @@ class Park implements \JsonSerializable {
 	/**
 	 * Name of Park
 	 * @var string $parkName
-	 */
+	 **/
 	private $parkName;
 
 	/**
@@ -41,7 +41,7 @@ class Park implements \JsonSerializable {
 	 * @param float $newParkLocationY containing a user's declared location
 	 * @param string $newParkName string containing park name
 	 * @internal param string $newParkName string containing actual park name
-	 */
+	 **/
 	public function _construct(?int $newParkId, float $newParkLocationX, float $newParkLocationY, $newParkName) {
 		try {
 			$this->setParkId($newParkId);
@@ -181,12 +181,9 @@ class Park implements \JsonSerializable {
 	 * inserts this Park into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 */
-	public
-		/**
-		 * @param \PDO $pdo
-		 */
-	function insert(\PDO $pdo): void {
+	 **/
+
+	public function insert(\PDO $pdo): void {
 		// enforce the parkId is null (i.e., don't insert a park that already exists)
 		if($this->parkId !== null) {
 			throw(new \PDOException("not a new park"));
@@ -258,9 +255,9 @@ class Park implements \JsonSerializable {
 	 * gets the Park by parkId
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $parkId park id to search for
-	 * @return Park|parkId|null Park found or null if not found
-	 */
-	public static function getParkByParkId(\PDO $pdo, int $parkId): ?parkId {
+	 * @return Park|null
+	 **/
+	public static function getParkByParkId(\PDO $pdo, int $parkId): ?park {
 		// sanitize the parkId before searching
 		if($parkId <= 0) {
 			throw(new \PDOException("park id is not positive"));
