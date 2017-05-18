@@ -237,11 +237,10 @@ class Park implements \JsonSerializable {
 
 	/**
 	 * @param \PDO $pdo
-	 * @param $execute
 	 * create query template
-	 * @var TYPE_NAME $statement
+	 * @var Park $statement
 	 **/
-	public function update(\PDO $pdo, $execute): void {
+	public function update(\PDO $pdo): void {
 		// enforce the parkId is not null (i.e., don't update a park that hasn't been inserted)
 		if($this->parkId === null) {
 			throw(new \PDOException("unable to update a park that does not exist"));
@@ -252,7 +251,7 @@ class Park implements \JsonSerializable {
 
 		// bind the member variables to the place holders in the template
 		$parameters = ["parkId" => $this->parkId, "parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName];
-		$execute($parameters);
+		$statement->execute($parameters);
 	}
 
 	/**
@@ -351,7 +350,7 @@ class Park implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
+				$parks = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
