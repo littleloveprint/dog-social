@@ -612,13 +612,14 @@ class Profile implements \JsonSerializable {
 	public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail): ?Profile {
 
 		// Sanitize the email before searching
-		$profileEmail = trim($profileEmail, FILTER_VALIDATE_EMAIL);
+		$profileEmail = trim($profileEmail);
+		$profileEmail = filter_var($profileEmail, FILTER_VALIDATE_EMAIL);
 		if(empty($profileEmail) === true) {
 			throw(new \PDOException("not a valid email"));
 		}
 
 		// Create query template
-		$query = "SELECT profileId, profileActivationToken, profileCloudinaryId, profileEmail, profileHash, profileSalt, profileLocationX, profileLocationY FROM profile WHERE profileEmail = :profileEmail";
+		$query = "SELECT profileId, profileActivationToken, profileAtHandle, profileCloudinaryId, profileEmail, profileHash, profileSalt, profileLocationX, profileLocationY FROM profile WHERE profileEmail = :profileEmail";
 		$statement = $pdo->prepare($query);
 
 		// Bind the profile id to the place holder in the template.
@@ -631,7 +632,7 @@ class Profile implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileAtHandle"], $row["profileCloudinaryId"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileHash"], $row["profileLocationX"], $row["profileLocationY"]);
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileAtHandle"], $row["profileCloudinaryId"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileLocationX"], $row["profileLocationY"]);
 			}
 		} catch(\Exception $exception) {
 
