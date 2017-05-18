@@ -65,18 +65,6 @@ class ParkTest extends BarkParkzTest {
 }
 
 	/**
-	 * Test inserting a Park that already exists
-	 *
-	 * @expectException \PDOException
-	 **/
-	public function testInsertInvalidPark(): void {
-
-// Create a park with a non null parkId and watch it fail hahaha
-		$park = new Park(BarkParkzTest::INVALID_KEY, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
-		$park->insert($this->getPDO());
-	}
-
-	/**
 	 * Test inserting a Park, editing it, and then updating it
 	 **/
 	public function testInsertValidPark() {
@@ -88,7 +76,7 @@ class ParkTest extends BarkParkzTest {
 		$park = new Park(null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
 		$park->insert($this->PDO());
 
-		// Edit the Park nd update it in mySQL
+		// Edit the Park and update it in mySQL
 		$park->setParkName($this->VALID_PARKNAME);
 		$park->update($this->getPDO());
 
