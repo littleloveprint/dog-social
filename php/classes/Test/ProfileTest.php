@@ -305,8 +305,10 @@ class ProfileTest extends BarkParkzTest {
 				$this->VALID_LOCATIONX,
 				$this->VALID_LOCATIONY);
 
+		$profile->insert($this->getPDO());
+
+
 		// Grab the data from mySQL and be sure the fields match our expectations.
-		//var_dump($profile);
 		$pdoProfile = Profile::getProfileByProfileActivationToken($this->getPDO(), $profile->getProfileActivationToken());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
