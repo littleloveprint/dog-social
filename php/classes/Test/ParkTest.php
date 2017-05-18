@@ -65,27 +65,15 @@ class ParkTest extends BarkParkzTest {
 }
 
 	/**
-	 * Test inserting a Park, editing it, and then updating it
+	 * Test inserting an invalid Park, editing it, and then updating it
 	 **/
-	public function testInsertValidPark() {
+	public function testInsertInvalidPark() : void {
 
-		// Count the number of rows, and save it for later.
-		$numRows = $this->getConnection()->getRowCount("park");
+		//var_dump($this->>VALID_LOCATION);
 
-		// Create a new Park and insert into mySQL
-		$park = new Park(null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		// Create a park with a non null parkId and watch it fail
+		$park = new Park(BarkParkzTest::INVALID_KeY, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
 		$park->insert($this->PDO());
-
-		// Edit the Park and update it in mySQL
-		$park->setParkName($this->VALID_PARKNAME);
-		$park->update($this->getPDO());
-
-		// Grab the data from mySQL and enforce the fields match our expectations.
-		$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
-		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
-		$this->assertsEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
-		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
 	}
 
 	/**
