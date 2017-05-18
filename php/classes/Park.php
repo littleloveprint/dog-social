@@ -11,7 +11,6 @@ require_once("autoload.php");
  * Time: 10:46 AM
  **/
 class Park implements \JsonSerializable {
-	use ValidateDate;
 	/**
 	 * id for this Park; this is the primary key
 	 * @var int $parkId
@@ -190,11 +189,11 @@ class Park implements \JsonSerializable {
 		}
 
 		// create a query template
-		$query = "INSERT INTO park(parkId, parkLocationX, parkLocationY, parkName) VALUES(:parkId, :parkLocationX, :parkLocationY, :parkName)";
+		$query = "INSERT INTO park(parkLocationX, parkLocationY, parkName) VALUES(:parkLocationX, :parkLocationY, :parkName)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["parkId" => $this->parkId, "parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName];
+		$parameters = ["parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName];
 		$statement->execute($parameters);
 
 		// update the null parkId with what mySQL just gave us
