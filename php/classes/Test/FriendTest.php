@@ -17,10 +17,10 @@ require_once(dirname(__DIR__) . "/autoload.php");
 class FriendTest extends BarkParkzTest {
 
 	/**
-	 * Friend
-	 * @var Friend friend
+	 * Friend to be friended..
+	 * @var Friend $VALID_FRIEND
 	 **/
-	protected $friend;
+	protected $friend = null;
 	/**
 	 * Profile that is a friend of another profile; this is for foreign key relations.
 	 * @var int $VALID_FRIENDFIRSTPROFILEID
@@ -137,6 +137,9 @@ class FriendTest extends BarkParkzTest {
 	 * Test inserting a Friend and regrabbing it from mySQL.
 	 **/
 	public function testGetValidFriendByFriendFirstProfileIdAndFriendSecondProfileId(): void {
+
+		// Count the number of rows, and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Friend, and insert it into mySQL.
 		$friend = new Friend($this->profile->getFriendFirstProfileId(), $this->friend->getFriendSecondProfileId());

@@ -34,6 +34,7 @@ class Friend implements \JsonSerializable {
 		try {
 			$this->setFriendFirstProfileId($newFriendFirstProfileId);
 			$this->setFriendSecondProfileId($newFriendSecondProfileId);
+
 		} // Determine what exception type was thrown
 		catch(\RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
