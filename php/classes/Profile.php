@@ -387,7 +387,7 @@ class Profile implements \JsonSerializable {
 	 * Mutator method for profile location y.
 	 *
 	 * @param float @newProfileLocationY new value of profile location y
-	 * @throws \RangeException if $newProfileLocationY is not between -190 and 90
+	 * @throws \RangeException if $newProfileLocationY is not between -90 and 90
 	 * @throws \TypeError if $newProfileLocationY is not an integer
 	 **/
 	public function setProfileLocationY(float $newProfileLocationY) {
