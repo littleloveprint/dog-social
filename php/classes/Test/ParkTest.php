@@ -105,7 +105,7 @@ class ParkTest extends BarkParkzTest {
 	public function testUpdateInvalidPark() {
 
 		// Create a Park and try to update it without actually inserting it
-		$park = new Park(newParkId: null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$park = new Park(newParkId: null, $this->VALID_PARKID, $this->VALID_PARKNAME, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX);
 $park->update($this->getPDO());
 }
 
