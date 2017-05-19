@@ -12,7 +12,7 @@ require_once("autoload.php");
  * This is the dog class which contains dogId, dogProfileId, dogAge, dogBio, dogBreed, dogCloudinaryId and dogHandle.
  * dogProfileId is a foreign key which connects back to the profileId in the profile class
  */
-Class dog implements \JsonSerializable {
+Class Dog implements \JsonSerializable {
 	/**
 	 * id for dog, this is the primary key
 	 * @int $dogId
@@ -186,7 +186,7 @@ Class dog implements \JsonSerializable {
 		}
 //verify the dog cloudinary id is secure
 		$newDogCloudinaryId = trim($newDogCloudinaryId);
-		$newDogCloudinaryId = filter_var($newDogCloudinaryId . FILTER_SANITIZE_STRING . FILTER_FLAG_NO_ENCODE_QUOTES);
+		$newDogCloudinaryId = filter_var($newDogCloudinaryId , FILTER_SANITIZE_STRING , FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newDogCloudinaryId) === true) {
 			throw(new \InvalidArgumentException("dog cloudinary id is empty or insecure"));
 		}
@@ -373,36 +373,37 @@ Class dog implements \JsonSerializable {
 	 * get dog by dogId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $dogId profile id to search by
+	 * @param int $dogId dog id to search by
 	 * @return \SplFixedArray SplFixedArray of dogs found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getDogByDogId(\PDO $pdo, int $dogId) : \SplFixedArray {
+	public static function getDogByDogId(\PDO $pdo, int $dogId) : ?Dog {
 		// sanitize the profile Id before searching
 		if($dogId <= 0) {
-			throw(new \RangeException("dog Id must be positive"));
+			throw(new \PDOException("dog Id must be positive"));
 		}
 		//create query template
-		$query ="SELECT dogId, dogProfileId, dogAge, dogCloudinaryId, dogBio, dogBreed, dogAtHandle FROM dog WHERE dogId = :dogId";
+		$query ="SELECT dogId, dogProfileId, dogAge, dogCloudinaryId, dogBio, dogBreed, dogAtHandle 		FROM dog WHERE dogId = :dogId";
 		$statement = $pdo->prepare($query);
 		//bind the dogId to the place holder in template
 		$parameters = ["dogId" => $dogId];
 		$statement->execute($parameters);
-		//build an array of dogs
-		$dogs = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$dog = new dog($row{"dogId"}, $row["dogProfileId"], $row["dogAge"], $row["dogCloudinaryId"], $row["dogBio"], $row["dogBreed"], $row["dogAtHandle"]);
-				$dogs[$dogs->key()] = $dog;
-				$dogs->next();
-			} catch(\Exception $exception) {
+
+		//grab the dog from mySQL
+		try {
+			$dog = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$dog = new Dog($row["dogId"], $row["dogProfileId"], $row["dogAge"], $row["dogCloudinaryId"], $row["dogBio"], $row["dogBreed"], $row["dogAtHandle"]);
+			}
+		} catch(\Exception $exception) {
 				// if the row can't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		}
-		return($dogs);
+
+		return($dog);
 
 
 	}

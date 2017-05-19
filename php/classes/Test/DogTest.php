@@ -51,7 +51,7 @@ class DogTest extends BarkParkzTest {
 	/**
 	 * valid dogCloudinaryId in the dog class
 	 */
-	protected $VALID_DOG_CLOUDINARY_ID;
+	protected $VALID_DOG_CLOUDINARY_ID = "12345678912345678912345678";
 	/**
 	 * valid dogBio used in the dog class
 	 */
@@ -78,12 +78,18 @@ class DogTest extends BarkParkzTest {
 		//run the default setup
 		parent::setUp();
 		//create a salt and hash for the mock profile
+
 		$password = "fundogs23";
 		$this->VALID_SALT = bin2hex(random_bytes(32));
-		$this->VALID_HASH = hash_pbkdf2("sha510", $password, $this->VALID_SALT, 722988);
+		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 722988);
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 
+
+
+		//create and insert a profile to own the test
+
 		$this->profile = new Profile(null, $this->VALID_ACTIVATION , "@barkparkz", "3243351545658525", "lea@barkparkz.com", $this->VALID_HASH, $this->VALID_SALT, 43.5945, 83.8889);
+	$this->profile->insert($this->getPDO());
 	}
 
 
@@ -102,16 +108,17 @@ class DogTest extends BarkParkzTest {
 
 		$dog->insert($this->getPDO());
 
+
 		//grab the data from mySQL and ensure the fields match expectations
 		$pdoDog = Dog::getDogByDogId($this->getPDO(), $dog->getDogId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("dog"));
-		$this->assertEquals($pdoDog->getDogProfileId(), $this->profile->getProfileId);
+		$this->assertEquals($pdoDog->getDogProfileId(), $dog->getDogProfileId());
 		$this->assertEquals($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
 		$this->assertEquals($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
 		$this->assertEquals($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
 		$this->assertEquals($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
 		$this->assertEquals($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
-		$this->assertEquals($pdoDog->getDogAtHandle2(), $this->VALID_DOG_AT_HANDLE2);
+
 
 	}
 	/**
@@ -131,6 +138,8 @@ class DogTest extends BarkParkzTest {
 	public function testUpdateValidDog() {
 		//count # of rows and save for later
 		$numRows = $this->getConnection()->getRowCount("dog");
+
+
 
 		// Create a new Dog and insert into mySQL
 		$dog = new Dog(null, $this->profile->getProfileId(), $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE, $this->VALID_DOG_AT_HANDLE2);
@@ -162,7 +171,7 @@ class DogTest extends BarkParkzTest {
 	public function testUpdateInvalidDog() {
 
 		//Create a Dog and try updating it without inserting it first
-		$dog = new Dog(null, $this->profile->getProfileId(), $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE, $this->VALID_DOG_AT_HANDLE2);
+		$dog = new Dog(null, $this->profile, $this->VALID_DOG_AGE, $this->VALID_DOG_CLOUDINARY_ID, $this->VALID_DOG_BIO, $this->VALID_DOG_BREED, $this->VALID_DOG_AT_HANDLE, $this->VALID_DOG_AT_HANDLE2);
 		$dog->update($this->getPDO());
 	}
 		/**
@@ -214,13 +223,12 @@ class DogTest extends BarkParkzTest {
 
 			$pdoDog = Dog::getDogByDogId($this->getPDO(), $dog->getDogId());
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("dog"));
-			$this->assertEquals($pdoDog->getDogProfileId(), $this->profile->getProfileId);
+			$this->assertEquals($pdoDog->getDogProfileId(), $dog->getDogProfileId());
 			$this->assertEquals($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
 			$this->assertEquals($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
 			$this->assertEquals($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
 			$this->assertEquals($pdoDog->getDogBreed(), $this->VALID_DOG_BREED);
 			$this->assertEquals($pdoDog->getDogAtHandle(), $this->VALID_DOG_AT_HANDLE);
-			$this->assertEquals($pdoDog->getDogAtHandle2(), $this->VALID_DOG_AT_HANDLE2);
 		}
 
 		/**
@@ -258,7 +266,7 @@ class DogTest extends BarkParkzTest {
 			//Ensure the results meet expectations
 			$pdoDog = $results[0];
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("dog"));
-			$this->assertEquals($pdoDog->getDogProfileId(), $this->profile->getProfileId);
+			$this->assertEquals($pdoDog->getDogProfileId(), $dog->getDogProfileId());
 			$this->assertEquals($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
 			$this->assertEquals($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
 			$this->assertEquals($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
@@ -287,7 +295,7 @@ class DogTest extends BarkParkzTest {
 
 			// Grab data from mySQL and ensure the fields match expectations
 
-			$results = Dog::getDogByProfileId($this->getPDO(), $this->profile->getProfileId());
+			$results = Dog::getDogByDogProfileId($this->getPDO(), $dog->getDogProfileId());
 			$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("dog"));
 
 			//Enforce that no other objects are bleeding into Dog
@@ -296,7 +304,7 @@ class DogTest extends BarkParkzTest {
 			//Ensure the results meet expectations
 			$pdoDog = $results[0];
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("dog"));
-			$this->assertEquals($pdoDog->getDogProfileId(), $this->profile->getProfileId);
+			$this->assertEquals($pdoDog->getDogProfileId(), $dog->getDogProfileId());
 			$this->assertEquals($pdoDog->getDogAge(), $this->VALID_DOG_AGE);
 			$this->assertEquals($pdoDog->getDogCloudinaryId(), $this->VALID_DOG_CLOUDINARY_ID);
 			$this->assertEquals($pdoDog->getDogBio(), $this->VALID_DOG_BIO);
@@ -311,7 +319,7 @@ class DogTest extends BarkParkzTest {
 
 		public function testGetInvalidDogByProfileId() : void {
 			// grab a park id that exceeds the max # of characters
-			$dog = Dog::getDogByProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY);
+			$dog = Dog::getDogByDogProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY);
 		}
 }
 
