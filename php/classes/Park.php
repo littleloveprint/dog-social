@@ -306,7 +306,7 @@ class Park implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getALLParks(\PDO $pdo): \SplFixedArray {
+	public static function getAllParks(\PDO $pdo): \SplFixedArray {
 		// create a query template
 		$query = "SELECT parkId, parkLocationX, parkLocationY, parkName FROM park";
 		$statement = $pdo->prepare($query);

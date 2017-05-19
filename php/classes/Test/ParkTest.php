@@ -176,6 +176,20 @@ class ParkTest extends BarkParkzTest {
 		$park = Park::getParkByParkName($this->getPDO(), "nonexisting");
 		$this->assertCount(0, $park);
 	}
+
+	/**
+	 * Test grabbing all parks
+	 **/
+	public function testGetAllParks(): void {
+
+		// Grab all parks that are valid
+		$parks = Parks::validGetAllParks($this->getPDO(), parks "existing");
+		$this->assertCount(0, $parks);
+
+		// Grab all parks that are invalid
+		$parks = Park::invalidGetAllParks($this->getPDO(), BarkParkzTest::INVALID_KEY);
+		$this->assertNull($parks);
+		}
 }
 
 
