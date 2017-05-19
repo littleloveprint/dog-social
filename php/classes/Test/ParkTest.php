@@ -22,7 +22,7 @@ class ParkTest extends BarkParkzTest {
 	 * Valid Park Name to use
 	 * @var string $VALID_PARKNAME
 	 **/
-	protected $VALID_PARKNAME;
+	protected $VALID_PARKNAME ="string";
 
 	/**
 	 * Valid location x to use
@@ -60,18 +60,6 @@ class ParkTest extends BarkParkzTest {
 }
 
 	/**
-	 * Test inserting an invalid Park, editing it, and then updating it
-	 **/
-	public function testInsertInvalidPark(): void {
-
-		//var_dump($this->>VALID_LOCATION);
-
-		// Create a park with a non null parkId and watch it fail
-		$park = new Park(BarkParkzTest::INVALID_KEY, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY,$this->VALID_PARKNAME);
-		$park->insert($this->PDO());
-	}
-
-	/**
 	 * Test creating a Park and then deleting it
 	 **/
 	public function testDeleteValidPark(): void {
@@ -79,9 +67,9 @@ class ParkTest extends BarkParkzTest {
 		// Count the number of rows, and save it for later
 		$numRows = $this->getConnection()->getRowCount("park");
 
-		// Create a new Profile and insert it into mySQL
+		// Create a new Park and insert it into mySQL
 		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
-		$park->update($this->getPDO());
+		$park->insert($this->getPDO());
 
 		// Delete this Park from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
