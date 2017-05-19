@@ -18,12 +18,12 @@ class Park implements \JsonSerializable {
 	private $parkId;
 	/**
 	 * Location of the park X
-	 * @var int $parkLocationX
+	 * @var float $parkLocationX
 	 **/
 	private $parkLocationX;
 	/**
 	 * Location of the park Y
-	 * @var string $parkLocationY
+	 * @var float $parkLocationY
 	 **/
 	private $parkLocationY;
 	/**
