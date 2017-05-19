@@ -200,7 +200,7 @@ class CheckIn implements \JsonSerializable {
 	 **/
 	public function insert(\PDO $pdo) : void {
 		// enforce the checkInId is null
-		if($this->checkInId !== null || $this->checkInParkId === null || $this->checkInDogId) {
+		if($this->checkInId !== null || $this->checkInParkId === null || $this->checkInDogId === null) {
 			throw (new \PDOException("not a valid check in"));
 		}
 		$query = "INSERT INTO checkIn (checkInDogId, checkInParkId, checkInDateTime, checkOutDateTime) VALUES(:checkInDogId, :checkInParkId, :checkInDateTime, :checkOutDateTime)";
@@ -209,8 +209,10 @@ class CheckIn implements \JsonSerializable {
 		// because i have check in and out im sure how to write this
 		$formattedDateIn = $this->checkInDateTime->format("Y-m-d H:i:s");
 		$formattedDateOut = $this->checkInDateTime->format("Y-m-d H:i:s");
-		$parameters = ["checkInId" => $this->checkInId, "checkInDogId" => $this->checkInDogId, "checkInParkId" => $this->checkInParkId, "checkInDateTime" => $formattedDateIn, "checkOutDateTime" => $formattedDateOut];
+		$parameters = ["checkInDogId" => $this->checkInDogId, "checkInParkId" => $this->checkInParkId, "checkInDateTime" => $formattedDateIn, "checkOutDateTime" => $formattedDateOut];
 		$statement->execute($parameters);
+		// update the null checkInId with what mysql gives us
+		$this->checkInId = intval($pdo->lastInsertId());
 	}
 	/**
 	 * deletes check in from mySQL
@@ -221,8 +223,8 @@ class CheckIn implements \JsonSerializable {
 	 **/
 	public function delete(\PDO $pdo) : void {
 		// ensure the object exist before deleting
-		if($this->checkInId !== null || $this->checkInParkId === null || $this->checkInDogId){
-			throw(new \PDOException("not a valid check in"));
+		if($this->checkInId === null){
+			throw(new \PDOException("unable to delete checkInId that does not exist"));
 		}
 		// create query template
 		$query = "DELETE FROM checkIn WHERE checkInId = :checkInId AND checkInParkId = :checkInParkId AND checkInDogId = :checkInDogId";
@@ -267,7 +269,7 @@ class CheckIn implements \JsonSerializable {
 			throw(new \PDOException("check in id is not positive"));
 		}
 		// create query table
-		$query = "SELECT checkInId, checkInDogId, checkInParkId FROM checkIn WHERE checkInId = :checkInId";
+		$query = "SELECT checkInId, checkInDogId, checkInParkId, checkInDateTime, checkOutDateTime FROM checkIn WHERE checkInId = :checkInId";
 		$statement = $pdo->prepare($query);
 		// bind the check in id to the place holder in the template
 		$parameters = ["checkInId" => $checkInId];
@@ -301,7 +303,7 @@ class CheckIn implements \JsonSerializable {
 			throw(new \PDOException("dog check in id is not positive"));
 		}
 		// create query template
-		$query = "SELECT checkInId, checkInParkId FROM checkIn WHERE checkInDogId = :checkInDogId";
+		$query = "SELECT checkInId, checkInDogId, checkInParkId, checkInDateTime, checkOutDateTime  FROM checkIn WHERE checkInDogId = :checkInDogId";
 		$statement = $pdo->prepare($query);
 		// bind the check in dog id to the place holder in the template
 		$parameters = ["checkInDogId" => $checkInDogId];
@@ -334,7 +336,7 @@ class CheckIn implements \JsonSerializable {
 			throw(new \PDOException("park id is not positive"));
 		}
 		// create query template
-		$query = "SELECT checkInParkId, checkInDogId, checkInId FROM checkIn WHERE checkInParkId = :checkInParkId";
+		$query = "SELECT checkInId, checkInDogId, checkInParkId, checkInDateTime, checkOutDateTime FROM checkIn WHERE checkInParkId = :checkInParkId";
 		$statement = $pdo->prepare($query);
 		// bind the member vars to the place holders in the template
 		$parameters = ["checkInParkId" => $checkInParkId];
@@ -379,7 +381,7 @@ class CheckIn implements \JsonSerializable {
 			throw(new $exceptionType($exception->getMessage(), 0 , $exception));
 		}
 		// create query template
-		$query = "SELECT checkInId, checkInDogId, checkInParkId, checkInDateTime FROM checkIn WHERE checkInDateTime >= :sunriseCheckInDateTime AND checkInDateTime <= :sunsetCheckInDateTime";
+		$query = "SELECT checkInId, checkInDogId, checkInParkId, checkInDateTime, checkOutDateTime FROM checkIn WHERE checkInDateTime >= :sunriseCheckInDateTime AND checkInDateTime <= :sunsetCheckInDateTime";
 		$statement = $pdo->prepare($query);
 		// format the dates so that mySQL can use them
 		$formattedSunriseDate = $sunriseCheckInDateTime->format("Y-m-d H:i:s");
