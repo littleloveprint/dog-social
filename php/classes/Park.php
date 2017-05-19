@@ -223,28 +223,6 @@ class Park implements \JsonSerializable {
 	}
 
 	/**
-	 * updates this Park in mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 **/
-
-	public function update(\PDO $pdo): void {
-		// enforce the parkId is not null (i.e., don't update a park that hasn't been inserted)
-		if($this->parkId === null) {
-			throw(new \PDOException("unable to update a park that does not exist"));
-		}
-
-		$query = "UPDATE park SET parkLocationX = :parkLocationX, parkLocationY = :parkLocationY, parkName = :parkName WHERE parkId = :parkId";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders in the template
-		$parameters = ["parkId" => $this->parkId, "parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName];
-		$statement->execute($parameters);
-	}
-
-	/**
 	 * gets the Park by parkId
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $parkId park id to search for

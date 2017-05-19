@@ -93,18 +93,6 @@ class ParkTest extends BarkParkzTest {
 	}
 
 	/**
-	 * Test updating a Park that does not exist
-	 *
-	 * @expectedException \PDOException
-	 **/
-	public function testUpdateInvalidPark() {
-
-		// Create a Park and try to update it without actually inserting it
-		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
-		$park->update($this->getPDO());
-	}
-
-	/**
 	 * Test deleting a Park that does not exist
 	 * @expectedException \PDOException
 	 **/
