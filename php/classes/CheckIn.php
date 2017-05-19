@@ -47,7 +47,7 @@ class CheckIn implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @throws \TypeError if data types violate type hints
 	 **/
-	public function __construct(int $newCheckInId, int $newCheckInDogId, int $newCheckInParkId, $newCheckInDateTime = null, $newCheckOutDateTime = null) {
+	public function __construct(?int $newCheckInId, int $newCheckInDogId, int $newCheckInParkId, $newCheckInDateTime = null, $newCheckOutDateTime = null) {
 		// use mutator method to do work
 		try {
 			$this->setCheckInId($newCheckInId);
@@ -65,7 +65,7 @@ class CheckIn implements \JsonSerializable {
 	 * accessor method for checkInId
 	 * @return int value of checkInId
 	 **/
-	public function getCheckInId() : int {
+	public function getCheckInId() : ?int {
 		return ($this->checkInId);
 	}
 	/**
@@ -75,7 +75,12 @@ class CheckIn implements \JsonSerializable {
 	 * @throws \RangeException if $newCheckInId is not positive
 	 * @throws \TypeError if $newCheckInId is not an int
 	 **/
-	public function setCheckInId(int $newCheckInId) : void {
+	public function setCheckInId(?int $newCheckInId) : void {
+		//if checkin id is null immediately return it
+		if($newCheckInId === null) {
+			$this->checkInId = null;
+			return;
+		}
 		// verify the check in id is positive
 		if($newCheckInId <= 0) {
 			throw(new \RangeException("check in id is not positive"));
@@ -194,12 +199,11 @@ class CheckIn implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo) : void {
-		// ensure object exist before insert
-		// not sure if i should if $this->checkInId
-		if($this->checkInId === null || $this->checkInParkId === null || $this->checkInDogId) {
+		// enforce the checkInId is null
+		if($this->checkInId !== null || $this->checkInParkId === null || $this->checkInDogId) {
 			throw (new \PDOException("not a valid check in"));
 		}
-		$query = "INSERT INTO checkIn (checkInDogId, checkInParkId, checkInDateTime, checkOutDateTime) VALUES(:checkInDogId, checkInParkId, checkInDateTime, checkOutDateTime)";
+		$query = "INSERT INTO checkIn (checkInDogId, checkInParkId, checkInDateTime, checkOutDateTime) VALUES(:checkInDogId, :checkInParkId, :checkInDateTime, :checkOutDateTime)";
 		$statement = $pdo->prepare($query);
 		// bind the member vars to the place holders in the template
 		// because i have check in and out im sure how to write this
@@ -217,7 +221,7 @@ class CheckIn implements \JsonSerializable {
 	 **/
 	public function delete(\PDO $pdo) : void {
 		// ensure the object exist before deleting
-		if($this->checkInId === null || $this->checkInParkId === null || $this->checkInDogId){
+		if($this->checkInId !== null || $this->checkInParkId === null || $this->checkInDogId){
 			throw(new \PDOException("not a valid check in"));
 		}
 		// create query template
@@ -253,7 +257,7 @@ class CheckIn implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $checkInId check in id to search
-	 * @return checkIn|null checkInId or null if nah
+	 * @return CheckIn|null checkInId or null if nah
 	 * @throws \PDOException when mySQL errors occur
 	 * @throws \TypeError when vars are not the correct data type
 	 **/
