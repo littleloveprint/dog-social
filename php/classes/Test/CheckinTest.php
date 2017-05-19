@@ -3,7 +3,7 @@ namespace Edu\Cnm\BarkParkz\Test;
 // grab the classes under scrutiny
 use Edu\Cnm\BarkParkz\{CheckIn, Dog, Park, Profile};
 
-require_once(dirname (__DIR__) . "/autoload.php");
+require_once(dirname(__DIR__) . "/autoload.php");
 /**
  * full unit test for the check in class
  **/
@@ -61,26 +61,42 @@ class CheckInTest extends BarkParkzTest {
 	 */
 	protected $VALID_ACTIVATION;
 	/**
+	 * Valid location x to use.
+	 * @var float $VALID_LOCATIONX
+	 **/
+	protected $VALID_LOCATIONX = 23.4324324;
+
+	/**
+	 * Valid location y to use.
+	 * @var float $VALID_LOCATIONY
+	 **/
+	protected $VALID_LOCATIONY = 92.43243242;
+	/**
 	 * create dependents objects before running each test
 	 **/
 	public final function setUp() : void {
 		// run the default setUp() method first
 		parent::setUp();
 		// create a salt and hash for the mocked profile
-		$this->VALID_ACTIVATION =bin2hex(random_bytes(16));
+		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 		$password = "abc123";
 		$this->VALID_CLOUDINARYID = bin2hex(random_bytes(14));
 		$this->VALID_PROFILE_SALT = bin2hex(random_bytes(32));
 		$this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
 		// create and insert a profile/dog to own the test checkin not sure wth
-		$this->profile = new Profile(null, $this->VALID_ACTIVATION,"@BobDobalina","3243634436242","test@test.com",$this->VALID_PROFILE_HASH,$this->VALID_PROFILE_SALT, 23.4324324,32.43243242);
+		$this->profile = new Profile(null, $this->VALID_ACTIVATION,"@BobDobalina","3243634436242","mj@mjcodes.com",$this->VALID_PROFILE_HASH,$this->VALID_PROFILE_SALT, 23.4324324,32.43243242);
 		$this->profile->insert($this->getPDO());
-
 		$this->dog = new Dog(null, $this->profile->getProfileId(),11,"123456789012345678901234","born and raised in the south side of philly","Shitzu mixed with a bull dog","Malachi" );
 		$this->dog->insert($this->getPDO());
 		// create park
-		$this->park = new Park(null,"23.4324324","32.43243242","NE bark park");
+		$this->park = new Park(null, $this->VALID_LOCATIONX,$this->VALID_LOCATIONY, "NE bark park");
+
+		var_dump($this->park);
+
 		$this->park->insert($this->getPDO());
+
+
+
 		// calculate the date
 		$this->VALID_CHECKINDATETIME = new \DateTime();
 		//format the sunrise date to use for testing

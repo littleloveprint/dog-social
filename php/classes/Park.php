@@ -41,7 +41,7 @@ class Park implements \JsonSerializable {
 	 * @param string $newParkName string containing park name
 	 * @internal param string $newParkName string containing actual park name
 	 **/
-	public function _construct(?int $newParkId, float $newParkLocationX, float $newParkLocationY, string $newParkName) {
+	public function __construct(?int $newParkId, float $newParkLocationX, float $newParkLocationY, string $newParkName) {
 		try {
 			$this->setParkId($newParkId);
 			$this->setParkLocationX($newParkLocationX);
@@ -191,6 +191,8 @@ class Park implements \JsonSerializable {
 
 		// bind the member variables to the place holders in the template
 		$parameters = ["parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName];
+
+		var_dump($parameters);
 		$statement->execute($parameters);
 
 		// update the null parkId with what mySQL just gave us
