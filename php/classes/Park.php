@@ -192,7 +192,6 @@ class Park implements \JsonSerializable {
 		// bind the member variables to the place holders in the template
 		$parameters = ["parkLocationX" => $this->parkLocationX, "parkLocationY" => $this->parkLocationY, "parkName" => $this->parkName];
 
-		var_dump($parameters);
 		$statement->execute($parameters);
 
 		// update the null parkId with what mySQL just gave us
