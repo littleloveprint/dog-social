@@ -98,7 +98,7 @@ class Park implements \JsonSerializable {
 	 *
 	 * @param float $newParkLocationX new value of park location X
 	 * @throws \RangeException if $newParkLocationX is not positive
-	 * @throws \TypeError if $newParkLocationX is not a string
+	 * @throws \TypeError if $newParkLocationX is not a float
 	 **/
 	public function setParkLocationX(float $newParkLocationX): void {
 
@@ -124,7 +124,7 @@ class Park implements \JsonSerializable {
 	 * mutator method for park location y
 	 * @param float $newParkLocationY new value of park location y
 	 * @throws \RangeException if $newParkLocationY is not positive
-	 * @throws \TypeError if $newParkId is not a string
+	 * @throws \TypeError if $newParkLocationY is not a float
 	 **/
 	public function setParkLocationY(float $newParkLocationY): void {
 
