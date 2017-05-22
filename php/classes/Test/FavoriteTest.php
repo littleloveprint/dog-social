@@ -68,7 +68,7 @@ public final function setUp() : void {
 	$this->profile = new Profile(null, $this->VALID_ACTIVATION,"@BobDobalina","3243634436242","mj@mjcodes.com",$this->VALID_PROFILE_HASH,$this->VALID_PROFILE_SALT, 23.4324324,30.4324324);
 	$this->profile->insert($this->getPDO());
 	//create the park and insert it
-	$this->park = new Park(null, 106.33333, 40.66666, "Tramway Park");
+	$this->park = new Park(null, 23.4324324, 30.4324324, "Tramway Park");
 }
 /**
  * test inserting a valid favorite and verify that the actual mySQL data matches
