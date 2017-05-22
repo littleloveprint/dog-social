@@ -194,7 +194,7 @@ class ParkTest extends BarkParkzTest {
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParks\\Park", $results);
 
-		// grab the result from the array and validate it
+		// grab the result from the array and validate it :)
 		$pdoPark = $results[0];
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
 		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
