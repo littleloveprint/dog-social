@@ -66,6 +66,8 @@ class DogTest extends BarkParkzTest {
 	 */
 	protected $VALID_DOG_AT_HANDLE = "@ScruffyLovesHimSomeTail";
 
+	protected $VALID_DOG_AT_HANDLE2= "@barkyfun";
+
 
 
 	public final function setUp(): void {
@@ -155,10 +157,10 @@ class DogTest extends BarkParkzTest {
 
 	}
 
-	/**Test updating a Dog that does not exist
-	 *
-	 *
-	 */
+	/**
+	 * Test updating a Dog that does not exist
+	 * @expectedException \PDOException
+	 **/
 
 	public function testUpdateInvalidDog() {
 

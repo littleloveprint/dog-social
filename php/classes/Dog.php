@@ -352,9 +352,9 @@ Class Dog implements \JsonSerializable {
 	 * Updates this dog in MySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related errors occur
+	 *
 	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
+	 **/
 
 	public function update(\PDO $pdo) : void {
 		//ensure the dogId is not null
