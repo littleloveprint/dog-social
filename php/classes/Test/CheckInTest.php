@@ -39,6 +39,11 @@ class CheckInTest extends BarkParkzTest {
 	 **/
 	protected $VALID_CHECKINDATETIME;
 	/**
+	 * timestamp of the check in this starts as null and is assigned later
+	 * @var \DateTime $VALID_CHECKOUTDATETIME
+	 **/
+	protected $VALID_CHECKOUTDATETIME;
+	/**
 	 * created an additional timestamp for testing update
 	 * @var \DateTime $VALID_CHECKINDATETIME2
 	 */
@@ -226,13 +231,13 @@ class CheckInTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("checkIn");
 
 		//create a new checkin and insert into mySQL
-		$checkIn = new CheckIn(null,$this->dog->getDogId(), $this->park->getParkId(),$this->VALID_CHECKINDATETIME);
+		$checkIn = new CheckIn(null,$this->dog->getDogId(), $this->park->getParkId(),$this->VALID_CHECKINDATETIME, $this->VALID_CHECKOUTDATETIME);
 		$checkIn->insert($this->getPDO());
 
 		// grab the result from mySQL and enforce the fields match our expectations
-		$results = CheckIn::getCheckInByCheckInParkId($this->getPDO(), $this->park->getParkId());
+		$results = CheckIn::getCheckInByCheckInParkId($this->getPDO(), $checkIn->getCheckInParkId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("checkIn"));
-		$this->assertEquals(1, $results);
+		$this->assertCount(1, $results);
 
 		// enforce no other objects are bleeding into the test
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz\\CheckIn", $results);

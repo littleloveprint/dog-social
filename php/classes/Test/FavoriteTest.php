@@ -18,6 +18,22 @@ class FavoriteTest extends BarkParkzTest {
  * @var Profile $profile
  **/
 protected $profile;
+	/**
+	 * dogCloudinaryId picture of the doggies
+	 *
+	 **/
+	protected $VALID_CLOUDINARYID;
+	/**
+	 * Valid location x to use.
+	 * @var float $VALID_LOCATIONX
+	 **/
+	protected $VALID_LOCATIONX = 23.4324324;
+
+	/**
+	 * Valid location y to use.
+	 * @var float $VALID_LOCATIONY
+	 **/
+	protected $VALID_LOCATIONY = 30.4324324;
 /**
  * park that was favored
  * @var Park $park
@@ -49,7 +65,7 @@ public final function setUp() : void {
 	$this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
 	$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 	//create and insert the mocked profile
-	$this->profile = new Profile(null, $this->VALID_ACTIVATION,"@BobDobalina","324324288888899432","test@test.com",$this->VALID_PROFILE_HASH,"23.4324324","32.43243242",$this->VALID_PROFILE_SALT);
+	$this->profile = new Profile(null, $this->VALID_ACTIVATION,"@BobDobalina","3243634436242","mj@mjcodes.com",$this->VALID_PROFILE_HASH,$this->VALID_PROFILE_SALT, 23.4324324,30.4324324);
 	$this->profile->insert($this->getPDO());
 	//create the park and insert it
 	$this->park = new Park(null, 106.33333, 40.66666, "Tramway Park");

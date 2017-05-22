@@ -341,20 +341,20 @@ class CheckIn implements \JsonSerializable {
 		// bind the member vars to the place holders in the template
 		$parameters = ["checkInParkId" => $checkInParkId];
 		$statement->execute($parameters);
-		// build an array of parks
-		$parks = new \SplFixedArray($statement->rowCount());
+		// build an array of checkins
+		$checkIns = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$park = new Park($row["checkInParkId"], $row["checkInId"], $row["checkInDogId"], $row["checkInDateTime"], $row["checkOutDateTime"]);
-				$parks[$parks->key()] = $park;
-				$parks->next();
+				$checkIn = new CheckIn($row["checkInId"], $row["checkInDogId"], $row["checkInParkId"], $row["checkInDateTime"], $row["checkOutDateTime"]);
+				$checkIns[$checkIns->key()] = $checkIn;
+				$checkIns->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($parks);
+		return ($checkIns);
 	}
 	/**
 	 * get check in by check in date
