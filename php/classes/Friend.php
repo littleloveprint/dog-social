@@ -63,13 +63,7 @@ class Friend implements \JsonSerializable {
 	 * @throws \RangeException if $newFriendFirstProfileId is not positive
 	 * @throws \TypeError if $newFriendFirstProfileId is not an integer
 	 **/
-	public function setFriendFirstProfileId(?int $newFriendFirstProfileId): void {
-
-		// If friend first profile id is null, immediately return it.
-		if($newFriendFirstProfileId === null) {
-			$this->friendFirstProfileId = null;
-			return;
-		}
+	public function setFriendFirstProfileId(int $newFriendFirstProfileId): void {
 
 		// Verify the friend first profile id is positive.
 		if($newFriendFirstProfileId <= 0) {
@@ -85,7 +79,7 @@ class Friend implements \JsonSerializable {
 	 *
 	 * @return int value of friend second profile id
 	 **/
-	public function getFriendSecondProfileId(): ?int {
+	public function getFriendSecondProfileId(): int {
 		return ($this->friendSecondProfileId);
 	}
 
@@ -96,13 +90,7 @@ class Friend implements \JsonSerializable {
 	 * @throws \RangeException if $newFriendSecondProfileId is not positive
 	 * @throws \TypeError if $newFriendSecondProfileId is not an integer
 	 **/
-	public function setFriendSecondProfileId(?int $newFriendSecondProfileId): void {
-
-		// If friend second profile id is null, immediately return it.
-		if($newFriendSecondProfileId === null) {
-			$this->friendSecondProfileId = null;
-			return;
-		}
+	public function setFriendSecondProfileId(int $newFriendSecondProfileId): void {
 
 		// Verify the friend second profile id is positive.
 		if($newFriendSecondProfileId <= 0) {
@@ -128,12 +116,13 @@ class Friend implements \JsonSerializable {
 		}
 
 		// Create query template
-		$query = "INSERT INTO 'friend'(friendFirstProfileId, friendSecondProfileId) VALUES(:friendFirstProfileId, :friendSecondProfileId)";
+		$query = "INSERT INTO friend(friendFirstProfileId, friendSecondProfileId) VALUES(:friendFirstProfileId, :friendSecondProfileId)";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in the template
 		$parameters = ["friendFirstProfileId" => $this->friendFirstProfileId, "friendSecondProfileId" => $this->friendSecondProfileId];
 		$statement->execute($parameters);
+		var_dump($statement->rowCount());
 	}
 
 	/** Deletes this Friend from mySQL
@@ -151,7 +140,7 @@ class Friend implements \JsonSerializable {
 		}
 
 		// Create query template
-		$query = "DELETE FROM 'friend' WHERE friendFirstProfileId = :friendFirstProfileId AND friendSecondProfileId = :friendSecondProfileId";
+		$query = "DELETE FROM friend WHERE friendFirstProfileId = :friendFirstProfileId AND friendSecondProfileId = :friendSecondProfileId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in the template
@@ -177,16 +166,20 @@ class Friend implements \JsonSerializable {
 		if($friendSecondProfileId <= 0) {
 			throw(new \PDOException("second profile id is not positive"));
 		}
+		var_dump($friendFirstProfileId, $friendSecondProfileId);
 
 		// Create query template
-		$query = "SELECT friendFirstProfileId, friendSecondProfileId FROM 'friend' WHERE friendFirstProfileId = :friendFirstProfileId AND friendSecondProfileId = :friendSecondProfileId";
+		// WHERE friendFirstProfileId = :friendFirstProfileId AND friendSecondProfileId = :friendSecondProfileId
+		$query = "SELECT friendFirstProfileId, friendSecondProfileId FROM friend";
 		$statement = $pdo->prepare($query);
+		$statement->execute();
 
 		// Grab the friend from mySQL
 		try {
 			$friend = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
+			var_dump($row, $statement->rowCount());
 			if($row !== false) {
 				$friend = new Friend($row["friendFirstProfileId"], $row["friendSecondProfileId"]);
 			}
