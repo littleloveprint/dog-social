@@ -362,7 +362,7 @@ Class Dog implements \JsonSerializable {
 				throw(new \PDOException("unable to update a dog that does not exist"));
 		}
 		//create query template
-		$query = "UPDATE dog SET dogProfileId = :dogProfileId, dogAge = :dogAge, dogCloudinaryId = :dogCloudinaryId, dogBio = :dogBio, dogBreed = :dogBreed, dogAtHandle = dogAtHandle WHERE dogId = :dogId";
+		$query = "UPDATE dog SET dogProfileId = :dogProfileId, dogAge = :dogAge, dogCloudinaryId = :dogCloudinaryId, dogBio = :dogBio, dogBreed = :dogBreed, dogAtHandle = :dogAtHandle WHERE dogId = :dogId";
 		$statement = $pdo->prepare($query);
 	//bind the member variables to the placeholders in the template
 		$parameters = ["dogId" => $this->dogId, "dogProfileId" => $this->dogProfileId, "dogAge" => $this->dogAge, "dogCloudinaryId" => $this->dogCloudinaryId, "dogBio" => $this->dogBio, "dogBreed" => $this->dogBreed, "dogAtHandle" => $this->dogAtHandle];
