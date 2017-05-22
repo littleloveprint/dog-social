@@ -45,7 +45,7 @@ class ParkTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Park and insert into mySQL
-		$park = new Park (null, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY, $this->VALID_PARKNAME);
+		$park = new Park (null, 43.5945, 83.8889, $this->VALID_PARKNAME);
 
 		// var_dump($park);
 
@@ -68,7 +68,7 @@ class ParkTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Park and insert it into mySQL
-		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX, $this->VALID_PARKNAME);
+		$park = new Park(null, 43.5945, 83.8889, $this->VALID_PARKNAME);
 		$park->insert($this->getPDO());
 
 		// Delete this Park from mySQL
@@ -88,7 +88,7 @@ class ParkTest extends BarkParkzTest {
 	public function testDeleteInvalidPark(): void {
 
 		// Create a Park and try to delete it without actually inserting it
-		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX, $this->VALID_PARKNAME);
+		$park = new Park(null, 43.5945, 83.8889, $this->VALID_PARKNAME);
 		$park->delete($this->getPDO());
 	}
 
@@ -101,7 +101,7 @@ class ParkTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Park and insert it into mySQL
-		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX, $this->VALID_PARKNAME);
+		$park = new Park(null, 43.5945, 83.8889, $this->VALID_PARKNAME);
 		$park->insert($this->getPDO());
 
 
@@ -109,8 +109,8 @@ class ParkTest extends BarkParkzTest {
 		$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
-		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
-		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
+		$this->assertCount($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
+		$this->assertCount($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
 	}
 
 	/**
@@ -122,15 +122,15 @@ class ParkTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Park and insert it into mySQL
-		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX, $this->VALID_PARKNAME);
+		$park = new Park(null, 43.5945, 83.8889, $this->VALID_PARKNAME);
 		$park->insert($this->getPDO());
 
 // Grab the data from mySQL and be sure the fields match our expectations
 		$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
-		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
-		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
+		$this->assertCount($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
+		$this->assertCount($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
 	}
 
 	/**
@@ -149,7 +149,7 @@ class ParkTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Park and insert it into mySQL.
-		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX, $this->VALID_PARKNAME);
+		$park = new Park(null, 43.5945, 83.8889, $this->VALID_PARKNAME);
 		$park->insert($this->getPDO());
 
 		// Grab the data from mySQL.
@@ -163,8 +163,8 @@ class ParkTest extends BarkParkzTest {
 		$pdoPark = $results[0];
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
-		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
-		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
+		$this->assertCount($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
+		$this->assertCount($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
 	}
 
 	/**
@@ -184,21 +184,17 @@ class ParkTest extends BarkParkzTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("park");
 
-		// create a new Park and insert it into mySQL
-		$park = new Park(null, $this->park->getParkId(), $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
-		$park->insert($this->getPDO());
-
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Park::getALLParks($this->getPDO());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
-		$this->assertCount(1, $results);
+		$results = Park::getAllParks($this->getPDO());
+		$this->assertEquals($numRows + 0, $this->getConnection()->getRowCount("park"));
+		$this->assertCount(0, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParks\\Park", $results);
 
 		// grab the result from the array and validate it :)
 		$pdoPark = $results[0];
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
-		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
-		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
+		$this->assertCount($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
+		$this->assertCount($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
 	}
 }
 
