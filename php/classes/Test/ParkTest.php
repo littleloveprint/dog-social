@@ -22,7 +22,7 @@ class ParkTest extends BarkParkzTest {
 	 * Valid Park Name to use
 	 * @var string $VALID_PARKNAME
 	 **/
-	protected $VALID_PARKNAME ="string";
+	protected $VALID_PARKNAME = "string";
 
 	/**
 	 * Valid location x to use
@@ -57,7 +57,7 @@ class ParkTest extends BarkParkzTest {
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
 		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
 		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
-}
+	}
 
 	/**
 	 * Test creating a Park and then deleting it
@@ -68,7 +68,7 @@ class ParkTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Park and insert it into mySQL
-		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
+		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX, $this->VALID_PARKNAME);
 		$park->insert($this->getPDO());
 
 		// Delete this Park from mySQL
@@ -88,7 +88,7 @@ class ParkTest extends BarkParkzTest {
 	public function testDeleteInvalidPark(): void {
 
 		// Create a Park and try to delete it without actually inserting it
-		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
+		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX, $this->VALID_PARKNAME);
 		$park->delete($this->getPDO());
 	}
 
@@ -101,7 +101,7 @@ class ParkTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Park and insert it into mySQL
-		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
+		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX, $this->VALID_PARKNAME);
 		$park->insert($this->getPDO());
 
 
@@ -122,7 +122,7 @@ class ParkTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Park and insert it into mySQL
-		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
+		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX, $this->VALID_PARKNAME);
 		$park->insert($this->getPDO());
 
 // Grab the data from mySQL and be sure the fields match our expectations
@@ -131,7 +131,7 @@ class ParkTest extends BarkParkzTest {
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
 		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
 		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
-}
+	}
 
 	/**
 	 * Test grabbing a Park that does not exist
@@ -149,7 +149,7 @@ class ParkTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("park");
 
 		// Create a new Park and insert it into mySQL.
-		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX,$this->VALID_PARKNAME);
+		$park = new Park(null, $this->VALID_LOCATIONY, $this->VALID_LOCATIONX, $this->VALID_PARKNAME);
 		$park->insert($this->getPDO());
 
 		// Grab the data from mySQL.
@@ -180,16 +180,26 @@ class ParkTest extends BarkParkzTest {
 	/**
 	 * Test grabbing all parks
 	 **/
-	public function testGetAllParks(): void {
+	public function testGetAllValidParks(): void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("tweet");
 
-		// Grab all parks that are valid
-		$parks = Parks::validGetAllParks($this->getPDO(), parks "existing");
-		$this->assertCount(0, $parks);
+		// create a new Park and insert it into mySQL
+		$park = new Tweet(null, $this->profile->getProfileId(), $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$park->insert($this->getPDO());
 
-		// Grab all parks that are invalid
-		$parks = Park::invalidGetAllParks($this->getPDO(), BarkParkzTest::INVALID_KEY);
-		$this->assertNull($parks);
-		}
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Park::getALLParks($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParks\\Park", $results);
+
+		// grab the result from the array and validate it
+		$pdoPark = $results[0];
+		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
+		$this->assertEquals($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
+		$this->assertEquals($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
+	}
 }
 
 
