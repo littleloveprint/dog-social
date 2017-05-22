@@ -176,7 +176,7 @@ class Favorite implements \JsonSerializable {
 		$query = "SELECT favoriteProfileId, favoriteParkId FROM favorite WHERE favoriteProfileId = :favoriteProfileId";
 		$statement = $pdo->prepare($query);
 		// bind the member vars to the place holders
-		$parameters = ["favoriteProfileID" => $favoriteProfileId];
+		$parameters = ["favoriteProfileId" => $favoriteProfileId];
 		$statement->execute($parameters);
 		// build array of favorites
 		$favorites = new \SplFixedArray($statement->rowCount());
@@ -218,7 +218,7 @@ class Favorite implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$favorite = new Favorite($row["favoriteProfileID"], $row["favoriteParkId"]);
+				$favorite = new Favorite($row["favoriteProfileId"], $row["favoriteParkId"]);
 				$favorites[$favorites->key()] = $favorite;
 				$favorites->next();
 			} catch(\Exception $exception) {

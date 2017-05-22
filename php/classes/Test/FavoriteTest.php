@@ -1,7 +1,5 @@
 <?php
 namespace Edu\Cnm\BarkParkz\Test;
-// this throws error ask for feedback
-// use Edu\Cnm\BarkParkz\classes{Favorite,Profile,Park};
 
 // grab the class under scrutiny
 use Edu\Cnm\BarkParkz\Favorite;
@@ -69,6 +67,7 @@ public final function setUp() : void {
 	$this->profile->insert($this->getPDO());
 	//create the park and insert it
 	$this->park = new Park(null, 23.4324324, 30.4324324, "Tramway Park");
+	$this->park->insert($this->getPDO());
 }
 /**
  * test inserting a valid favorite and verify that the actual mySQL data matches
@@ -110,7 +109,7 @@ public function testDeleteValidFavorite() : void {
 	// grab the data from mySQl and the favorite does not exist
 	$pdoFavorite = Favorite::getFavoriteByFavoriteProfileIdAndFavoriteParkId($this->getPDO(), $this->profile->getProfileId(), $this->park->getParkId());
 	$this->assertNull($pdoFavorite);
-	$this->assertNull($numRows, $this->getConnection()->getRowCount("favorite"));
+	$this->assertEquals($numRows, $this->getConnection()->getRowCount("favorite"));
 	}
 
 	/**
