@@ -107,10 +107,12 @@ class ParkTest extends BarkParkzTest {
 
 		// Grab the data from mySQL and be sure the fields match our expectations
 		$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
+
+		var_dump($pdoPark);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
-		$this->assertCount($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
-		$this->assertCount($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
+		$this->assertEquals($pdoPark->getParkLocationX(), $park->getParkLocationX());
+		$this->assertEquals($pdoPark->getParkLocationY(), $park->getParkLocationY());
 	}
 
 	/**
@@ -127,10 +129,12 @@ class ParkTest extends BarkParkzTest {
 
 // Grab the data from mySQL and be sure the fields match our expectations
 		$pdoPark = Park::getParkByParkId($this->getPDO(), $park->getParkId());
+
+		var_dump($pdoPark);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
-		$this->assertCount($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
-		$this->assertCount($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
+		$this->assertEquals($pdoPark->getParkLocationX(), $park->getParkLocationX());
+		$this->assertEquals($pdoPark->getParkLocationY(), $park->getParkLocationY());
 	}
 
 	/**
@@ -161,10 +165,12 @@ class ParkTest extends BarkParkzTest {
 
 		// Enforce the results met expectations.
 		$pdoPark = $results[0];
+
+		var_dump($pdoPark);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
 		$this->assertEquals($pdoPark->getParkName(), $this->VALID_PARKNAME);
-		$this->assertCount($pdoPark->getParkLocationX(), $this->VALID_LOCATIONX);
-		$this->assertCount($pdoPark->getParkLocationY(), $this->VALID_LOCATIONY);
+		$this->assertEquals($pdoPark->getParkLocationX(), $park->getParkLocationX());
+		$this->assertEquals($pdoPark->getParkLocationY(), $park->getParkLocationY());
 	}
 
 	/**
