@@ -178,7 +178,7 @@ class ParkTest extends BarkParkzTest {
 	}
 
 	/**
-	 * Test grabbing all parks
+	 * Test grabbing all parks :)
 	 **/
 	public function testGetAllValidParks(): void {
 		// count the number of rows and save it for later
