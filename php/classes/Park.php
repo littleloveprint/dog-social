@@ -317,7 +317,11 @@ class Park implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$parks = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
+				$park = new Park($row["parkId"], $row["parkLocationX"], $row["parkLocationY"], $row["parkName"]);
+
+				$parks[$parks->key()]=$park;
+				$parks->next();
+
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
