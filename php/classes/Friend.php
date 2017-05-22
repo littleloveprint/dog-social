@@ -166,20 +166,20 @@ class Friend implements \JsonSerializable {
 		if($friendSecondProfileId <= 0) {
 			throw(new \PDOException("second profile id is not positive"));
 		}
-		var_dump($friendFirstProfileId, $friendSecondProfileId);
 
 		// Create query template
-		// WHERE friendFirstProfileId = :friendFirstProfileId AND friendSecondProfileId = :friendSecondProfileId
-		$query = "SELECT friendFirstProfileId, friendSecondProfileId FROM friend";
+		$query = "SELECT friendFirstProfileId, friendSecondProfileId FROM friend WHERE friendFirstProfileId = :friendFirstProfileId AND friendSecondProfileId = :friendSecondProfileId";
 		$statement = $pdo->prepare($query);
-		$statement->execute();
+
+		// Bind the member variables to the place holders in the template
+		$parameters = ["friendFirstProfileId" => $friendFirstProfileId, "friendSecondProfileId" => $friendSecondProfileId];
+		$statement->execute($parameters);
 
 		// Grab the friend from mySQL
 		try {
 			$friend = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
-			var_dump($row, $statement->rowCount());
 			if($row !== false) {
 				$friend = new Friend($row["friendFirstProfileId"], $row["friendSecondProfileId"]);
 			}
@@ -190,6 +190,47 @@ class Friend implements \JsonSerializable {
 		}
 		return ($friend);
 	}
+
+	/**
+	 * Get Friend by friend first profile id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $friendFirstProfileId profile id to search for
+	 * @return \SplFixedArray SplFixedArray of Friends found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getFriendByFriendFirstProfileId(\PDO $pdo, int $friendFirstProfileId) : \SPLFixedArray {
+
+		// Sanitize the profile id
+		if($friendFirstProfileId <= 0) {
+			throw(new \PDOException("profile id is not positive"));
+		}
+		// Create query template
+		$query = "SELECT friendFirstProfileId FROM friend WHERE friendFirstProfileId = :friendFirstProfileId";
+		$statement = $pdo->prepare($query);
+
+		// Bind the member variables to the place holders in the template
+		$parameters = ["friendFirstProfileId" => $friendFirstProfileId];
+		$statement->execute($parameters);
+
+		// Build an array of friends
+		$friends = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$like = new Friend($row["friendFirstProfileId"], $row["friendSecondProfileId"]);
+				$friends[$friends->key()] = $friends;
+				$friends->next();
+			} catch(\Exception $exception) {
+
+				// If the row couldn't be converted, rethrow it.
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($friends);
+	}
+
 
 	/**
 	 * Gets all Friends by friend first profile id

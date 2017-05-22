@@ -258,7 +258,7 @@ class FriendTest extends BarkParkzTest {
 	public function testGetInvalidFriendByFriendFirstProfileIdAndFriendSecondProfileId() {
 
 		// Grab a friend first profile id and friend second profile id that exceed the maximum allowable.
-		$friend = Friend::getFriendByFriendFirstProfileIdAndFriendSecondProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY, BarkParkTest::INVALID_KEY);
+		$friend = Friend::getFriendByFriendFirstProfileIdAndFriendSecondProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY, BarkParkzTest::INVALID_KEY);
 		$this->assertNull($friend);
 	}
 
@@ -273,37 +273,12 @@ class FriendTest extends BarkParkzTest {
 	}
 
 	/**
-	 * Test grabbing a Friend by a profile id.
-	 **/
-	public function testGetValidFriendByProfileId(): void {
-
-		// Count the number of rows, and save it for later.
-		$numRows = $this->getConnection()->getRowCount("friend");
-
-		// Create a new Friend, and insert it into mySQL.
-		$friend = new Friend($this->profile->getFriendFirstProfileId(), $this->friend->getFriendSecondProfileId());
-		$friend->insert($this->getPDO());
-
-		// Grab the data from mySQL, and be sure the fields match our expectations.
-		$results = Friend::getFriendByFriendProfileId($this->getPDO(), $this->profile->getFriendFirstProfileId(), $this->friend->getFriendSecondProfileId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("friend"));
-		$this->assertCount(1, $results);
-
-		// Enforce no other objects are bleeding into the test.
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz\\Friend", $results);
-
-		// Grab the result from the array, and validate it.
-		$pdoFriend = $results[0];
-		$this->assertEquals($pdoFriend->getFriendFirstProfileId(), $this->profile->getFriendSecondProfileId());
-	}
-
-	/**
 	 * Test grabbing a Friend by a profile id that does not exist
 	 **/
 	public function testGetInvalidFriendByProfileId(): void {
 
 		// Grab a profile id that exceeds the maximum allowable.
-		$friend = Friend::getFriendByProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY);
+		$friend = Friend::getFriendByFriendFirstProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY);
 		$this->assertCount(0, $friend);
 	}
 }
