@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\BarkParkz\Test;
 
-use Edu\Cnm\BarkParkz\Friend;
+use Edu\Cnm\BarkParkz\{Friend, Profile};
 
 // Grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -17,39 +17,76 @@ require_once(dirname(__DIR__) . "/autoload.php");
 class FriendTest extends BarkParkzTest {
 
 	/**
-	 * Friend to be friended..
-	 * @var Friend $VALID_FRIEND
+	 * Profile to be the "friender"
+	 * @var Profile $profileOne
 	 **/
-	protected $friend = null;
-	/**
-	 * Profile that is a friend of another profile; this is for foreign key relations.
-	 * @var int $VALID_FRIENDFIRSTPROFILEID
-	 **/
-	protected $VALID_FRIENDFIRSTPROFILEID;
+	protected $profileOne;
 
 	/**
-	 * Second Friend; this is for foreign key relations.
-	 * @var int $VALID_FRIENDSECONDPROFILEID
+	 * Profile to become "friended"
+	 * @var Profile $profileTwo
 	 **/
-	protected $VALID_FRIENDSECONDPROFILEID;
+	protected $profileTwo;
 
 	/**
 	 * Placeholder until account activation is created.
 	 * @var string $VALID_ACTIVATION
 	 **/
-	protected $VALID_ACTIVATION;
+	protected $VALID_ACTIVATIONONE;
+
+	/**
+	 * Placeholder until account activation is created.
+	 * @var string $VALID_ACTIVATION
+	 **/
+	protected $VALID_ACTIVATIONTWO;
+
+	/**
+	 * Valid at handle to use
+	 * @var string $VALID_ATHANDLE
+	 **/
+	protected $VALID_ATHANDLEONE = "@barkparkz";
+
+	/**
+	 * Valid at handle to use
+	 * @var string $VALID_ATHANDLE
+	 **/
+	protected $VALID_ATHANDLETWO = "@dogbonez";
+
+	/**
+	 * Valid email to use
+	 * @var string $VALID_EMAIL
+	 **/
+	protected $VALID_EMAILONE = "lea@barkparkz.com";
+
+	/**
+	 * Valid email to use
+	 * @var string $VALID_EMAIL
+	 **/
+	protected $VALID_EMAILTWO = "emily@barkparkz.com";
 
 	/**
 	 * Valid hash to use
-	 * @var string $VALID_HASH
-	 **/
-	protected $VALID_HASH;
+	 * @var $VALID_HASH
+	 */
+	protected $VALID_HASH_ONE;
 
 	/**
-	 * Valid salt to use to create the profile object to own the test
+	 * Valid salt to use to create the profile object to own the test.
 	 * @var string $VALID_SALT
 	 **/
-	protected $VALID_SALT;
+	protected $VALID_SALT_ONE;
+
+	/**
+	 * Valid hash to use
+	 * @var $VALID_HASH
+	 */
+	protected $VALID_HASH_TWO;
+
+	/**
+	 * Valid salt to use to create the profile object to own the test.
+	 * @var string $VALID_SALT
+	 **/
+	protected $VALID_SALT_TWO;
 
 	/**
 	 * Create dependent objects before running each test.
@@ -59,41 +96,41 @@ class FriendTest extends BarkParkzTest {
 		// Run the default setUp() method first.
 		parent::setUp();
 
-		// Create a salt and hash for the mocked profile.
+		// Create a salt and hash for the first mocked profile.
 		$password = "abc123";
 		$this->VALID_SALT = bin2hex(random_bytes(32));
-		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 722988);
+		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT_ONE, 722988);
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 
-		// Create and insert the first mocked profile.
-		$profile = new Friend(
-			$this->VALID_FRIENDFIRSTPROFILEID,
-			$this->VALID_ACTIVATION,
-			$this->VALID_HASH,
-			$this->VALID_SALT);
+		// Create a salt and hash for the second mocked profile.
+		$password = "abc123";
+		$this->VALID_SALT = bin2hex(random_bytes(32));
+		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT_TWO, 722988);
+		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 
-		$this->profile->insert($this->getPDO());
+		// Create and insert a mocked Profile.
+		$this->profileOne = new Profile(null, null, "@barkparkz", null, "lea@barkparkz.com", $this->VALID_HASH_ONE, $this->VALID_SALT_ONE, null, null);
+		$this->profileOne->insert($this->getPDO());
 
-		// Create and insert the second mocked profile.
-		$this->friendSecondProfileId = new Profile(null, null, "@barkparkz", null, "lea@barkparkz.com", $this->VALID_HASH, $this->VALID_SALT, "somewhere", "someplace");
-		$this->friendSecondProfileId->insert($this->getPDO());
+		// Create and insert a second mocked Profile.
+		$this->profileTwo = new Profile(null, null, "@dogbonez", null, "emily@barkparkz.com", $this->VALID_HASH_TWO, $this->VALID_SALT_TWO, null, null);
+		$this->profileTwo->insert($this->getPDO());
 	}
 
 	/**
 	 * Test inserting a valid Friend and verify that the actual mySQL data matches.
 	 **/
-	public
-	function testInsertValidFriend(): void {
+	public function testInsertValidFriend(): void {
 
 		// Count the number of rows, and save it for later.
 		$numRows = $this->getConnection()->getRowCount("friend");
 
-		// Create a new Friend, and insert it into mySQL.
-		$friend = new Friend($this->friendFirstProfileId->getFriendFirstProfileId(), $this->friendSecondProfileId->getFriendSecondProfileId);
+		// Create new Friend, and insert it into mySQL.
+		$friend = new Friend($this->profileOne->getProfileId(), $this->profileTwo->getProfileId());
 		$friend->insert($this->getPDO());
 
 		// Grab the data from mySQL and be sure the fields match our expectations.
-		$pdoFriend = Friend::getFriendByFriendFirstProfileIdAndFriendSecondProfileId($this->getPDO(), $this->getfriendFirstProfileId(), $this->getfriendSecondProfileId());
+		$pdoFriend = Friend::getFriendByFriendFirstProfileIdAndFriendSecondProfileId($this->getPDO(), $this->getProfileId(), $this->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("friend"));
 		$this->assertEquals($pdoFriend->getFriendFirstProfileId(), $this->friend->getProfileId());
 		$this->assertEquals($pdoFriend->getFriendSecondProfileId(), $this->friend->getProfileId());
@@ -120,7 +157,7 @@ class FriendTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("friend");
 
 		// Create a new Friend, and insert it into mySQL.
-		$friend = new Friend($this->profile->getFriendFirstProfileId(), $this->friend->getFriendSecondProfileId());
+		$friend = new Friend($this->profileOne->getProfileId(), $this->profileTwo->getProfileId());
 		$friend->insert($this->getPDO());
 
 		// Delete the Friend from mySQL.
@@ -128,10 +165,12 @@ class FriendTest extends BarkParkzTest {
 		$friend->delete($this->getPDO());
 
 		// Grab the data from mySQL, and be sure it does not exist.
-		$pdoFriend = Friend::getFriendByFriendFirstProfileIdAndFriendSecondProfileId($this->getPDO(), $this->profile->getFriendFirstProfileId(), $this->friend->getFriendSecondProfileId());
+		$pdoFriend = Friend::getFriendByFriendFirstProfileIdAndFriendSecondProfileId($this->getPDO(), $this->profileOne->getProfileId(), $this->profileTwo->getProfileId());
 		$this->assertNull($pdoFriend);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("friend"));
 	}
+
+	// DELETE INVALID FRIEND
 
 	/**
 	 * Test inserting a Friend and regrabbing it from mySQL.
@@ -160,30 +199,6 @@ class FriendTest extends BarkParkzTest {
 		// Grab a friend first profile id and friend second profile id that exceed the maximum allowable.
 		$friend = Friend::getFriendByFriendFirstProfileIdAndFriendSecondProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY, BarkParkTest::INVALID_KEY);
 		$this->assertNull($friend);
-	}
-
-	/**
-	 * Test grabbing a Friend by friend second profile id.
-	 **/
-	public function testGetValidFriendByFriendSecondProfileId(): void {
-
-
-		// Count the number of rows, and save it for later.
-		$numRows = $this->getConnection()->getRowCount("friend");
-
-		// Create a new Friend, and insert it into mySQL.
-		$friend = new Friend($this->profile->getFriendFirstProfileId(), $this->friend->getFriendSecondProfileId());
-		$friend->insert($this->getPDO());
-
-		// Grab the data from mySQL, and be sure the fields match our expectations.
-		$results = Friend::getFriendByFriendSecondProfileId($this->getPDO(), $this->profile->getFriendFirstProfileId(), $this->friend->getFriendSecondProfileId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("friend"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz\\Friend", $results);
-
-		// Grab the result from the array, and validate it.
-		$pdoFriend = $results[0];
-		$this->assertEquals($pdoFriend->getFriendFirstProfileId(), $this->profile->getFriendSecondProfileId());
 	}
 
 	/**

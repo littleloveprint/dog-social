@@ -4,6 +4,8 @@ require_once("autoload.php");
 /**
  * Bark Parkz Friend.
  *
+ * This is what will most likely occur when a profile makes a Friend.
+ *
  * @author Lea McDuffie <lea@littleloveprint.io>
  * @version 1
  **/
@@ -31,12 +33,15 @@ class Friend implements \JsonSerializable {
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
 	public function __construct(int $newFriendFirstProfileId, int $newFriendSecondProfileId) {
+
+		// Use the mutator methods to do the work for us.
 		try {
 			$this->setFriendFirstProfileId($newFriendFirstProfileId);
 			$this->setFriendSecondProfileId($newFriendSecondProfileId);
+		} catch(\RangeException | \Exception | \TypeError $exception) {
 
-		} // Determine what exception type was thrown
-		catch(\RangeException | \Exception | \TypeError $exception) {
+
+		// Determine what exception type was thrown
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
@@ -47,7 +52,7 @@ class Friend implements \JsonSerializable {
 	 *
 	 * @return int value of friend first profile id
 	 **/
-	public function getFriendFirstProfileId(): ?int {
+	public function getFriendFirstProfileId(): int {
 		return ($this->friendFirstProfileId);
 	}
 

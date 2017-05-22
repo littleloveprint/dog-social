@@ -87,8 +87,6 @@ class ProfileTest extends BarkParkzTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// Create a new Profile and insert into mySQL.
-		echo "valid activation dump";
-		var_dump($this->VALID_ACTIVATION);
 		$profile = new Profile(
 			null,
 				$this->VALID_ACTIVATION,
