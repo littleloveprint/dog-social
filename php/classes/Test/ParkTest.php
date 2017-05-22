@@ -157,7 +157,7 @@ class ParkTest extends BarkParkzTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("park"));
 
 		// Enforce no other objects are bleeding into park.
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz\\Profile", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz\\Park", $results);
 
 		// Enforce the results met expectations.
 		$pdoPark = $results[0];
@@ -182,10 +182,10 @@ class ParkTest extends BarkParkzTest {
 	 **/
 	public function testGetAllValidParks(): void {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tweet");
+		$numRows = $this->getConnection()->getRowCount("park");
 
 		// create a new Park and insert it into mySQL
-		$park = new Tweet(null, $this->profile->getProfileId(), $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
+		$park = new Park(null, $this->park->getParkId(), $this->VALID_PARKNAME, $this->VALID_LOCATIONX, $this->VALID_LOCATIONY);
 		$park->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
