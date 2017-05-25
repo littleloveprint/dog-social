@@ -48,3 +48,50 @@ try {
 			if($friend!== null) {
 				$reply->data = $friend;
 			}
+
+			// If none of the search parameters are met, throw an exception.
+		} else if(empty($friendFirstProfileId) === false) {
+			$friend = Friend::getFriendByFriendFirstProfileId($pdo, $friendFirstProfileId)->toArray();
+			if($friend !== null) {
+				$reply->data = $friend;
+			}
+
+			// Get all the friends associated with the friendFirstProfileId
+		} else if(empty($friendFirstProfileId) === false) {
+			$friend = Friend::getFriendByFriendFirstProfileId($pdo, $friendFirstProfileId)->toArray();
+			if($friend !== null) {
+				$reply->data = $friend;
+			}
+		} else {
+			throw new InvalidArgumentException("Incorrect search parameters ", 404);
+		}
+	} else if($method === "POST" || $method === "PUT") {
+
+		// Decode the response from the front end
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+		if(empty($requestObject->friendFirstProfileId) === true) {
+			throw (new \InvalidArgumentException("No Profile found, so no friends :(", 405));
+		}
+		if(empty($requestObject->friendSecondProfileId) === true) {
+			throw (new \InvalidArgumentException("No Friends found", 405));
+		}
+		if($method === "POST") {
+
+			// Enforce the user is signed in
+			if(empty($_SESSION["profile"]) === true) {
+				throw(new \InvalidArgumentException("You must be logged in to have and find friends.", 403));
+			}
+			$friend = new Friend($requestObject->friendFirstProfileId, $requestObject->friendSecondProfileId);
+			$friend->insert($pdo);
+			$reply->message = "You have a new friend!";
+		} else if($method === "PUT") {
+
+			// Enforce that the end user has an XSRF token.
+			verifyXsrf();
+
+			// Grab the friend by its composite key
+			$friend = Friend::getFriendByFriendFirstProfileIdAndFriendSecondProfileId($pdo, $requestObject->friendFirstProfileId, $requestObject->friendSecondProfileId);
+			if($friend === null) {
+				throw (new RuntimeException("Friend does not exist."));
+			}
