@@ -31,25 +31,30 @@ try{
 		throw(new \InvalidArgumentException("activation is empty or has invalid contents, 405"));
 	}
 	//handle the get http request
-	if($method === "GET"){
+	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
 		//find profile associate with the activation token
 		$profile = PROFILE::getProfileByProfileActivationToken($pdo, $activation);
 		//verify the profile is not null
-		if($profile !== null){
+		if($profile !== null) {
 			//make sure the activation token matches
-			if($activation === $profile->getProfileActivationToken()){
-				//set activation to null
-				$profile->setProfileActivationToken(null);
-				//update the profile in the db
-				$profile->update($pdo);
-				//set the reply for the end user
-				$reply->data = "Thank you for activating your account on Bark Parkz, you will be redirected to your profile shortly.";
+		if($activation === $profile->getProfileActivationToken()) {
+			//set activation to null
+			$profile->setProfileActivationToken(null);
+			//update the profile in the db
+			$profile->update($pdo);
+			//set the reply for the end user
+			$reply->data = "Thank you for activating your account on Bark Parkz, you will be redirected to your profile shortly.";
+		}
+		} else {
+			//throw an exception if the activation token does not exist
+			throw(new RuntimeException("Profile with this activation token does not exist", 404));
+		}
 			} else {
-				//throw an exception if the activation token does not exist
-				throw(new RuntimeException("Profile with this activation token does not exist", 404));
-			}
+			//throw an exception if the HTTP request is not a GET
+			throw(new InvalidArgumentException("Invalid HTTP method request"));
+		}
 			//update the reply objects status and message state variables if an exception or type exception was thrown
 		} catch (Exception $exception){
 			$reply->status = $exception->getCode();
@@ -60,9 +65,7 @@ try{
 		}
 		//prepare and send the reply
 		header("Content-type: application/json");
-		if($reply->data === null){
+		if($reply->data === null) {
 			unset($reply->data);
 		}
 		echo json_encode($reply);
-	}
-}
