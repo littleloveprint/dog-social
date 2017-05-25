@@ -25,7 +25,7 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
 
 	//determine the http method being used
-	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ?_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? _SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//if method is post handle the sign in logic
 	if($method === "POST") {
@@ -49,7 +49,36 @@ try {
 		} else {
 			$profilePassword = $requestObject->profilePassword;
 		}
+		//grab the profile from the database by the email provided
+		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
+		if(empty($profile) === true) {
+			throw(new \InvalidArgumentException("Invalid Email", 401));
+		}
+		//if the profile activation is not null throw an error
+		if($profile->getProfileActivationToken() !== null) {
+			throw(new \InvalidArgumentException("you must activate your profile before signing in", 403));
+		}
+		//hash the password given to ensure it matches
+		$hash = hash_pbkdf2("sha512", $profilePassword, $profile->getProfileSalt(), 262144);
+		//verify hash is correct
+		if($hash !== $profile->getProfileHash()) {
+			throw(new \InvalidArgumentException("Password or email is incorrect"));
 
+		}
+		//grab profile from database and put into a session
+		$profile = Profile::getProfileByProfileId($pdo, $profile->getProfileId());
+		$_SESSION["profile"] = $profile;
+		$reply->message = "Sign in was successful.";
+	} else {
+		throw(new \InvalidArgumentException("Invalid HTTP method request."));
 
 	}
+} catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+} catch(TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
+header("Content-type: application/json");
+echo json_encode($reply);
