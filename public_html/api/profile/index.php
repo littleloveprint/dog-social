@@ -35,6 +35,7 @@ try {
 	// Sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$profileAtHandle = filter_input(INPUT_GET, "profileAtHandle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	// Make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -51,8 +52,8 @@ try {
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		} else if(empty($id) === false) {
-			$profile = Profile::getProfileByProfileId($pdo, $id);
+		} else if(empty($profileEmail) === false) {
+			$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
@@ -82,7 +83,13 @@ try {
 				throw(new \InvalidArgumentException ("No profile at handle", 405));
 			}
 
+			// Profile email is a required field.
+			if(empty($requestObject->profileEmail) === true) {
+				throw(new \InvalidArgumentException ("No profile email present.", 405));
+			}
+
 			$profile->setProfileAtHandle($requestObject->profileAtHandle);
+			$profile->setProfileEmail($requestObject->profileEmail);
 			$profile->update($pdo);
 
 			// Update reply
