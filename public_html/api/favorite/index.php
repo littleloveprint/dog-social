@@ -6,7 +6,6 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 // grab the class under scrutiny
 use Edu\Cnm\BarkParkz\Favorite;
-use Edu\Cnm\BarkParkz\Park;
 use Edu\Cnm\BarkParkz\Profile;
 use PHPUnit\DbUnit\RuntimeException;
 use Psr\Log\InvalidArgumentException;
@@ -29,7 +28,7 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
 	// mock a logged in user by mocking the session and assigning a specific user to it.
 	// this is only for testing purposes and should not be in the live code.
-	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 732);
+	//$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 732);
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	var_dump($method);
