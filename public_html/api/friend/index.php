@@ -95,3 +95,33 @@ try {
 			if($friend === null) {
 				throw (new RuntimeException("Friend does not exist."));
 			}
+
+			// Enforce the user is signed in and only trying to edit their own friends.
+			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $friend->getFriendFirstProfileId()) {
+				throw(new \InvalidArgumentException("You are not allowed to delete this friend.", 403));
+			}
+
+			// Preform the actual delete
+			$friend->delete($pdo);
+
+			// Update the message
+			$reply->message = "You've deleted a friend.";
+		}
+
+		// If any other HTTP request is sent, throw an exception.
+	} else {
+		throw new \InvalidArgumentException("invalid http request", 400);
+	}
+
+	// Catch any exceptions that are thrown, and update the reply status and message.
+} catch(\Exception | \TypeError $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+}
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+
+// Encode and return reply to front end caller
+echo json_encode($reply);
