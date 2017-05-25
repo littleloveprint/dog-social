@@ -6,11 +6,9 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 // grab the class under scrutiny
 use Edu\Cnm\BarkParkz\Favorite;
-use PHPUnit\DbUnit\RuntimeException;
-use Psr\Log\InvalidArgumentException;
 
-/**
- * Api for the favorite class
+
+/** Api for the favorite class
  *
  * @author Michael Jordan mj@mjcodes.com
  **/
