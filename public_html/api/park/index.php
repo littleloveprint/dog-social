@@ -6,7 +6,7 @@ require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\BarkParkz\{
-	Park,
+	Park
 };
 
 /**
@@ -26,7 +26,7 @@ $reply->status = 200;
 $reply->data = null;
 
 try {
-	$pdo = connectToEncryptedMySQL("BIG/D");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
 
 	if($method === "GET") {
 		//set XSRF cookie

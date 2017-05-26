@@ -95,19 +95,66 @@ CREATE TABLE checkIn (
 		PRIMARY KEY(favoriteProfileId, favoriteParkId)
 	);
 
-INSERT INTO park (parkLocationX, parkLocationY, parkName),
-	VALUES (35.195141, -106.727580, Bud Warren/Lady Dog Park),
-		(35.130309,-106.495969, Coronado Dog Park),
-		(35.104089, -106.647067, Los Altos Park),
-		(35.086035, -106.532630, Montessa Park),
-		(35.017610, -106.597446, North Domingo Baca),
-		(35.179617, -106.560866, Ouray Dog Park),
-		(35.114312, -106.720834, Rio Grande Triangle Park),
-		(35.081152, -106.666474, Roosevelt Park),
-		(39.945025, -75.150165, Santa Fe Village Park),
-		(35.149121, -106.716760, Tom Bolack Urban Forest Park),
-		(42.419994, -96.416095, Tower Pond Park),
-		(35.063641, -106.730410, USS Bullhead Park),
-		(35.052559, -106.576822, Westgate Dog Park),
-		(35.049210, -106.741209, Cartagena/ValleyView)
-);
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+	VALUES (35.195141, -106.727580, "Bud Warren & Lady Dog Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.130309,-106.495969, "Coronado Dog Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.104089, -106.647067, "Los Altos Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.086035, -106.532630, "Montessa Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.017610, -106.597446, "North Domingo Baca");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.179617, -106.560866, "Ouray Dog Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.114312, -106.720834, "Rio Grande Triangle Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.081152, -106.666474, "Roosevelt Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (39.945025, -75.150165, "Santa Fe Village Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.149121, -106.716760, "Tom Bolack Urban Forest Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (42.419994, -96.416095, "Tower Pond Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.063641, -106.730410, "USS Bullhead Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.052559, -106.576822, "Westgate Dog Park");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.049210, -106.741209, "Cartagena/ValleyView");
+
+INSERT INTO park
+(parkLocationX, parkLocationY, parkName)
+VALUES (35.104089, -106.647067, "Los Altos Park");
+
+INSERT INTO park (parkLocationX, parkLocationY, parkName)
+VALUES (35.104089, -106.647067, "Los Altos Park");
+
