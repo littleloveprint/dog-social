@@ -95,9 +95,10 @@ CREATE TABLE checkIn (
 		PRIMARY KEY(favoriteProfileId, favoriteParkId)
 	);
 
+-- Insert the Park names and longitude and latitude into park
 INSERT INTO park
 (parkLocationX, parkLocationY, parkName)
-	VALUES (35.195141, -106.727580, "Bud Warren & Lady Dog Park");
+VALUES (35.195141, -106.727580, "Bud Warren & Lady Dog Park");
 
 INSERT INTO park
 (parkLocationX, parkLocationY, parkName)
@@ -150,11 +151,4 @@ VALUES (35.052559, -106.576822, "Westgate Dog Park");
 INSERT INTO park
 (parkLocationX, parkLocationY, parkName)
 VALUES (35.049210, -106.741209, "Cartagena/ValleyView");
-
-INSERT INTO park
-(parkLocationX, parkLocationY, parkName)
-VALUES (35.104089, -106.647067, "Los Altos Park");
-
-INSERT INTO park (parkLocationX, parkLocationY, parkName)
-VALUES (35.104089, -106.647067, "Los Altos Park");
 
