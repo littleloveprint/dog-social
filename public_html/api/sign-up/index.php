@@ -25,12 +25,12 @@ $reply->data = null;
 try {
 
 	// Grab the mySQL connection
-	$pdo = connectToEncryptedMySQL("etc/apache2/capstone-mysql/barkparkz.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
 
 	// Determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	if($method === "POST") {
-
+// to do: Add verify xsrf method
 		// Decode the json and turn it into a php object
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);

@@ -71,7 +71,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct(?int $newProfileId, ?string $newProfileActivationToken, string $newProfileAtHandle, string $newProfileCloudinaryId, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, ?float $newProfileLocationX, ?float $newProfileLocationY) {
+	public function __construct(?int $newProfileId, ?string $newProfileActivationToken, string $newProfileAtHandle, ?string $newProfileCloudinaryId, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, ?float $newProfileLocationX, ?float $newProfileLocationY) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileActivationToken($newProfileActivationToken);
@@ -83,10 +83,10 @@ class Profile implements \JsonSerializable {
 			$this->setProfileLocationX($newProfileLocationX);
 			$this->setProfileLocationY($newProfileLocationY);
 		}
-			// determine what exception type was thrown
+			// Determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exception = get_class($exception);
-			throw(new \Exception($exception->getMessage(), 0, $exception));
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	}
 	/**
@@ -196,16 +196,17 @@ class Profile implements \JsonSerializable {
 	/**
 	 * Mutator method for profile cloudinary id.
 	 *
-	 * @param string $newProfileCloudinaryId new value of profile cloudinary id
+	 * @param string|null $newProfileCloudinaryId new value of profile cloudinary id
 	 * @throws \InvalidArgumentException if $newProfileCloudinaryId is insecure
 	 * @throws \RangeException if $newCloudinaryId is > 32 characters
 	 * @throws \TypeError if $newCloudinaryId is not a string
 	 **/
-	public function setProfileCloudinaryId(string $newProfileCloudinaryId = null) {
+	public function setProfileCloudinaryId(?string $newProfileCloudinaryId) {
 
 		// If profile cloudinary id is null, immediately return it.
 		if($newProfileCloudinaryId === null) {
 			$this->profileCloudinaryId = null;
+			return;
 		}
 
 		// Verify the profile cloudinary id is secure.
