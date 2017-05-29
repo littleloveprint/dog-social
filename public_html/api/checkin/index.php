@@ -4,8 +4,7 @@ require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\CNM\BarkParkz\{
-	CheckIn,
-	Profile
+	CheckIn
 };
 /**
  * API for the CheckIn class
@@ -61,6 +60,21 @@ try {
 			if($checkIn !== null){
 				$reply->data = $checkIn;
 			}
+		}
+	} else if($method === "PUT" || $method === "POST") {
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		//retrieves the JSON package that the front end sent and stores it in $requestObject.
+		$requestObject = json_decode($requestContent);
+		//this line decodes the JSON package and store that result in $requestObject
+		if(empty($requestObject->checkInId) === true){
+			throw(new \InvalidArgumentException("No Check In Available", 405));
+		}
+		if(empty($requestObject->checkInDogIt) === true){
+			throw(new \InvalidArgumentException("No Dog Available For Check In", 405));
+		}
+		if(empty($requestObject->checkInParkId) === true){
+			throw(new \InvalidArgumentException("No Park Available For Check In", 405));
 		}
 	}
 }
