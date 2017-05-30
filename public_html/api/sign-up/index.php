@@ -6,6 +6,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\BarkParkz\Profile;
 
+
 /**
  * API for the sign up class
  *
@@ -94,7 +95,10 @@ try {
 EOF;
 		// Create swift email
 		$swiftMessage = Swift_Message::newInstance();
-
+		/* $message = new Swift_Message('Wonderful Subject')->setFro(['john@doe.com' => 'John Doe'])
+			->setTo(['receiver@domain.org', 'other@domain.org' => 'A name'])
+			->setBody('Here is the message itself');
+*/
 		// Attach the sender to the message -- This takes the form of an associative array where the email is the key to a real name
 		$swiftMessage->setFrom(["littleloveprint@gmail.com" => "BarkParkzAdmin"]);
 

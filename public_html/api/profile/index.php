@@ -26,8 +26,7 @@ $reply->data = null;
 try {
 
 	// Grab the mySQL connection
-	$pdo = connectToEncryptedMySQL("etc/apache2/capstone-mysql/barkparkz.ini");
-	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 722);
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
 
 	// Determine which HTTP method was used.
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];

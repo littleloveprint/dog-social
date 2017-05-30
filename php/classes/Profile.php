@@ -649,7 +649,9 @@ class Profile implements \JsonSerializable {
 	 * @return array resulting state variables to serialize
 	 **/
 	public function jsonSerialize() {
-		return (get_object_vars($this));
-
+		$fields = get_object_vars($this);
+		unset($fields["profileHash"]);
+		unset($fields["profileSalt"]);
+		return $fields;
 	}
 }
