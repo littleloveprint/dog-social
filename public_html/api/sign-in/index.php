@@ -2,7 +2,7 @@
 require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
-require_once("/etc/apache2/capstone-mysql/barkparkz.ini");
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\BarkParkz\Profile;
 
@@ -25,7 +25,7 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
 
 	//determine the http method being used
-	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? _SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//if method is post handle the sign in logic
 	if($method === "POST") {
@@ -45,7 +45,7 @@ try {
 
 		}
 		if(empty($requestObject->profilePassword) === true) {
-			throw(new \InvalidArgumentException("Password is required", 401));
+			throw(new \InvalidArgumentException("Incorrect username or password", 401));
 		} else {
 			$profilePassword = $requestObject->profilePassword;
 		}
@@ -62,7 +62,7 @@ try {
 		$hash = hash_pbkdf2("sha512", $profilePassword, $profile->getProfileSalt(), 262144);
 		//verify hash is correct
 		if($hash !== $profile->getProfileHash()) {
-			throw(new \InvalidArgumentException("Password or email is incorrect"));
+			throw(new \InvalidArgumentException("Incorrect username or password"));
 
 		}
 		//grab profile from database and put into a session
