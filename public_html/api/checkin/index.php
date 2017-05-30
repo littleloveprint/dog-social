@@ -62,7 +62,7 @@ try {
 				$reply->data = $checkIn;
 			}
 		}
-	} else if($method === "PUT" || $method === "POST") {
+	} else if($method === "POST") {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		//retrieves the JSON package that the front end sent and stores it in $requestObject.
@@ -79,25 +79,7 @@ try {
 		}
 		if(empty($requestObject->sunriseCheckInDateTime) === true) {
 			throw(new \InvalidArgumentException("No Check In DateTime"));
-		}
-		if($method === "PUT") {
-			//retrieve the checkin to update
-			$checkIn = CheckIn::getCheckInByCheckInId($pdo, $id);
-			if($checkIn === null) {
-				throw(new RuntimeException("Check In Does Not Exist", 404));
-			}
-			//enforce the user is signed in and only trying to check in their own dog?
-			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $checkIn->getCheckInId()) {
-				throw(new \InvalidArgumentException("You are not allowed to check in", 403));
-			}
-			//update all attributes
-			$checkIn->setCheckInDogId($requestObject->checkInDogId);
-			$checkIn->setCheckInParkId($requestObject->checkInParkId);
-			$checkIn->setCheckInDateTime($requestObject->checkInDateTime);
-			$checkIn->update($pdo);
-			//update reply
-			$reply->message = "Check In successful";
-		} else if($method === "POST") {
+		}else if($method === "POST") {
 			//enforce the user is signed in
 			if(empty($_SESSION["profile"]) === true) {
 				throw(new \InvalidArgumentException("you must be logged in to checkIn", 403));
@@ -108,21 +90,7 @@ try {
 			//update reply
 			$reply->message = "Check In Created OK";
 		}
-	}else if($method === "DELETE"){
-		//enforce that the end user has a XSRF token
-			verifyXsrf();
-			//retrieve the check in to be deleted
-			$checkIn = CheckIn::getCheckInByCheckInId($pdo, $id);
-			if($checkIn === null){
-		throw(new RuntimeException("CheckIn does not exist", 404));
-		}
-		//enforce the user is signed in
-			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $checkIn->getCheckInId()){
-				throw(new \InvalidArgumentException("You are not allowed to delete this check in", 403));
-			}
-			$checkIn->delete($pdo);
-			$reply->message = "Check In DELETED OK";
-		} else {
+	} else {
 	throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
 	}catch(\Exception | \TypeError $exception) {
