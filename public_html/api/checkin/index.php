@@ -68,45 +68,46 @@ try {
 		//retrieves the JSON package that the front end sent and stores it in $requestObject.
 		$requestObject = json_decode($requestContent);
 		//this line decodes the JSON package and store that result in $requestObject
-		if(empty($requestObject->checkInId) === true){
+		if(empty($requestObject->checkInId) === true) {
 			throw(new \InvalidArgumentException("No Check In Available", 405));
 		}
-		if(empty($requestObject->checkInDogIt) === true){
+		if(empty($requestObject->checkInDogIt) === true) {
 			throw(new \InvalidArgumentException("No Dog Available For Check In", 405));
 		}
-		if(empty($requestObject->checkInParkId) === true){
+		if(empty($requestObject->checkInParkId) === true) {
 			throw(new \InvalidArgumentException("No Park Available For Check In", 405));
 		}
 		if(empty($requestObject->sunriseCheckInDateTime) === true) {
 			throw(new \InvalidArgumentException("No Check In DateTime"));
 		}
-		if($method === "PUT"){
+		if($method === "PUT") {
 			//retrieve the checkin to update
-		$checkIn = CheckIn::getCheckInByCheckInId($pdo, $id);
-		if($checkIn === null){
-			throw(new RuntimeException("Check In Does Not Exist", 404));
-		}
+			$checkIn = CheckIn::getCheckInByCheckInId($pdo, $id);
+			if($checkIn === null) {
+				throw(new RuntimeException("Check In Does Not Exist", 404));
+			}
 			//enforce the user is signed in and only trying to check in their own dog?
 			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $checkIn->getCheckInId()) {
 				throw(new \InvalidArgumentException("You are not allowed to check in", 403));
-		}
-		//update all attributes
+			}
+			//update all attributes
 			$checkIn->setCheckInDogId($requestObject->checkInDogId);
-		$checkIn->setCheckInParkId($requestObject->checkInParkId);
-		$checkIn->setCheckInDateTime($requestObject->checkInDateTime);
-		$checkIn->update($pdo);
-		//update reply
+			$checkIn->setCheckInParkId($requestObject->checkInParkId);
+			$checkIn->setCheckInDateTime($requestObject->checkInDateTime);
+			$checkIn->update($pdo);
+			//update reply
 			$reply->message = "Check In successful";
-		} else if($method === "POST"){
-		//enforce the user is signed in
+		} else if($method === "POST") {
+			//enforce the user is signed in
 			if(empty($_SESSION["profile"]) === true) {
 				throw(new \InvalidArgumentException("you must be logged in to checkIn", 403));
-		}
-		//create new checkin and insert it into database
-			$checkIn = new CheckIn(null,$requestObject->checkInId, $requestObject->checkInDogId, $requestObject->checkInParkId, null);
+			}
+			//create new checkin and insert it into database
+			$checkIn = new CheckIn(null, $requestObject->checkInId, $requestObject->checkInDogId, $requestObject->checkInParkId, null);
 			$checkIn->insert($pdo);
 			//update reply
 			$reply->message = "Check In Created OK";
+		}
 	}else if($method === "DELETE"){
 		//enforce that the end user has a XSRF token
 			verifyXsrf();
