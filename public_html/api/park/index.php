@@ -57,3 +57,12 @@ try {
 			throw new InvalidArgumentException("incorrect search parameters", 404);
 		}
 	}
+
+	// Catch any exceptions that were thrown
+} catch(\Exception | \TypeError $exception) {
+	$reply->status = exception->getCode();
+	$reply->message = $exception->getMessage();
+}
+
+header("Content-type": application/json);
+
