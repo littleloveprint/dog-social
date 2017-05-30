@@ -56,7 +56,7 @@ try {
 			if($checkIn !== null){
 				$reply->data = $checkIn;
 			}
-		} else if(empty($checkInDateTime) === false){
+		} else if(empty($sunriseCheckInDateTime) === false && empty($sunsetCheckInDateTime) === false){
 			$checkIn = CheckIn::getCheckInByCheckInDateRange($pdo, $sunriseCheckInDateTime, $sunsetCheckInDateTime)->toArray();
 			if($checkIn !== null){
 				$reply->data = $checkIn;
