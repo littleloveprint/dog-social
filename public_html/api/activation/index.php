@@ -17,7 +17,7 @@ $reply->status = 200;
 $reply->data = null;
 try{
 	//grab the MySQL connection
-	$pdo = connectToEncryptedMySQL("etc/apache2/capstone-mysql/barkparkz.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
 	//check the HTTP method being used
 	$method = array_key_exists("HTTP_X_HTTPMETHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	//sanitize the input never trust the end user
