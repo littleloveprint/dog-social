@@ -4,7 +4,8 @@ require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\CNM\BarkParkz\{
-	CheckIn
+	CheckIn,
+	Profile
 };
 /**
  * API for the CheckIn class
@@ -76,5 +77,60 @@ try {
 		if(empty($requestObject->checkInParkId) === true){
 			throw(new \InvalidArgumentException("No Park Available For Check In", 405));
 		}
+		if(empty($requestObject->sunriseCheckInDateTime) === true) {
+			throw(new \InvalidArgumentException("No Check In DateTime"));
+		}
+		if($method === "PUT"){
+			//retrieve the checkin to update
+		$checkIn = CheckIn::getCheckInByCheckInId($pdo, $id);
+		if($checkIn === null){
+			throw(new RuntimeException("Check In Does Not Exist", 404));
+		}
+			//enforce the user is signed in and only trying to check in their own dog?
+			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $checkIn->getCheckInId()) {
+				throw(new \InvalidArgumentException("You are not allowed to check in", 403));
+		}
+		//update all attributes
+			$checkIn->setCheckInDogId($requestObject->checkInDogId);
+		$checkIn->setCheckInParkId($requestObject->checkInParkId);
+		$checkIn->setCheckInDateTime($requestObject->checkInDateTime);
+		$checkIn->update($pdo);
+		//update reply
+			$reply->message = "Check In successful";
+		} else if($method === "POST"){
+		//enforce the user is signed in
+			if(empty($_SESSION["profile"]) === true) {
+				throw(new \InvalidArgumentException("you must be logged in to checkIn", 403));
+		}
+		//create new checkin and insert it into database
+			$checkIn = new CheckIn(null,$requestObject->checkInId, $requestObject->checkInDogId, $requestObject->checkInParkId, null);
+			$checkIn->insert($pdo);
+			//update reply
+			$reply->message = "Check In Created OK";
+	}else if($method === "DELETE"){
+		//enforce that the end user has a XSRF token
+			verifyXsrf();
+			//retrieve the check in to be deleted
+			$checkIn = CheckIn::getCheckInByCheckInId($pdo, $id);
+			if($checkIn === null){
+		throw(new RuntimeException("CheckIn does not exist", 404));
+		}
+		//enforce the user is signed in
+			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $checkIn->getCheckInId()){
+				throw(new \InvalidArgumentException("You are not allowed to delete this check in", 403));
+			}
+			$checkIn->delete($pdo);
+			$reply->message = "Check In DELETED OK";
+		} else {
+	throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
+	}catch(\Exception | \TypeError $exception) {
+		$reply->status = $exception->getCode();
+		$reply->message = $exception->getMessage();
+	}
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
 }
+// encode and return reply to front end caller
+echo json_encode($reply);
