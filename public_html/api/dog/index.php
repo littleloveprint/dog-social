@@ -40,8 +40,29 @@ try {
 if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new InvalidArgumentException("ID can't be empty or negative", 405));
 	}
+// handle GET request - if id is present, that dog is returned, otherwise all dogs are returned
+if($method === "GET") {
+	//set xsrf cookie
+	setXsrfCookie();
+	//get a specific dog and update reply
+	if(empty($id) === false) {
+		$dog = Dog::getDogByDogId($pdo, $dogId);
+		if($dog !== null) {
+			$reply->data = $dog;
+		}
+	} else if(empty($dogProfileId) === false) {
+		$dog = Dog::getDogByDogProfileId($pdo, $dogProfileId)->toArray();
+		if($dog !== null) {
+			$reply->data = $dog;
+		}
+	} else if(empty($dogBreed) === false) {
+		$dog = Dog::getDogByDogBreed($pdo, $dogBreed)->toArray;
+		if($dog !== null) {
+			$reply->data = $dog;
+		}
+	}
 
-
+}
 }
 
 
