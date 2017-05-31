@@ -33,4 +33,8 @@ try {
 	//sanitize input
 	$profileCloudinaryId = filter_input(INPUT_GET, "$profileCloudinaryId", FILTER_VALIDATE_INT,FILTER_FLAG_NO_ENCODE_QOUTES);
 	$dogCloudinaryId = filter_input(INPUT_GET, "$dogCloudinaryId", FILTER_VALIDATE_INT,FILTER_FLAG_NO_ENCODE_QOUTES);
+	//make sure the id is valid for methods that require it
+	if(($method === "DELETE") && (empty($profileCloudinaryId) === true || $profileCloudinaryId < 0)) {
+		throw (new InvalidArgumentException("id cannot be empty or negative", 405));
+	}
 }
