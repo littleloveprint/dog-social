@@ -31,5 +31,6 @@ try {
 	//determine which http method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	//sanitize input
-
+	$profileCloudinaryId = filter_input(INPUT_GET, "$profileCloudinaryId", FILTER_VALIDATE_INT,FILTER_FLAG_NO_ENCODE_QOUTES);
+	$dogCloudinaryId = filter_input(INPUT_GET, "$dogCloudinaryId", FILTER_VALIDATE_INT,FILTER_FLAG_NO_ENCODE_QOUTES);
 }
