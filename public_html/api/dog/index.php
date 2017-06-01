@@ -28,42 +28,106 @@ try {
 	//$_SESSION["profile] = Profile::getProfileByProfileId($pdo, 732);
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] :
-	//sanitize input
-	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$dogId = filter_input(INPUT_GET, "dogId",FILTER_VALIDATE_INT);
+		//sanitize input
+		$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$dogId = filter_input(INPUT_GET, "dogId", FILTER_VALIDATE_INT);
 	$dogProfileId = filter_input(INPUT_GET, "dogProfileId", FILTER_VALIDATE_INT);
 	$dogAge = filter_input(INPUT_GET, "dogAge", FILTER_VALIDATE_INT);
 	$dogCloudinaryId = filter_input(INPUT_GET, "dogCloudinaryId", FILTER_VALIDATE_INT);
 	$dogBio = filter_input(INPUT_GET, "dogBio", FILTER_VALIDATE_INT);
 	$dogBreed = filter_input(INPUT_GET, "dogBreed", FILTER_VALIDATE_INT);
 	$dogAtHandle = filter_input(INPUT_GET, "dogAtHandle", FILTER_VALIDATE_INT);
-if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
+	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new InvalidArgumentException("ID can't be empty or negative", 405));
 	}
 // handle GET request - if id is present, that dog is returned, otherwise all dogs are returned
-if($method === "GET") {
-	//set xsrf cookie
-	setXsrfCookie();
-	//get a specific dog and update reply
-	if(empty($id) === false) {
-		$dog = Dog::getDogByDogId($pdo, $dogId);
-		if($dog !== null) {
-			$reply->data = $dog;
+	if($method === "GET") {
+		//set xsrf cookie
+		setXsrfCookie();
+		//get a specific dog and update reply
+		if(empty($id) === false) {
+			$dog = Dog::getDogByDogId($pdo, $dogId);
+			if($dog !== null) {
+				$reply->data = $dog;
+			}
+		} else if(empty($dogProfileId) === false) {
+			$dog = Dog::getDogByDogProfileId($pdo, $dogProfileId)->toArray();
+			if($dog !== null) {
+				$reply->data = $dog;
+			}
+		} else if(empty($dogBreed) === false) {
+			$dog = Dog::getDogByDogBreed($pdo, $dogBreed)->toArray;
+			if($dog !== null) {
+				$reply->data = $dog;
+			}
 		}
-	} else if(empty($dogProfileId) === false) {
-		$dog = Dog::getDogByDogProfileId($pdo, $dogProfileId)->toArray();
-		if($dog !== null) {
-			$reply->data = $dog;
-		}
-	} else if(empty($dogBreed) === false) {
-		$dog = Dog::getDogByDogBreed($pdo, $dogBreed)->toArray;
-		if($dog !== null) {
-			$reply->data = $dog;
-		}
+
+	} else if($method === "PUT" || $method === "POST") {
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		//Retrieves JSON package and stores result in $requestObject
+		$requestObject = json_decode($requestContent);
+		//Decode JSON package and store result in $requestObject
+
 	}
 
-}
-}
+//make sure dogId is available
+	if(empty($requestObject->dogId) === true) {
+		throw(new \InvalidArgumentException("No Dog ID", 405));
+	}
+	//make sure dogProfileId is available
+	if(empty($requestObject->dogProfileId) === true) {
+		throw(new \InvalidArgumentException("No Dog Profile ID", 405));
+	}
+	//make sure dog breed is accurate (optional field)
+	if(empty($requestObject->dogBreed) === true) {
+		$requestObject->dogBreed = null;
+	}
 
 
+	//perform the put or post
+	if($method === "PUT") {
+		//retrieve the dog to update
+		$dog = Dog::getDogByDogId($pdo, $id);
+		if($dog === null) {
+			throw(new RuntimeException("Dog does not exist", 404));
+
+		}
+		//enforce the user is signed in and only attempting to edit their own dog
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $dog->getDogProfileId()) {
+			throw(new \InvalidArgumentException("You are not allowed to edit this dog", 403));
+
+		}
+//update all attributes
+		$dog->setDogAge($requestObject->dogAge);
+		$dog->setDogAtHandle($requestObject->dogAtHandle);
+		$dog->setDogBio($requestObject->dogBio);
+		$dog->setDogBreed($requestObject->dogBreed);
+		$dog->setDogCloudinaryId($requestObject->dogCloudinaryId);
+		$dog->update($pdo);
+		//update reply
+		$reply->message = "Dog updated successfully";
+	} else if($method === "POST") {
+		//ensure that the user is signed in
+		if(empty($_SESSION["profile"]) === true) {
+			throw(new \InvalidArgumentException("you must be logged in to post things about your dog", 403));
+
+			//create ne dog and insert into database
+			$dog = new Dog(null, $requestObject->dogProfileId, $requestObject->dogAge, $requestObject->dogCloudinaryId, $requestObject->dogBio, $requestObject->dogBreed, $requestObject->dogAtHandle);
+			$dog->insert($pdo);
+
+			//update reply
+			$reply->message = "Dog created successfully";
+
+		}
+
+
+		header("Content-type: application/json");
+		if($reply->data === null) {
+			unset($reply->data);
+		}
+// encode and return reply to front end caller
+		echo json_encode($reply);
+	}
+}
 
