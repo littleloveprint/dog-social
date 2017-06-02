@@ -34,29 +34,18 @@ try{
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
-		//find profile associate with the activation token
 		$profile = Profile::getProfileByProfileActivationToken($pdo, $activation);
-		//verify the profile is not null
 		if(empty($profile)) {
-			//make sure the activation token matches
-		if($activation === $profile->getProfileActivationToken()) {
-			//set activation to null
-			$profile->setProfileActivationToken(null);
-			//update the profile in the db
-			$profile->update($pdo);
-			//set the reply for the end user
-			$reply->data = "Thank you for activating your account on Bark Parkz, you will be redirected to your profile shortly.";
+			throw(new \InvalidArgumentException("No profile for Activation"));
 		}
-		} else {
-			//throw an exception if the activation token does not exist
-			throw(new RuntimeException("Profile with this activation token does not exist", 404));
-		}
-			} else {
-			//throw an exception if the HTTP request is not a GET
-			throw(new InvalidArgumentException("Invalid HTTP method request"));
-		}
-			//update the reply objects status and message state variables if an exception or type exception was thrown
-		} catch (Exception $exception){
+		$profile->setProfileActivationToken(null);
+		$profile->update($pdo);
+		$reply->message = "Profile Activated";
+	}else{
+		throw (new\Exception("Invalid HTTP method"));
+	}
+	// update reply with exception information
+} catch (Exception $exception){
 			$reply->status = $exception->getCode();
 			$reply->message = $exception->getMessage();
 		} catch(TypeError $typeError){
