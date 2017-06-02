@@ -37,7 +37,7 @@ try{
 		//find profile associate with the activation token
 		$profile = Profile::getProfileByProfileActivationToken($pdo, $activation);
 		//verify the profile is not null
-		if($profile !== null) {
+		if(empty($profile)) {
 			//make sure the activation token matches
 		if($activation === $profile->getProfileActivationToken()) {
 			//set activation to null
