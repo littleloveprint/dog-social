@@ -94,7 +94,7 @@ try {
 <p><a href="$confirmLink">$confirmLink</a></p>
 EOF;
 		// Create swift email
-		$swiftMessage = Swift_Message::newInstance();
+		$swiftMessage = new Swift_Message();
 		/* $message = new Swift_Message('Wonderful Subject')->setFro(['john@doe.com' => 'John Doe'])
 			->setTo(['receiver@domain.org', 'other@domain.org' => 'A name'])
 			->setBody('Here is the message itself');
@@ -137,8 +137,8 @@ EOF;
 		 **/
 
 		// Setup smtp
-		$smtp = Swift_SmtpTransport::newInstance("localhost", 25);
-		$mailer = Swift_Mailer::newInstance($smtp);
+		$smtp = new Swift_SmtpTransport("localhost", 25);
+		$mailer = new Swift_Mailer($smtp);
 
 		// Send the message
 		$numSent = $mailer->send($swiftMessage, $failedRecipients);
