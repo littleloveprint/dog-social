@@ -29,7 +29,7 @@ try {
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] :
 		//sanitize input
-		$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+
 	$dogId = filter_input(INPUT_GET, "dogId", FILTER_VALIDATE_INT);
 	$dogProfileId = filter_input(INPUT_GET, "dogProfileId", FILTER_VALIDATE_INT);
 	$dogAge = filter_input(INPUT_GET, "dogAge", FILTER_VALIDATE_INT);
@@ -37,7 +37,7 @@ try {
 	$dogBio = filter_input(INPUT_GET, "dogBio", FILTER_VALIDATE_INT);
 	$dogBreed = filter_input(INPUT_GET, "dogBreed", FILTER_VALIDATE_INT);
 	$dogAtHandle = filter_input(INPUT_GET, "dogAtHandle", FILTER_VALIDATE_INT);
-	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
+	if(($method === "DELETE" || $method === "PUT") && (empty($dogId) === true || $dogId < 0)) {
 		throw(new InvalidArgumentException("ID can't be empty or negative", 405));
 	}
 // handle GET request - if id is present, that dog is returned, otherwise all dogs are returned
@@ -45,7 +45,7 @@ try {
 		//set xsrf cookie
 		setXsrfCookie();
 		//get a specific dog and update reply
-		if(empty($id) === false) {
+		if(empty($dogId) === false) {
 			$dog = Dog::getDogByDogId($pdo, $dogId);
 			if($dog !== null) {
 				$reply->data = $dog;
@@ -88,7 +88,7 @@ try {
 	//perform the put or post
 	if($method === "PUT") {
 		//retrieve the dog to update
-		$dog = Dog::getDogByDogId($pdo, $id);
+		$dog = Dog::getDogByDogId($pdo, $dogId);
 		if($dog === null) {
 			throw(new RuntimeException("Dog does not exist", 404));
 
@@ -130,4 +130,5 @@ try {
 	}
 
 // encode and return reply to front end caller
-		echo json_encode($reply);
+	echo json_encode($reply);
+
