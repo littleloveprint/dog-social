@@ -68,18 +68,19 @@ try {
 		//retrieves the JSON package that the front end sent and stores it in $requestObject.
 		$requestObject = json_decode($requestContent);
 		//this line decodes the JSON package and store that result in $requestObject
-		if(empty($requestObject->checkInId) === true) {
-			throw(new \InvalidArgumentException("No Check In Available", 405));
-		}
-		if(empty($requestObject->checkInDogIt) === true) {
+		if(empty($requestObject->checkInDogId) === true) {
 			throw(new \InvalidArgumentException("No Dog Available For Check In", 405));
 		}
 		if(empty($requestObject->checkInParkId) === true) {
 			throw(new \InvalidArgumentException("No Park Available For Check In", 405));
 		}
-		if(empty($requestObject->sunriseCheckInDateTime) === true) {
+		if(empty($requestObject->checkInDateTime) === true) {
 			throw(new \InvalidArgumentException("No Check In DateTime"));
-		}else if($method === "POST") {
+		}
+		if(empty($requestObject->checkOutDateTime) === true) {
+			throw(new \InvalidArgumentException("No Check Out DateTime"));
+		}
+		else if($method === "POST") {
 			//enforce the user is signed in
 			if(empty($_SESSION["profile"]) === true) {
 				throw(new \InvalidArgumentException("you must be logged in to checkIn", 403));
