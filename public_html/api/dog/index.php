@@ -110,7 +110,7 @@ try {
 			//ensure that the user is signed in
 			if(empty($_SESSION["profile"]) === true) {
 				throw(new \InvalidArgumentException("you must be logged in to post things about your dog", 403));
-
+			}
 				//create new dog and insert into database
 				$dog = new Dog(null, $requestObject->dogProfileId, $requestObject->dogAge, $requestObject->dogCloudinaryId, $requestObject->dogBio, $requestObject->dogBreed, $requestObject->dogAtHandle);
 				$dog->insert($pdo);
@@ -121,7 +121,7 @@ try {
 				throw (new InvalidArgumentException("Invalid HTTP method request"));
 			}
 		}
-	}
+
 }catch(\Exception | \TypeError $exception) {
 			$reply->status = $exception->getCode();
 			$reply->message = $exception->getMessage();
