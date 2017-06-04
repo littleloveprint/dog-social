@@ -76,16 +76,13 @@ try {
 		if(empty($requestObject->checkInDateTime) === true) {
 			throw(new \InvalidArgumentException("No Check In DateTime"));
 		}
-		if(empty($requestObject->checkOutDateTime) === true) {
-			throw(new \InvalidArgumentException("No Check Out DateTime"));
-		}
 		else if($method === "POST") {
 			//enforce the user is signed in
 			if(empty($_SESSION["profile"]) === true) {
 				throw(new \InvalidArgumentException("you must be logged in to checkIn", 403));
 			}
 			//create new checkin and insert it into database
-			$checkIn = new CheckIn(null, $requestObject->checkInId, $requestObject->checkInDogId, $requestObject->checkInParkId, null);
+			$checkIn = new CheckIn(null, $requestObject->checkInDogId, $requestObject->checkInParkId, null, null);
 			$checkIn->insert($pdo);
 			//update reply
 			$reply->message = "Check In Created OK";
