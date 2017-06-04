@@ -25,12 +25,14 @@ try {
 	// mock a logged in user by mocking the session and assigning a specific user to it.
 	// this is only for testing purposes and should not be in the live code.
 	//$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 732);
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+	//sanitize the inputs
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$checkInId = filter_input(INPUT_GET, "checkInId", FILTER_VALIDATE_INT);
 	$checkInDogId = filter_input(INPUT_GET, "checkInDogId", FILTER_VALIDATE_INT);
 	$checkInParkId = filter_input(INPUT_GET, "checkInParkId", FILTER_VALIDATE_INT);
-	$sunriseCheckInDateTime = filter_input(INPUT_GET, "$sunriseCheckInDateTime", FILTER_VALIDATE_INT);
-	$sunsetCheckInDateTime = filter_input(INPUT_GET, "$sunsetCheckInDateTime", FILTER_VALIDATE_INT);
+	$sunriseCheckInDateTime = filter_input(INPUT_GET, "sunriseCheckInDateTime", FILTER_VALIDATE_INT);
+	$sunsetCheckOutDateTime = filter_input(INPUT_GET, "sunsetCheckOutDateTime", FILTER_VALIDATE_INT);
 	//make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)){
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
@@ -62,10 +64,11 @@ try {
 			}
 		}
 	} else if($method === "POST") {
-		verifyXsrf();
+		//verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		//retrieves the JSON package that the front end sent and stores it in $requestObject.
 		$requestObject = json_decode($requestContent);
+		var_dump($requestObject);
 		//this line decodes the JSON package and store that result in $requestObject
 		if(empty($requestObject->checkInDogId) === true) {
 			throw(new \InvalidArgumentException("No Dog Available For Check In", 405));
@@ -76,7 +79,10 @@ try {
 		if(empty($requestObject->checkInDateTime) === true) {
 			throw(new \InvalidArgumentException("No Check In DateTime"));
 		}
-		else if($method === "POST") {
+		if(empty($requestObject->checkOutDateTime) === true) {
+			throw(new \InvalidArgumentException("No Check Out DateTime"));
+		}
+
 			//enforce the user is signed in
 			if(empty($_SESSION["profile"]) === true) {
 				throw(new \InvalidArgumentException("you must be logged in to checkIn", 403));
@@ -86,7 +92,6 @@ try {
 			$checkIn->insert($pdo);
 			//update reply
 			$reply->message = "Check In Created OK";
-		}
 	} else {
 	throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
