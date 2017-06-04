@@ -20,29 +20,22 @@ try {
 	if(session_status() !== PHP_SESSION_ACTIVE) {
 		session_start();
 	}
-
 	//grab mySQL statement
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
-
 	//determine the http method being used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
-
 	//if method is post handle the sign in logic
 	if($method === "POST") {
-
 		//ensure XSRF token is valid
 		verifyXsrf();
-
 		//process the request content and decode the json object into a php object
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-
 		//ensure the password and email fields are not empty
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException("Invalid email address", 401));
 		} else {
 			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
-
 		}
 		if(empty($requestObject->profilePassword) === true) {
 			throw(new \InvalidArgumentException("Incorrect username or password", 401));
@@ -63,7 +56,6 @@ try {
 		//verify hash is correct
 		if($hash !== $profile->getProfileHash()) {
 			throw(new \InvalidArgumentException("Incorrect username or password"));
-
 		}
 		//grab profile from database and put into a session
 		$profile = Profile::getProfileByProfileId($pdo, $profile->getProfileId());
@@ -71,7 +63,6 @@ try {
 		$reply->message = "Sign in was successful.";
 	} else {
 		throw(new \InvalidArgumentException("Invalid HTTP method request."));
-
 	}
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
