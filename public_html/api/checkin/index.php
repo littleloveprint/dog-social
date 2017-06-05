@@ -4,7 +4,8 @@ require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\Cnm\BarkParkz\{
-	CheckIn
+	CheckIn,
+	Profile
 };
 /**
  * API for the CheckIn class
@@ -24,7 +25,7 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
 	// mock a logged in user by mocking the session and assigning a specific user to it.
 	// this is only for testing purposes and should not be in the live code.
-	//$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 732);
+	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 1);
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	//sanitize the inputs
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
@@ -58,13 +59,13 @@ try {
 				$reply->data = $checkIn;
 			}
 		} else if(empty($sunriseCheckInDateTime) === false && empty($sunsetCheckInDateTime) === false){
-			$checkIn = CheckIn::getCheckInByCheckInDateRange($pdo, $sunriseCheckInDateTime, $sunsetCheckInDateTime)->toArray();
+			$checkIn = CheckIn::getCheckInByCheckInDateRange($pdo, $sunriseCheckInDateTime, $sunsetCheckOutDateTime)->toArray();
 			if($checkIn !== null){
 				$reply->data = $checkIn;
 			}
 		}
 	} else if($method === "POST") {
-		//verifyXsrf();
+	verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		//retrieves the JSON package that the front end sent and stores it in $requestObject.
 		$requestObject = json_decode($requestContent);
