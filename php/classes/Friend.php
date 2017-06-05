@@ -218,7 +218,7 @@ class Friend implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$like = new Friend($row["friendFirstProfileId"], $row["friendSecondProfileId"]);
+				$friends = new Friend($row["friendFirstProfileId"], $row["friendSecondProfileId"]);
 				$friends[$friends->key()] = $friends;
 				$friends->next();
 			} catch(\Exception $exception) {
