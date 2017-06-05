@@ -65,15 +65,13 @@ try {
 		}
 
 	} else if($method === "PUT" || $method === "POST") {
-		//verifyXsrf();
+		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		//Retrieves JSON package and stores result in $requestObject
 		$requestObject = json_decode($requestContent);
 		//Decode JSON package and store result in $requestObject
 
 
-
-		//make sure dogProfileId  is available
 		if(empty($requestObject->dogProfileId) === true) {
 			throw(new \InvalidArgumentException("No Dog Profile ID", 405));
 		}
