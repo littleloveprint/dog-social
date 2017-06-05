@@ -29,7 +29,7 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
 
 	// Mock a logged in user by mocking the session and assigning a specific user to it. This is only for testing purposes and should not be in the live code.
-	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 722);
+	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 1);
 
 	// Determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];

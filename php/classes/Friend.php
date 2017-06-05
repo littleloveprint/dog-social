@@ -122,7 +122,6 @@ class Friend implements \JsonSerializable {
 		// Bind the member variables to the place holders in the template
 		$parameters = ["friendFirstProfileId" => $this->friendFirstProfileId, "friendSecondProfileId" => $this->friendSecondProfileId];
 		$statement->execute($parameters);
-		var_dump($statement->rowCount());
 	}
 
 	/** Deletes this Friend from mySQL
