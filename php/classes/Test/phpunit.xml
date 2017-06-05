@@ -2,9 +2,9 @@
 	<testsuites>
 		<testsuite name="Bark Parkz">
 			<!--<file>ProfileTest.php</file>-->
-			<!--file>FriendTest.php</file>-->
+			<file>FriendTest.php</file>
 			<!-- <file>FavoriteTest.php</file> -->
-			<file>DogTest.php</file>
+			<!--<file>DogTest.php</file> -->
 		</testsuite>
 	</testsuites>
 	<filter>
