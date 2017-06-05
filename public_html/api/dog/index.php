@@ -31,7 +31,7 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 		//sanitize input
 
-	$dogId = filter_input(INPUT_GET, "dogId", FILTER_VALIDATE_INT);
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$dogProfileId = filter_input(INPUT_GET, "dogProfileId", FILTER_VALIDATE_INT);
 	$dogAge = filter_input(INPUT_GET, "dogAge", FILTER_VALIDATE_INT);
 	$dogCloudinaryId = filter_input(INPUT_GET, "dogCloudinaryId", FILTER_VALIDATE_INT);
@@ -39,7 +39,7 @@ try {
 	$dogBreed = filter_input(INPUT_GET, "dogBreed", FILTER_VALIDATE_INT);
 	$dogAtHandle = filter_input(INPUT_GET, "dogAtHandle", FILTER_VALIDATE_INT);
 
-	if(($method === "DELETE" || $method === "PUT") && (empty($dogId) === true || $id < 0)) {
+	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new InvalidArgumentException("ID can't be empty or negative", 405));
 	}
 // handle GET request - if id is present, that dog is returned, otherwise all dogs are returned
@@ -65,7 +65,7 @@ try {
 		}
 
 	} else if($method === "PUT" || $method === "POST") {
-		verifyXsrf();
+		//verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		//Retrieves JSON package and stores result in $requestObject
 		$requestObject = json_decode($requestContent);
@@ -73,13 +73,25 @@ try {
 
 
 
-		//make sure dogProfileId is available
+		//make sure dogProfileId  is available
 		if(empty($requestObject->dogProfileId) === true) {
 			throw(new \InvalidArgumentException("No Dog Profile ID", 405));
+		}
+		if(empty($requestObject->dogAge) === true) {
+			$requestObject->dogAge = null;
+		}
+		if(empty($requestObject->dogCloudinaryId) === true) {
+			$requestObject->dogCloudinaryId = null;
+		}
+		if(empty($requestObject->dogBio) === true) {
+			$requestObject->dogBio = null;
 		}
 		//make sure dog breed is accurate (optional field)
 		if(empty($requestObject->dogBreed) === true) {
 			$requestObject->dogBreed = null;
+		}
+		if(empty($requestObject->dogAtHandle) === true) {
+			$requestObject->dogAtHandle = null;
 		}
 
 
@@ -94,7 +106,6 @@ try {
 			//enforce the user is signed in and only attempting to edit their own dog
 			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $dog->getDogProfileId()) {
 				throw(new \InvalidArgumentException("You are not allowed to edit this dog", 403));
-
 			}
 //update all attributes
 			$dog->setDogAge($requestObject->dogAge);
