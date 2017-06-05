@@ -27,7 +27,9 @@ $reply->data = null;
 
 try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
-
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+	$parkId = filter_input(INPUT_GET,"parkId",FILTER_VALIDATE_INT);
+	$parkName = filter_input(INPUT_GET,"parkName",FILTER_VALIDATE_INT);
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
