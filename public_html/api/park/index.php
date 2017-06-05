@@ -28,22 +28,15 @@ $reply->data = null;
 try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
-	$parkId = filter_input(INPUT_GET,"parkId",FILTER_VALIDATE_INT);
-	$parkName = filter_input(INPUT_GET,"parkName",FILTER_VALIDATE_INT);
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$parkName = filter_input(INPUT_GET, "parkName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		//gets all parks
-		if($parkId !== null && $parkName !== null) {
-			$park = Park::getParkByParkIdAndParkName($pdo, $parkId, $parkName);
-
-			if($park !== null) {
-				$reply->data = $park;
-			}
-			//if none of the search parameters are met throw an exception
-		} else if(empty($parkId) === false) {
-			$park = Park::getParkByParkId($pdo, $parkId)->toArray();
+		//if none of the search parameters are met throw an exception
+		if(empty($id) === false) {
+			$park = Park::getParkByParkId($pdo, $id);
 			if($park !== null) {
 				$reply->data = $park;
 			}
@@ -54,14 +47,19 @@ try {
 			if($park !== null) {
 				$reply->data = $park;
 			}
+
 			//if any other HTTP request is sent, throw an exception
 		} else {
-			throw new InvalidArgumentException("incorrect search parameters", 404);
+			$park = Park::getAllParks($pdo);
+			if($park !== null) {
+				$reply->data = $park;
+			}
 		}
+	} else {
+		throw (new InvalidArgumentException("Invalid http request"));
 	}
-
-	// Catch any exceptions that were thrown
-} catch(\Exception | \TypeError $exception) {
+}// Catch any exceptions that were thrown
+catch(\Exception | \TypeError $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 }
