@@ -28,7 +28,6 @@ try {
 	//$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 732);
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
-	var_dump($method);
 	//sanitize the search parameters
 	$favoriteProfileId = filter_input(INPUT_GET, "favoriteProfileId", FILTER_VALIDATE_INT);
 	$favoriteParkId = filter_input(INPUT_GET, "favoriteParkId", FILTER_VALIDATE_INT);
