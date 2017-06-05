@@ -27,6 +27,7 @@ try {
 	//for testing only, should not be in the live code
 	//$_SESSION["profile] = Profile::getProfileByProfileId($pdo, 732);
 	//determine which HTTP method was used
+	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 1);
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 		//sanitize input
 
@@ -71,10 +72,7 @@ try {
 		//Decode JSON package and store result in $requestObject
 
 
-//make sure dogId is available
-		if(empty($requestObject->dogId) === true) {
-			throw(new \InvalidArgumentException("No Dog ID", 405));
-		}
+
 		//make sure dogProfileId is available
 		if(empty($requestObject->dogProfileId) === true) {
 			throw(new \InvalidArgumentException("No Dog Profile ID", 405));
