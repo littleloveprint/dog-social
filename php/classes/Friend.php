@@ -230,14 +230,13 @@ class Friend implements \JsonSerializable {
 		return ($friends);
 	}
 
-
 	/**
 	 * Gets all Friends by friend first profile id
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @return \SplFixedArray SplFixedArray of Friends found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when varriables are not the correct data type
+	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getAllFriends(\PDO $pdo): \SplFixedArray {
 
