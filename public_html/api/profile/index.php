@@ -45,6 +45,25 @@ try {
 		// Set XSRF cookie
 		setXsrfCookie();
 
+		// Gets a profile by profile id
+		if(empty($id) === false) {
+			$profile = Profile::getProfileByProfileId($pdo, $id);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		} else if(empty($profileAtHandle) === false) {
+			$profile = Profile::getProfileByProfileAtHandle($pdo, $profileAtHandle);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		} else if(empty($profileEmail) === false) {
+			$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		}
+	} else if($method === "PUT") {
+
 		// Gets a profile by at handle
 		if(empty($profileAtHandle) === false) {
 			$profile = Profile::getProfileByProfileAtHandle($pdo, $profileAtHandle);
