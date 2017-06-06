@@ -35,7 +35,7 @@ try {
 	$dogProfileId = filter_input(INPUT_GET, "dogProfileId", FILTER_VALIDATE_INT);
 	$dogAge = filter_input(INPUT_GET, "dogAge", FILTER_VALIDATE_INT);
 	$dogCloudinaryId = filter_input(INPUT_GET, "dogCloudinaryId", FILTER_VALIDATE_INT);
-	$dogBio = filter_input(INPUT_GET, "dogBio", FILTER_VALIDATE_INT);
+	$dogBio = filter_input(INPUT_GET, "dogBio", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$dogBreed = filter_input(INPUT_GET, "dogBreed", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$dogAtHandle = filter_input(INPUT_GET, "dogAtHandle", FILTER_VALIDATE_INT);
 
