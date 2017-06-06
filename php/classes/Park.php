@@ -103,7 +103,7 @@ class Park implements \JsonSerializable {
 	public function setParkLocationX(float $newParkLocationX): void {
 
 		// verify the park location x is secure
-		if($newParkLocationX < -180 || $newParkLocationX > 180) {
+		if($newParkLocationX < -90 || $newParkLocationX > 90) {
 			throw(new \RangeException("park location x is out of range"));
 		}
 
@@ -129,7 +129,7 @@ class Park implements \JsonSerializable {
 	public function setParkLocationY(float $newParkLocationY): void {
 
 		// verify the park location y is positive
-		if($newParkLocationY < -90 || $newParkLocationY > 90) {
+		if($newParkLocationY < -180 || $newParkLocationY > 180) {
 			throw(new \RangeException("park location y is out of range"));
 		}
 
