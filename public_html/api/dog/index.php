@@ -27,7 +27,7 @@ try {
 	//for testing only, should not be in the live code
 	//$_SESSION["profile] = Profile::getProfileByProfileId($pdo, 732);
 	//determine which HTTP method was used
-	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 1);
+	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 22);
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 		//sanitize input
 
@@ -36,7 +36,7 @@ try {
 	$dogAge = filter_input(INPUT_GET, "dogAge", FILTER_VALIDATE_INT);
 	$dogCloudinaryId = filter_input(INPUT_GET, "dogCloudinaryId", FILTER_VALIDATE_INT);
 	$dogBio = filter_input(INPUT_GET, "dogBio", FILTER_VALIDATE_INT);
-	$dogBreed = filter_input(INPUT_GET, "dogBreed", FILTER_VALIDATE_INT);
+	$dogBreed = filter_input(INPUT_GET, "dogBreed", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$dogAtHandle = filter_input(INPUT_GET, "dogAtHandle", FILTER_VALIDATE_INT);
 
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
