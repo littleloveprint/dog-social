@@ -207,8 +207,8 @@ class CheckIn implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 		// bind the member vars to the place holders in the template
 		// because i have check in and out im sure how to write this
-		$formattedDateIn = $this->checkInDateTime->format("Y-m-d H:i:s");
-		$formattedDateOut = $this->checkInDateTime->format("Y-m-d H:i:s");
+		$formattedDateIn = $this->checkInDateTime->format("Y-m-d H:i:s.u");
+		$formattedDateOut = $this->checkOutDateTime->format("Y-m-d H:i:s.u");
 		$parameters = ["checkInDogId" => $this->checkInDogId, "checkInParkId" => $this->checkInParkId, "checkInDateTime" => $formattedDateIn, "checkOutDateTime" => $formattedDateOut];
 		$statement->execute($parameters);
 		// update the null checkInId with what mysql gives us

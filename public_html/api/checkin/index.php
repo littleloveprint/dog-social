@@ -69,7 +69,6 @@ try {
 		$requestContent = file_get_contents("php://input");
 		//retrieves the JSON package that the front end sent and stores it in $requestObject.
 		$requestObject = json_decode($requestContent);
-		var_dump($requestObject);
 		//this line decodes the JSON package and store that result in $requestObject
 		if(empty($requestObject->checkInDogId) === true) {
 			throw(new \InvalidArgumentException("No Dog Available For Check In", 405));
@@ -84,12 +83,19 @@ try {
 			throw(new \InvalidArgumentException("No Check Out DateTime"));
 		}
 
+		// convert Angular datestamps to an actual date
+		$checkOutDateTime = \DateTime::createFromFormat("U.u", $requestObject->checkOutDateTime / 1000);
+		$now = new \DateTime();
+		if($checkOutDateTime < $now) {
+			throw(new \RuntimeException("Roads!? Where we're going we don't need roads!", 418));
+		}
+
 			//enforce the user is signed in
 			if(empty($_SESSION["profile"]) === true) {
 				throw(new \InvalidArgumentException("you must be logged in to checkIn", 403));
 			}
 			//create new checkin and insert it into database
-			$checkIn = new CheckIn(null, $requestObject->checkInDogId, $requestObject->checkInParkId, null, null);
+			$checkIn = new CheckIn(null, $requestObject->checkInDogId, $requestObject->checkInParkId, null, $checkOutDateTime);
 			$checkIn->insert($pdo);
 			//update reply
 			$reply->message = "Check In Created OK";
