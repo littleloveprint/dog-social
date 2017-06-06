@@ -463,9 +463,10 @@ Class Dog implements \JsonSerializable {
 			throw(new \PDOException("not valid dog breed entry"));
 		}
 		//create query template
-		$query = "SELECT dogId, dogProfileId, dogAge, dogCloudinaryId, dogBio, dogBreed, dogAtHandle FROM dog WHERE dogBreed = :dogBreed";
+		$query = "SELECT dogId, dogProfileId, dogAge, dogCloudinaryId, dogBio, dogBreed, dogAtHandle FROM dog WHERE dogBreed LIKE :dogBreed";
 		$statement = $pdo->prepare($query);
 		//bind the dog breed to the place holder in template
+		$dogBreed = "%$dogBreed%";
 		$parameters = ["dogBreed" => $dogBreed];
 		$statement->execute($parameters);
 		//build an array of dogs
