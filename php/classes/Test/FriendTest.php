@@ -273,12 +273,25 @@ class FriendTest extends BarkParkzTest {
 	}
 
 	/**
-	 * Test grabbing a Friend by a profile id that does not exist
+	 * Test grabbing a Friend by profile id
 	 **/
-	public function testGetInvalidFriendByProfileId(): void {
+	public function testGetValidFriendByProfileId(): void {
+		// Count the number of rows, and save it for later
+		$numRows = $this->getConnection()->getRowCount("friend");
 
-		// Grab a profile id that exceeds the maximum allowable.
-		$friend = Friend::getFriendByFriendFirstProfileId($this->getPDO(), BarkParkzTest::INVALID_KEY);
-		$this->assertCount(0, $friend);
+		// Create a new Friend, and insert it into mySQL.
+		$friend = new Friend($this->profileOne->getProfileId(), $this->profileTwo->getProfileId());
+		$friend->insert($this->getPDO());
+
+		// Grab the data from mySQL, and be sure the fields match our expectations.
+		$results = Friend::getFriendByFriendFirstProfileId($this->getPDO(), $this->profileOne->getProfileId());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("friend"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\BarkParkz", $results);
+
+		$pdoFriend =$results[0];
+		$this->assertEquals($pdoFriend->getFriendFirstProfileId(), $this->profileOne->getProfileId());
+		$this->assertEquals($pdoFriend->getFriendSecondProfileId(), $this->profileTwo->getProfileId());
 	}
 }

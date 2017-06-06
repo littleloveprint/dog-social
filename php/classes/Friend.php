@@ -206,7 +206,7 @@ class Friend implements \JsonSerializable {
 			throw(new \PDOException("profile id is not positive"));
 		}
 		// Create query template
-		$query = "SELECT friendFirstProfileId FROM friend WHERE friendFirstProfileId = :friendFirstProfileId";
+		$query = "SELECT friendFirstProfileId, friendSecondProfileId FROM friend WHERE friendFirstProfileId = :friendFirstProfileId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in the template
