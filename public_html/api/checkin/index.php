@@ -58,8 +58,8 @@ try {
 			if($checkIn !== null){
 				$reply->data = $checkIn;
 			}
-		} else if(empty($sunriseCheckInDateTime) === false && empty($sunsetCheckInDateTime) === false){
-			$checkIn = CheckIn::getCheckInByCheckInDateRange($pdo, $sunriseCheckInDateTime = \DateTime::createFromFormat("U.u", $sunriseCheckInDateTime / 1000), $sunsetCheckOutDateTime = \DateTime::createFromFormat("U.u", $sunsetCheckOutDateTime / 1000))->toArray();
+		} else if(empty($sunriseCheckInDateTime) === false && empty($sunsetCheckOutDateTime) === false){
+			$checkIn = CheckIn::getCheckInByCheckInDateRange($pdo, \DateTime::createFromFormat("U.u", $sunriseCheckInDateTime / 1000), \DateTime::createFromFormat("U.u", $sunsetCheckOutDateTime / 1000))->toArray();
 			if($checkIn !== null){
 				$reply->data = $checkIn;
 			}
