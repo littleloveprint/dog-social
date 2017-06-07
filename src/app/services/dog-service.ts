@@ -8,45 +8,46 @@ import {Observable} from "rxjs/Observable";
 @Injectable ()
 export class DogService extends BaseService {
 
-	constructor(protected http:Http) {
+	constructor(protected http: Http) {
 		super(http);
 	}
 
 	//define api endpoint
-	private dogUrl ="api/dog/";
+	private dogUrl = "api/dog/";
 
-	// call to the dog api and edit the dog in question
-	editDog(dogId: number) : Observable<Status> {
-		return(this.http.put(this.dogUrl + dog.dogId, dog))
+	//call to dog api and create dog in question
+	createDog(dog: Dog): Observable<Status> {
+		return (this.http.post(this.dogUrl, Dog))
+			.map(BaseService.extractMessage)
+			.catch(BaseService.handleError);
+	}
+
+	//call to dog api and edit dog in question
+	editDog(dog: Dog): Observable<Status> {
+		return (this.http.put(this.dogUrl, Dog))
 			.map(BaseService.extractMessage)
 			.catch(BaseService.handleError);
 
-	}
-	//call to dog api and create dog in question
-	createDog(dog : Dog) : Observable<Status> {
-		return(this.http.post(this.dogUrl, dog))
-			.map(BaseService.handleError);
-	}
 
-	//call to the dog api and get a dog by it's ID
-	getDog(dogId : number) : Observable<Dog> {
-		return(this.http.get(this.dogUrl + dogId))
+		//call to the dog api and get a dog by it's ID
+		getDog(id: number) : Observable <Dog> {
+			return(this.http.get(this.dogUrl + id)
 			.map(BaseService.extractData)
-			.catch(BaseService.handleError);
+			.catch(BaseService.handleError));
 	}
 
-	//call to the api and get a dog by profileId
-	getDogByProfileId(dogProfileId : number) : Observable>Dog[]> {
-		return(this.http.get(this.dogUrl + dogProfileId))
-		.map(BaseService.extractData)
-		.catch(BaseService.handleError);
-}
+		//call to the api and get a dog by profileId
+		getDogByProfileId(dogProfileId: number) :Observable <Dog[]> {
+			return(this.http.get(this.dogUrl + dogProfileId)
+			.map(BaseService.extractData)
+			.catch(BaseService.handleError));
+	}
 
 // call to dog api and get dogs by dog breed
-getDogByBreed(dogBreed : string) : Observable<Dog[]> {
-		return(this.http.get(this.dogUrl + dogBreed))
+		getDogByBreed(dogBreed: string) :Observable < Dog[] > {
+			return(this.http.get(this.dogUrl + dogBreed)
 			.map(BaseService.extractData)
-	.catch(BaseService.handleError);
+			.catch(BaseService.handleError));
+	}
+	}
 }
-
-
