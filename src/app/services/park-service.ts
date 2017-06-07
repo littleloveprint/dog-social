@@ -5,31 +5,33 @@ import {Status} from "../classes/status";
 import {Park} from "../classes/park";
 import {Observable} from "rxjs/Observable";
 
-@Injectable ()
+@Injectable()
 export class parkService extends BaseService {
 
-	constructor(protected http:Http ) {
+	constructor(protected http: Http) {
 		super(http);
 	}
 
 	// Define the API endpoint.
 	private parkUrl = "/api/park/";
 
-	getParkByParkId (parkId : number) : Observable <Park[]> {
-		return(this.http.get(this.parkUrl + park.parkId)
+	getParkByParkId(parkId: number): Observable<Park[]> {
+		return (this.http.get(this.parkUrl + park.parkId)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}
 
-	getParkByParkName (parkName : string) : Observable <Park[]> {
-		return(this.http.get(this.parkUrl + park.parkName)
+	getParkByParkName(parkName: string): Observable<Park[]> {
+		return (this.http.get(this.parkUrl + park.parkName)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}
 
-	getAllParks() : Observable<Park[]> {
-				return(this.http.get(this.parkUrl)
-					.map(BaseService.extractData)
-					.catch(BaseService.extractData));
+	getAllParks(): Observable<Park[]> {
+		return (this.http.get(this.parkUrl)
+			.map(BaseService.extractData)
+			.catch(BaseService.extractData));
 	}
 }
+
+
