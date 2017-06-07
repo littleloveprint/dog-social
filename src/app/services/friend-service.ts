@@ -42,9 +42,4 @@ export class friendService extends BaseService {
 			.catch(BaseService.handleError));
 	}
 
-	getFriendByFriendFirstProfileIdAndFriendSecondProfileId (friendFirstProfileId : number ) : Observable <Friend[]> {
-		return(this.http.get(this.friendUrl + friend.friendFirstProfileId +friend.friendSecondProfileId, friend)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
-	}
 }
