@@ -16,13 +16,13 @@ export class parkService extends BaseService {
 	private parkUrl = "/api/park/";
 
 	getParkByParkId(parkId: number): Observable<Park[]> {
-		return (this.http.get(this.parkUrl + park.parkId)
+		return (this.http.get(this.parkUrl + parkId)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}
 
 	getParkByParkName(parkName: string): Observable<Park[]> {
-		return (this.http.get(this.parkUrl + park.parkName)
+		return (this.http.get(this.parkUrl + parkName)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}
