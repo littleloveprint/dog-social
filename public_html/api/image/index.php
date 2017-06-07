@@ -3,11 +3,13 @@ require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
-
+use Edu\Cnm\BarkParkz\{
+	Profile
+};
 /**
  * Api for the cloudinary images that will magically work with out a class YATA
  *
- * @autho Michael Jordan mj@mjcodes.com
+ * @author Michael Jordan mj@mjcodes.com
  **/
 
 //verify the session, start if inactive
@@ -25,6 +27,7 @@ try {
 	$config = readConfig("/etc/apache2/capstone-mysql/barkparkz.ini");
 	$cloudinary = json_decode($config["cloudinary"]);
 	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
+	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 1);
 	//determine which http method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	if($method === "POST") {
@@ -34,7 +37,7 @@ try {
 			throw(new \InvalidArgumentException("You are not allowed to post images unless you are logged in", 401));
 		}
 		//assigning variables to the user image name, MIME type, and image extension
-		$tempUserFileName = $_FILES["file"]["tmp_name"];
+		$tempUserFileName = $_FILES["dog"]["tmp_name"];
 		//upload image to cloudinary and get public id
 		$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, ["width"=>500, "crop"=>"scale"]);
 		//after sending the image to Cloudinary, grab the public id and create a new image
