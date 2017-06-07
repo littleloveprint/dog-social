@@ -1,1 +1,1 @@
-<h1>Home Template</h1>
+<h1>Bark Parkz Template</h1>

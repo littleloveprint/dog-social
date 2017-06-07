@@ -10,12 +10,20 @@
   "contributors": [
 
     {
-      "name": "George Kephart",
-      "email": "gkephart@cnm.edu"
+      "name": "Michael Jordan",
+      "email": "mj@mjcodes.com"
     },
     {
-      "name": "Mason Crane",
-      "email": "mcrane2@cnm.edu"
+      "name": "lea",
+      "email": "lea email here"
+    },
+    {
+      "name": "troi",
+      "email": "trois email here"
+    },
+    {
+      "name": "gerrit",
+      "email": "gerrit email here"
     }
   ],
   "scripts": {

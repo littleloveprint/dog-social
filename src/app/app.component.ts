@@ -1,8 +1,8 @@
 import {Component} from "@angular/core";
 
 @Component({
-	selector: "bark-parkz",
-	templateUrl: "./templates/bark-parkz.php"
+	selector: "angular4-example",
+	templateUrl: "./templates/angular4-example-app.php"
 })
 
 export class AppComponent {}
