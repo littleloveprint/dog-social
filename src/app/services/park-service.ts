@@ -17,7 +17,7 @@ export class parkService extends BaseService {
 
 	// Call to the park API, and delete the park in question.
 	deletePark(park :Park) : Observable<Status> {
-		return(this.http.put(this.parkUrl + park.parkId +park.parkName, park)
+		return(this.http.put(this.parkUrl +park.parkId +park.parkLocationX +park.parkLocationY +park.parkName)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}
@@ -30,21 +30,26 @@ export class parkService extends BaseService {
 	}
 
 	// Grabs a specific park based on its composite key.
-	getParkByCompositeKey(parkId : number, parkName : number) : Observable <Park> {
-		return(this.http.get(this.parkUrl + parkId + parkName)
+	getParkByCompositeKey(parkLocationX : decimal parkLocationY : decimal parkName : number) : Observable <Park> {
+		return(this.http.get(this.parkUrl + parkLocationX + parkLocationY + parkName)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}
 
 	getParkByParkId (parkId : number ) : Observable <Park[]> {
-		return(this.http.get(this.parkUrl + parkId)
+		return(this.http.get(this.parkUrl + park.parkId)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}
+
+	getParkByParkLocation (parkLocationX : decimal : parkLocationY : decimal) : Observable <Park[]> {
+		return(this.http.get(this.parkUrl + park.parkLocationX + park.parkLocationY)
+			.map(BaseService.extraData)
+			.catch(BaseService.handleError));
+}
 
 	getParkByParkName (parkName : string ) : Observable <Park[]> {
 		return(this.http.get(this.parkUrl + park.parkName)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}
-}
