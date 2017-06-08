@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import {BaseService} from "./base-service";
+import {BaseService} from "./base.service";
 import {Status} from "../classes/status";
 import {Park} from "../classes/park";
 import {Observable} from "rxjs/Observable";
