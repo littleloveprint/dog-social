@@ -38,6 +38,6 @@ export class CheckInService extends BaseService {
 	getCheckInByCheckInDateTime(sunriseCheckInDateTime : Date ,sunsetCheckOutDateTime : Date) : Observable<CheckIn[]> {
 		return(this.http.get(this.checkInUrl + sunriseCheckInDateTime ,sunsetCheckOutDateTime)
 			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.catch(BaseService.handleError))	;
 }
 }
