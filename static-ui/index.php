@@ -9,6 +9,9 @@
 
 		<!-- NO HEADER ON THIS PAGE -->
 
+		<button class="btn btn-up" type="button">SIGN UP</button>
+		<button class="btn btn-in" type="button">SIGN IN</button>
+
 		<div class="fullscreen-bg">
 			<video loop muted autoplay poster="img/" class="fullscreen-bg__video">
 				<source src="video/" type="video/webm">
