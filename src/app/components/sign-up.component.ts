@@ -24,7 +24,7 @@ export class SignUpComponent implements OnInit{
 	}
 
 	createProfile() : void {
-		this.SignUpService.postSignUp(this.profile)
+		this.SignUpService.createProfile(this.profile)
 			.subscribe(status => {
 				this.status = status;
 				console.log(this.status);
