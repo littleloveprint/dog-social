@@ -1,3 +1,8 @@
+body {
+	font-family: 'Open Sans Condensed', sans-serif;
+}
+
+
 .fullscreen-bg {
 	position: fixed;
 	top: 0;
