@@ -9,8 +9,8 @@ import {SignUpService} from "../services/sign-up.service";
 
 
 @Component({
-	templateUrl: "./templates/signup-template.php",
-	selector: "sign-up.component"
+	templateUrl: "./templates/signup.php",
+	selector: "sign-up"
 })
 
 export class SignUpComponent implements OnInit{

@@ -9,8 +9,8 @@ import {SignInService} from "../services/sign-in.service";
 import {SignIn} from "../classes/sign-in";
 
 @Component({
-	templateUrl: "./templates/sign-in-template.php",
-	selector: "sign-in.component"
+	templateUrl: "./templates/sign-in.php",
+	selector: "sign-in"
 })
 
 export class SignInComponent {

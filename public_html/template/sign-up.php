@@ -14,7 +14,7 @@
 				<!--user's email-->
 				<div class="form-group">
 					<label for="atHandle" class="modal-labels">Name:</label>
-					<input type="atHandle" id="atHandle" name ="atHandle" class="modal-inputs" required [(ngModel)]="profile.profileAtHandle" #profileAtHandle="ngModel">
+					<input type="text" id="atHandle" name ="atHandle" class="modal-inputs" required [(ngModel)]="profile.profileAtHandle" #profileAtHandle="ngModel">
 				</div>
 				<div class="form-group">
 					<label for="email" class="modal-labels">Email:</label>
