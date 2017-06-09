@@ -23,11 +23,35 @@ body {
 
 /** BUTTON **/
 .btn-up {
-	background: darkgreen;
-	color: white;
+	border-top-color: #327828;
+	background: #327828;
+	color: #000000;
 }
 
 .btn-in {
-	background: white;
-	color: darkgreen;
+	border-top-color: #000000;
+	background: #000000;
+}
+
+.btn {
+	border-top: 1px solid #1fcf33;
+	background: #32b564;
+	background: -webkit-gradient(linear, left top, left bottom, from(#076619), to(#32b564));
+	background: -webkit-linear-gradient(top, #076619, #32b564);
+	background: -moz-linear-gradient(top, #076619, #32b564);
+	background: -ms-linear-gradient(top, #076619, #32b564);
+	background: -o-linear-gradient(top, #076619, #32b564);
+	padding: 5px 10px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+	-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+	box-shadow: rgba(0,0,0,1) 0 1px 0;
+	text-shadow: rgba(0,0,0,.4) 0 1px 0;
+	color: white;
+	font-size: 14px;
+	font-family: 'Lucida Grande', Helvetica, Arial, Sans-Serif;
+	text-decoration: none;
+	vertical-align: middle;
 }
