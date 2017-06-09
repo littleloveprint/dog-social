@@ -7,7 +7,7 @@ export class Profile {
 		public profileEmail: string,
 		public profilePassword: string,
 		public profilePasswordConfirm: string,
-		public profileLocationX: decimal,
-		public profileLocationY: decimal
+		public profileLocationX: number,
+		public profileLocationY: number
 	) {}
 }
