@@ -6,7 +6,7 @@ import {Favorite} from "../classes/favorite";
 import {Observable} from "rxjs/Observable";
 
 @Injectable ()
-export class favoriteService extends BaseService {
+export class FavoriteService extends BaseService {
 
 	constructor(protected http:Http ) {
 		super(http);

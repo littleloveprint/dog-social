@@ -6,7 +6,7 @@ import {Park} from "../classes/park";
 import {Observable} from "rxjs/Observable";
 
 @Injectable()
-export class parkService extends BaseService {
+export class ParkService extends BaseService {
 
 	constructor(protected http: Http) {
 		super(http);

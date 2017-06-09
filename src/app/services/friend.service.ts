@@ -6,7 +6,7 @@ import {Friend} from "../classes/friend";
 import {Observable} from "rxjs/Observable";
 
 @Injectable ()
-export class friendService extends BaseService {
+export class FriendService extends BaseService {
 
 	constructor(protected http:Http ) {
 		super(http);
