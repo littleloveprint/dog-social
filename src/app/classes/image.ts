@@ -1,13 +1,9 @@
 
-export class Profile{
+export class Image{
 
 	constructor(
-		public profileCloudinaryId: string
+		public profileCloudinaryId: string,
+		public dogCloudinaryId: string
 	)
 	{}
-}
-export class Dog{
-	constructor(
-		public dogCloudinaryId: string
-	){}
 }
