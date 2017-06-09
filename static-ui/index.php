@@ -11,7 +11,7 @@
 				<button class="btn btn-default btn-in" type="button">SIGN IN</button>
 
 				<div class="fullscreen-bg">
-					<video loop muted autoplay poster="img/" class="fullscreen-bg__video">
+					<video loop muted autoplay poster="img/BarkParkzTransparent.png" class="fullscreen-bg__video">
 						<source src="video/" type="video/webm">
 					</video>
 				</div>
