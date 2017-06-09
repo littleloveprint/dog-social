@@ -6,6 +6,8 @@ export class Profile {
 		public profileCloudinaryId: string,
 		public profileEmail: string,
 		public profilePassword: string,
-		public profilePasswordConfirm: string
+		public profilePasswordConfirm: string,
+		public profileLocationX: decimal,
+		public profileLocationY: decimal
 	) {}
 }
