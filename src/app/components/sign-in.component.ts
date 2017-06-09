@@ -34,7 +34,7 @@ export class SignInComponent {
 					this.router.navigate([""]);
 					location.reload(true);
 					this.signInForm.reset();
-					//setTimeout(function(){$("#signin-modal").modal('hide');},1000);
+					setTimeout(function(){$("#signin-modal").modal('hide');},1000);
 				}
 			});
 	}
