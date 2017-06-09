@@ -9,7 +9,7 @@ import {SignInService} from "../services/sign-in.service";
 import {SignIn} from "../classes/sign-in";
 declare var $: any;
 @Component({
-	templateUrl: "./templates/sign-in.php",
+	templateUrl: "./template/sign-in.php",
 	selector: "sign-in"
 })
 
