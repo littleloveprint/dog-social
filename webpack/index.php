@@ -14,6 +14,6 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 		<title>Bark Parkz</title>
 	</head>
 	<body>
-		<angular4-example>Loading&hellip;</angular4-example>
+		<bark-parkz>Bark Parkz IS THE BEST</bark-parkz>
 	</body>
 </html>
