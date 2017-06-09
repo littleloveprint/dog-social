@@ -7,7 +7,7 @@ import {Observable} from "rxjs/Observable"
 import {Status} from "../classes/status";
 import {SignInService} from "../services/sign-in.service";
 import {SignIn} from "../classes/sign-in";
-
+declare var $: any;
 @Component({
 	templateUrl: "./templates/sign-in.php",
 	selector: "sign-in"
