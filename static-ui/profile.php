@@ -7,4 +7,9 @@
 		<!-- HEADER AND NAVBAR -->
 		<?php require_once("library/header.php");?>
 
-		<main class=""
+		<main class="class">
+			CLOUDINARY ID<br>
+			@HANDLE
+		</main>
+	</div>
+</body>
