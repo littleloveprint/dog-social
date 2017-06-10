@@ -249,7 +249,7 @@ class Profile implements \JsonSerializable {
 
 		// Verify the email is secure
 		$newProfileEmail = trim($newProfileEmail);
-		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL);
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_VALIDATE_EMAIL);
 		if(empty($newProfileEmail) === true) {
 			throw(new \InvalidArgumentException("profile email is empty or insecure"));
 		}
