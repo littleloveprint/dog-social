@@ -1,10 +1,12 @@
-<footer class="navbar-fixed-bottom">
-	<footer class="bg-info text-center">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4 col-md-offset-4">
-					WE HEART DOGS
-				</div>
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				=^. .^=
+			</div>
+			<div class="col-sm-6 text-right-sm">
+				WE HEART DOGS!
 			</div>
 		</div>
-	</footer>
+	</div>
+</footer>
