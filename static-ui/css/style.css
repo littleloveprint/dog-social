@@ -33,7 +33,7 @@ body {
 	background: #000000;
 }
 
-.btn {
+#bnt {
 	border-top: 1px solid #1fcf33;
 	background: #32b564;
 	background: -webkit-gradient(linear, left top, left bottom, from(#076619), to(#32b564));
@@ -55,3 +55,4 @@ body {
 	text-decoration: none;
 	vertical-align: middle;
 }
+

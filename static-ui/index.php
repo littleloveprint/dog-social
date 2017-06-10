@@ -1,4 +1,7 @@
 <?php require_once("library/head-utils.php");?>
+<head>
+	<link rel="stylesheet" type="text/css" href="/static-ui/css/style.css">
+</head>
 
 <body class="sfooter">
 	<div class="sfooter-content">
@@ -7,13 +10,12 @@
 
 		<div class="row">
 			<div class="col-sx-12">
-				<button class="btn btn-up" type="button">SIGN UP</button>
+				<button class="btn btn-up" type="button" id="btn-up">SIGN UP</button>
 				<button class="btn btn-in" type="button">SIGN IN</button>
 
 				<div class="fullscreen-bg">
 					<video loop muted autoplay poster="img/BarkParkzTransparent.png" class="fullscreen-bg__video">
-						<iframe width="560" height="315" src="https://www.youtube.com/embed/_uTuRIxAgZ4" frameborder="0" allowfullscreen></iframe>
-					</video>
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/_uTuRIxAgZ4" frameborder="0" allowfullscreen></iframe></video>
 				</div>
 
 				<!-- FOOTER INSERT -->
