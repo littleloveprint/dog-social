@@ -8,8 +8,8 @@
 
 		<div class="container container-fluid">
 			<div class="row">
-				<div class="col-sx-12">
-					<div class="align-right">
+				<div class="col-xs-12">
+					<div class=".text-right">
 						<button class="btn btn-up" type="button">SIGN UP</button>
 						<button class="btn btn-in" type="button">SIGN IN</button>
 					</div>
