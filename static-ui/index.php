@@ -9,9 +9,13 @@
 		<div class="container container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
-					<div class=".text-right">
-						<button class="btn btn-up" type="button">SIGN UP</button>
-						<button class="btn btn-in" type="button">SIGN IN</button>
+					<div class="pull-right">
+						<div class="btn-group">
+							<button class="btn btn-up" type="button" id="move">SIGN UP</button>
+						</div>
+						<div class="btn-group">
+									<button class="btn btn-in" type="button" id="move">SIGN IN</button>
+						</div>
 					</div>
 
 					<div class="fullscreen-bg">

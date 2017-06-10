@@ -28,6 +28,13 @@ body {
 	color: #000000;
 }
 
+.btn-up #move {
+	float:right;
+	display:block;
+	margin-right:0px;
+	clear:left;
+}
+
 .btn-in {
 	border-top-color: #000000;
 	background: #000000;
@@ -55,6 +62,7 @@ body {
 	text-decoration: none;
 	vertical-align: middle;
 }
+
 { box-sizing: border-box; }
 .video-background {
 	background: #000;
