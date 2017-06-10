@@ -242,14 +242,14 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @param string $newProfileEmail new value of email
 	 * @throws \InvalidArgumentException if $newEmail is not a valid email or insecure
-	 * @throws \RangeException if $newEmail is > 128 characters
-	 * @throws \TypeError if $newEmail is not a string
+	 * @throws \RangeException if $newProfileEmail is > 128 characters
+	 * @throws \TypeError if $newProfileEmail is not a string
 	 **/
 	public function setProfileEmail(string $newProfileEmail) : void {
 
 		// Verify the email is secure
 		$newProfileEmail = trim($newProfileEmail);
-		$newProfileEmail = filter_var($newProfileEmail, FILTER_VALIDATE_EMAIL);
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL);
 		if(empty($newProfileEmail) === true) {
 			throw(new \InvalidArgumentException("profile email is empty or insecure"));
 		}
