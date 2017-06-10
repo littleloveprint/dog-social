@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 
 @Component({
 	selector: "barkparkz-navbar",
-	templateUrl: "./templates/navbar.php"
+	templateUrl: "./template/navbar.php"
 })
 
 export class NavbarComponent {}
