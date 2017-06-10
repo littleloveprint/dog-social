@@ -13,7 +13,7 @@
 			<form #signupForm="ngForm" name="signupForm" (ngSubmit)="createProfile();">
 				<!--user's email-->
 				<div class="form-group">
-					<label for="atHandle" class="modal-labels">Name:</label>
+					<label for="atHandle" class="modal-labels">Name</label>
 					<input type="text" id="atHandle" name ="atHandle" class="modal-inputs" required [(ngModel)]="profile.profileAtHandle" #profileAtHandle="ngModel">
 				</div>
 				<div class="form-group">
@@ -29,11 +29,6 @@
 				<div class="form-group">
 					<label for="confirmPassword" class="modal-labels">Confirm Password:</label>
 					<input type="password" id="confirmPassword" name="confirmPassword" class="modal-inputs" required [(ngModel)]="profile.profileConfirmPassword" #profileConfirmPassword="ngModel">
-				</div>
-				<!--set a handle-->
-				<div class="form-group">
-					<label for="handle" class="modal-labels">Choose a unique username:</label>
-					<input type="text" id="handle" name="handle" class="modal-inputs" required [(ngModel)]="profile.profileHandle" #profileHandle="ngModel">
 				</div>
 				<!--submit the information-->
 				<input type="submit" name="signup" class="modal-submit" value="signup">

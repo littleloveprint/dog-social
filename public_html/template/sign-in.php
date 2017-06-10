@@ -17,19 +17,19 @@
 					(ngSubmit)="signIn();">
 
 				<!--user's email-->
-				<div class="formgroup">
+				<div class="form-group">
 					<label for="signin-email" class="modal-labels">Email:</label>
 					<input type="email" name="signin-email" id="signin-email" required [(ngModel)]="sign-in.profileEmail" #profileEmail="ngModel" class="modal-inputs">
 				</div>
 
 				<!--user's password-->
-				<div class="formgroup">
+				<div class="form-group">
 					<label for="signin-password" class="modal-labels">Password:</label>
 					<input type="password" id="signin-password" name="signin-password" required [(ngModel)]="sign-in.profilePassword" #profilePassword="ngModel" class="modal-inputs">
 				</div>
 
 				<!--submit the information-->
-				<div class="formgroup" id="signin-final-formgroup">
+				<div class="form-group" id="signin-final-formgroup">
 					<button type="submit" id="submit" [disabled]="signInForm.invalid" class="modal-submit">Submit</button>
 				</div>
 			</form>
