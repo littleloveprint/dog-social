@@ -1,6 +1,7 @@
 <header>
 	<nav class="navbar navbar-inverse">
 		<div class="container">
+
 			<!-- MOBILE DISPLAY -->
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -9,17 +10,18 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="">Meow App!</a>
+				<a class="navbar-brand" href="">BARK PARKZ</a>
 			</div>
 
-			<!-- Collect the nav links, forms, and other content for toggling -->
+			<!-- COLLECT LINKS, FORMS AND OTHER CONTENT FOR TOGGLING -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href=""><i class="fa fa-home"></i></a></li>
 					<li><a href="about.php">About</a></li>
-					<li><a href="posts.php">Posts</a></li>
-					<li><a href="https://github.com/rlewis2892/ng4-meow-demo" target="_blank">GitHub</a></li>
+					<li><a href="profile.php">Profile</a></li>
+					<li><a href="dog.php">Dog</a></li>
+					<li><a href="parks.php">Parks</a> </li>
 				</ul>
 
 			</div><!-- /.navbar-collapse -->
