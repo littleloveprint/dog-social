@@ -1,3 +1,4 @@
+<!-- HEAD INSERT -->
 <?php require_once("library/head-utils.php");?>
 
 <body class="sfooter">
@@ -7,12 +8,14 @@
 
 		<div class="row">
 			<div class="col-sx-12">
-				<button class="btn btn-up" type="button">SIGN UP</button>
-				<button class="btn btn-in" type="button">SIGN IN</button>
+				<div class="align-right">
+					<button class="btn btn-up" type="button">SIGN UP</button>
+					<button class="btn btn-in" type="button">SIGN IN</button>
+				</div>
 
 				<div class="fullscreen-bg">
 					<video loop muted autoplay poster="img/BarkParkzTransparent.png" class="fullscreen-bg__video">
-						</video>
+					</video>
 				</div>
 				<div class="video-background">
 					<div class="video-foreground">
