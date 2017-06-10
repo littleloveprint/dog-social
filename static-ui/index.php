@@ -15,7 +15,12 @@
 
 				<div class="fullscreen-bg">
 					<video loop muted autoplay poster="img/BarkParkzTransparent.png" class="fullscreen-bg__video">
-						<iframe width="560" height="315" src="https://www.youtube.com/embed/_uTuRIxAgZ4" frameborder="0" allowfullscreen></iframe></video>
+						</video>
+				</div>
+				<div class="video-background">
+					<div class="video-foreground">
+						<iframe src="https://www.youtube.com/embed/_uTuRIxAgZ4?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=_uTuRIxAgZ4" frameborder="0" allowfullscreen></iframe>
+					</div>
 				</div>
 
 				<!-- FOOTER INSERT -->
