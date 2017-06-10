@@ -10,6 +10,8 @@
 		<main class="class">
 			CLOUDINARY ID<br>
 			@HANDLE
+
+			<?php require_once("library/footer.php");?>
 		</main>
 	</div>
 </body>
