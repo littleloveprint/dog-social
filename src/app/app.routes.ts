@@ -6,8 +6,9 @@ import {NavbarComponent} from "./components/navbar.component";
 import {FooterComponent} from "./components/footer.component";
 import {ProfileComponent} from "./components/profile.component";
 import {PostService} from "./services/post.service";
+import {ParkComponent} from "./components/parks.component";
 
-export const allAppComponents = [HomeComponent, SignUpComponent, SignInComponent, NavbarComponent, FooterComponent, ProfileComponent];
+export const allAppComponents = [HomeComponent, SignUpComponent, SignInComponent, NavbarComponent, FooterComponent, ProfileComponent, ParkComponent];
 
 export const routes: Routes = [
 	{path: "profile", component: ProfileComponent},
