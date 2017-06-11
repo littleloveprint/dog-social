@@ -4,11 +4,13 @@ import {SignUpComponent} from "./components/sign-up.component";
 import {SignInComponent} from "./components/sign-in.component";
 import {NavbarComponent} from "./components/navbar.component";
 import {FooterComponent} from "./components/footer.component";
+import {ProfileComponent} from "./components/profile.component";
 import {PostService} from "./services/post.service";
 
-export const allAppComponents = [HomeComponent, SignUpComponent, SignInComponent, NavbarComponent, FooterComponent];
+export const allAppComponents = [HomeComponent, SignUpComponent, SignInComponent, NavbarComponent, FooterComponent, ProfileComponent];
 
 export const routes: Routes = [
+	{path: "profile", component: ProfileComponent},
 	{path: "", component: HomeComponent},
 	{path: "**", redirectTo: ""}
 ];
