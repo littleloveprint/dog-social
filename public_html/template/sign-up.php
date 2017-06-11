@@ -6,7 +6,7 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 						aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Enter your information to Sign Up for Sprout-Swap!</h4>
+				<h4 class="modal-title">Enter your information to Sign Up for BarkParkz.com</h4>
 			</div>
 
 			<!--actual form-->
