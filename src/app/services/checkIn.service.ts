@@ -15,29 +15,29 @@ export class CheckInService extends BaseService {
 	//call to the CheckIn API and create the CheckIn in question
 	createCheckIn(checkIn: CheckIn) : Observable<Status> {
 		return(this.http.post(this.checkInUrl, CheckIn)
-			.map(BaseService.extractMessage)
-			.catch(BaseService.handleError));
+			.map(this.extractMessage)
+			.catch(this.handleError));
 	}
 	//call to the CheckIn API and get a CheckIn object based on its Id
 	getCheckInByCheckInId(checkInId : number) : Observable<CheckIn> {
 		return(this.http.get(this.checkInUrl + checkInId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 	//call to the CheckIn API and get an array of CheckIns based off the CheckIn Dog Ids
 	getCheckInByCheckInDogId(checkInDogId : number) : Observable<CheckIn[]> {
 		return(this.http.get(this.checkInUrl + checkInDogId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 	getCheckInByCheckInParkId(checkInParkId : number) : Observable<CheckIn[]> {
 		return(this.http.get(this.checkInUrl + checkInParkId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 	getCheckInByCheckInDateTime(sunriseCheckInDateTime : Date ,sunsetCheckOutDateTime : Date) : Observable<CheckIn[]> {
 		return(this.http.get(this.checkInUrl + sunriseCheckInDateTime ,sunsetCheckOutDateTime)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError))	;
+			.map(this.extractData)
+			.catch(this.handleError))	;
 }
 }

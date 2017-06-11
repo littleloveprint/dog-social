@@ -13,7 +13,7 @@ export class ImageService extends BaseService {
 
 	createImage(image: Image): Observable<Status> {
 		return (this.http.post(this.imageUrl, image)
-		.map(BaseService.extractData)
-		.catch(BaseService.handleError));
+		.map(this.extractData)
+		.catch(this.handleError));
 	}
 }

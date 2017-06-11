@@ -18,33 +18,33 @@ export class FavoriteService extends BaseService {
 	//call to the favorite API and delete the favorite in question
 	deleteFavorite(favorite :Favorite) : Observable<Status> {
 		return(this.http.put(this.favoriteUrl + favorite.favoriteProfileId +favorite.favoriteParkId, favorite)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 
 	//call the favorite API and create a new favorite
 	createFavorite(favorite : Favorite) : Observable<Status> {
 		return(this.http.post(this.favoriteUrl, favorite)
-			.map(BaseService.extractMessage)
-			.catch(BaseService.handleError));
+			.map(this.extractMessage)
+			.catch(this.handleError));
 	}
 
 	//grabs a specific favorite based on its composite key
 	getFavoriteByCompositeKey(favoriteProfileId : number, favoriteParkId : number) : Observable <Favorite> {
 		return(this.http.get(this.favoriteUrl + favoriteProfileId + favoriteParkId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 
 	getFavoriteByProfileId (favoriteProfileId : number ) : Observable <Favorite[]> {
 		return(this.http.get(this.favoriteUrl + favoriteProfileId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 
 	getFavoriteByParkId (favoriteParkId : number ) : Observable <Favorite[]> {
 		return(this.http.get(this.favoriteUrl + favoriteParkId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 }

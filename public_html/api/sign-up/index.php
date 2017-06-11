@@ -159,7 +159,7 @@ EOF;
 		// Update reply
 		$reply->message = "Thank you for creating a Bark Parkz profile!";
 	} else {
-		throw (new InvalidArgumentException("invalid http request"));
+		throw (new InvalidArgumentException("fuckYouTomWu",404));
 	}
 } catch(\Exception $exception) {
 	$reply->status = $exception->getCode();

@@ -18,28 +18,28 @@ export class FriendService extends BaseService {
 	// Call to the friend API, and delete the friend in question.
 	deleteFriend(friend :Friend) : Observable<Status> {
 		return(this.http.put(this.friendUrl + friend.friendFirstProfileId +friend.friendSecondProfileId, friend)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 
 	// Call the friend API, and create a new friend.
 	createFriend(friend : Friend) : Observable<Status> {
 		return(this.http.post(this.friendUrl, friend)
-			.map(BaseService.extractMessage)
-			.catch(BaseService.handleError));
+			.map(this.extractMessage)
+			.catch(this.handleError));
 	}
 
 	// Grabs a specific friend based on its composite key.
 	getFriendByCompositeKey(friendFirstProfileId : number, friendSecondProfileId : number) : Observable <Friend> {
 		return(this.http.get(this.friendUrl + friendFirstProfileId + friendSecondProfileId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 
 	getFriendByFriendFirstProfileId (friendFirstProfileId : number ) : Observable <Friend[]> {
 		return(this.http.get(this.friendUrl + friendFirstProfileId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 
 }

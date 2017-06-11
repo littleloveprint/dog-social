@@ -19,15 +19,15 @@ export class SignInComponent {
 	signin: SignIn = new SignIn("", "");
 	status: Status = null;
 
-	constructor(private SignInService: SignInService, private router: Router){}
+	constructor(private signInService: SignInService, private router: Router){}
 	isSignedIn = false;
 
 	ngOnChanges (): void{
-		this.isSignedIn = this.SignInService.isSignedIn;
+		this.isSignedIn = this.signInService.isSignedIn;
 	}
 
 	signIn() : void {
-		this.SignInService.postSignIn(this.signin)
+		this.signInService.postSignIn(this.signin)
 			.subscribe(status => {
 				this.status = status;
 				if(status.status === 200) {

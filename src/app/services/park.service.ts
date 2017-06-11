@@ -17,20 +17,20 @@ export class ParkService extends BaseService {
 
 	getParkByParkId(parkId: number): Observable<Park[]> {
 		return (this.http.get(this.parkUrl + parkId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 
 	getParkByParkName(parkName: string): Observable<Park[]> {
 		return (this.http.get(this.parkUrl + parkName)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 
 	getAllParks(): Observable<Park[]> {
 		return (this.http.get(this.parkUrl)
-			.map(BaseService.extractData)
-			.catch(BaseService.extractData));
+			.map(this.extractData)
+			.catch(this.extractData));
 	}
 }
 

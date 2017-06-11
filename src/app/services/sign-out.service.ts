@@ -14,7 +14,7 @@ export class SignOutService extends BaseService {
 
 	getSignOut() : Observable<Status> {
 		return(this.http.get(this.signOutUrl)
-			.map(BaseService.extractMessage)
-			.catch(BaseService.handleError));
+			.map(this.extractMessage)
+			.catch(this.handleError));
 	}
 }

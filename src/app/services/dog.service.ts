@@ -18,36 +18,36 @@ export class DogService extends BaseService {
 	//call to dog api and create dog in question
 	createDog(dog : Dog) : Observable<Status> {
 		return (this.http.post(this.dogUrl, Dog))
-			.map(BaseService.extractMessage)
-			.catch(BaseService.handleError);
+			.map(this.extractMessage)
+			.catch(this.handleError);
 	}
 
 	//call to dog api and edit dog in question
 	editDog(dog : Dog) : Observable<Status> {
 		return (this.http.put(this.dogUrl, Dog))
-			.map(BaseService.extractMessage)
-			.catch(BaseService.handleError);
+			.map(this.extractMessage)
+			.catch(this.handleError);
 	}
 
 		//call to the dog api and get a dog by it's ID
 	getDog(dogId : number) : Observable <Dog> {
 		return(this.http.get(this.dogUrl + dogId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 
 		//call to the api and get a dog by profileId
 	getDogByProfileId(dogProfileId : number) :Observable <Dog[]> {
 			return(this.http.get(this.dogUrl + dogProfileId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 
 // call to dog api and get dogs by dog breed
 		getDogByBreed(dogBreed : string) : Observable < Dog[] > {
 			return(this.http.get(this.dogUrl + dogBreed)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+			.map(this.extractData)
+			.catch(this.handleError));
 	}
 
 
