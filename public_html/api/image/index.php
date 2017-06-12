@@ -27,15 +27,15 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	if($method === "POST") {
 		verifyXsrf();
+		//verify user logged in
+		if(empty($_SESSION["profile"]) === true){
+			throw(new \InvalidArgumentException("You are not allowed to post images unless you are logged in", 401));
+		}
 		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
 		//cloudinary api stuff
 		$config = readConfig("/etc/apache2/capstone-mysql/barkparkz.ini");
 		$cloudinary = json_decode($config["cloudinary"]);
 		\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
-		//verify user logged in
-		if(empty($_SESSION["profile"]) === true){
-			throw(new \InvalidArgumentException("You are not allowed to post images unless you are logged in", 401));
-		}
 		//assigning variables to the user image name, MIME type, and image extension
 		$tempUserFileName = $_FILES["dog"]["tmp_name"];
 		//upload image to cloudinary and get public id
