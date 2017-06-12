@@ -11,7 +11,7 @@ import {ParkComponent} from "./components/park.component";
 export const allAppComponents = [HomeComponent, SignUpComponent, SignInComponent, NavbarComponent, FooterComponent, ProfileComponent, ParkComponent];
 
 export const routes: Routes = [
-	{path: "profile/:id", component: ProfileComponent},
+	{path: "welcome/:id", component: ProfileComponent},
 	{path: "", component: HomeComponent},
 	{path: "**", redirectTo: ""}
 ];
