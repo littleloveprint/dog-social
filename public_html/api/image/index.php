@@ -21,17 +21,17 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 try {
-	//grab the mySQL connection
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
-	//cloudinary api stuff
-	$config = readConfig("/etc/apache2/capstone-mysql/barkparkz.ini");
-	$cloudinary = json_decode($config["cloudinary"]);
-	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
+
 	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 1);
 	//determine which http method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	if($method === "POST") {
 		verifyXsrf();
+		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/barkparkz.ini");
+		//cloudinary api stuff
+		$config = readConfig("/etc/apache2/capstone-mysql/barkparkz.ini");
+		$cloudinary = json_decode($config["cloudinary"]);
+		\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 		//verify user logged in
 		if(empty($_SESSION["profile"]) === true){
 			throw(new \InvalidArgumentException("You are not allowed to post images unless you are logged in", 401));
