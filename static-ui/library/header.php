@@ -19,7 +19,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href=""><i class="fa fa-home"></i></a></li>
 					<li><a href="about.php">About</a></li>
-					<li><a href="profile.php">Profile</a></li>
+					<li><a href="/static-ui/profile.php">Profile</a></li>
 					<li><a href="dog.php">Dog</a></li>
 					<li><a href="parks.php">Parks</a> </li>
 				</ul>

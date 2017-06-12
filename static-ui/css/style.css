@@ -99,3 +99,8 @@ body {
 @media all and (max-width: 500px) {
 	.vid-info .acronym { display: none; }
 }
+
+/** NAV **/
+.nav .navbar-nav {
+	background-color: darkgreen;
+}
