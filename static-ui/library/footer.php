@@ -1,8 +1,7 @@
-<footer>
+<footer class="bg-info text-center">
 	<div class="container">
 		<div class="row">
-			<img class="image-responsive" src="../img/BarkParkzTransparent.png" alt="Bark Parkz Logo">
-			<div class="col-sm-6 text-right-sm">
+			<div class="col-xs-12 col-md-offset-0">
 				WE HEART DOGS!
 			</div>
 		</div>
