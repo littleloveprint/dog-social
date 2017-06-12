@@ -7,6 +7,8 @@
 		<div class="row">
 			<div class="col-md-offset-2 col-md-4">
 				<p>WE WANT THE CLOUDINARY img HERE</p>
+			</div>
+			<div class="col-md-offset-3 col-md-4">
 				<p>WELCOME BACK TO BARK PARKZ!</p>
 			</div>
 		</div>
