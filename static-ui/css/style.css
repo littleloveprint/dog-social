@@ -101,6 +101,6 @@ body {
 }
 
 /** NAV **/
-.nav .navbar-nav {
+.collapse .navbar-collapse {
 	background-color: darkgreen;
 }
