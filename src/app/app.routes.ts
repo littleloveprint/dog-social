@@ -7,6 +7,7 @@ import {FooterComponent} from "./components/footer.component";
 import {ProfileComponent} from "./components/profile.component";
 import {PostService} from "./services/post.service";
 import {ParkComponent} from "./components/park.component";
+import {ImageComponent} from "./components/image.component";
 
 export const allAppComponents = [HomeComponent, SignUpComponent, SignInComponent, NavbarComponent, FooterComponent, ProfileComponent, ParkComponent];
 
