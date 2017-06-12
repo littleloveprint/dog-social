@@ -14,8 +14,8 @@ export const allAppComponents = [HomeComponent, SignUpComponent, SignInComponent
 
 export const routes: Routes = [
 	{path: "welcome/:id", component: ProfileComponent},
-	{path: "", component: HomeComponent},
 	{path: "image", component: ImageComponent},
+	{path: "", component: HomeComponent},
 	{path: "**", redirectTo: ""}
 ];
 
