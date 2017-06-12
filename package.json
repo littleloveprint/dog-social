@@ -45,6 +45,7 @@
     "angular-in-memory-web-api": "~0.3.2",
     "core-js": "^2.4.1",
     "ng2-file-upload": "^1.2.1",
+    "ng2-cookies": "^1.0.12",
     "rxjs": "^5.3.1",
     "jquery": "^3.2.1",
     "zone.js": "^0.8.10"
