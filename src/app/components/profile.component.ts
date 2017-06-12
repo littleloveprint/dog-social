@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit{
 	status: Status = null;
 	profile: Profile = new Profile(null, null, null, null, null, null, null, null, null);
 
-	constructor(private profileService :Profile, private route :ActivatedRoute) {
+	constructor(private profileService :ProfileService, private route :ActivatedRoute) {
 	}
 
 	ngOnInit(): void {
@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit{
 
 	getCurrentProfile(): void {
 		this.route.params
-			.switchMap
+			.switchMap((params: Params) => this.profileService.getProfile(+ params["id"]))
+			.subscribe(reply => this.profile = reply);
 	}
 }
