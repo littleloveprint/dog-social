@@ -21,8 +21,8 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 try {
-
-	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 1);
+	//this is for testing
+	//$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 1);
 	//determine which http method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	if($method === "POST") {
