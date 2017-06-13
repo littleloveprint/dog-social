@@ -3,7 +3,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {Observable} from "rxjs";
 
 @Component({
-	selector: "barkparkz-navbar",
+	selector: "navbar",
 	templateUrl: "./template/navbar.php"
 })
 

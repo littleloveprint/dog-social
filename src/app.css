@@ -1,5 +1,6 @@
 body {
 	font-family: 'Open Sans Condensed', sans-serif;
+	background-color: transparent;
 }
 
 
@@ -22,20 +23,20 @@ body {
 }
 
 /** BUTTON **/
-.btn-up {
+.sign-up {
 	border-top-color: #327828;
 	background: #327828;
 	color: #000000;
 }
 
-.btn-up #move {
+.sign-up #move {
 	float:right;
 	display:block;
 	margin-right:0px;
 	clear:left;
 }
 
-.btn-in {
+.sign-in {
 	border-top-color: #000000;
 	background: #000000;
 }
@@ -128,4 +129,8 @@ body { width: 100%;}
 
 .sfooter-content {
 	flex: 1 0 auto;
+}
+
+.col-xs-12 {
+	background-color: transparent;
 }

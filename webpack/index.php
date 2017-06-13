@@ -2,6 +2,8 @@
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
+require_once ("../php/lib/xsrf.php");
+setXsrfCookie();
 ?>
 <!DOCTYPE html>
 <html lang="en">
