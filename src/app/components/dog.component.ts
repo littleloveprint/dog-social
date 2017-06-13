@@ -14,11 +14,11 @@ import {create} from "domain";
 
 export class DogComponent implements OnInit{
 	status: Status = null;
-	dog: Dog = new Dog(null, null, null, null, null, null, null);
+	dog: Dog = new Dog(null, 1, null, null, null, null, null);
 	constructor(private dogService :DogService, private route :ActivatedRoute){
 	}
 	ngOnInit(): void {
-		this.getCurrentDog();
+	//	this.getCurrentDog();
 	}
 	getCurrentDog(): void{
 		this.route.params
@@ -26,7 +26,7 @@ export class DogComponent implements OnInit{
 			.subscribe(reply => this.dog = reply);
 	}
 	createDog(): void{
-		this.dogService.createDog(this.dog)
+		this.dogService.fuckDogs(this.dog)
 			.subscribe(status => this.status = status);
 	}
 }

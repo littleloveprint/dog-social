@@ -2,7 +2,7 @@
 
 	<!-- Text input-->
 	<div class="form-group">
-		<label class="col-md-4 control-label sr-only" for="@Handle">@Handle</label>
+		<label class="col-md-4 control-label" for="@Handle">@Handle</label>
 		<div class="col-md-2">
 			<input id="dogAtHandle" name="@Handle" type="text" placeholder="@Handle" class="form-control input-md" [(ngModel)]="createDog.dogAtHandle">
 
@@ -38,7 +38,7 @@
 	<div class="form-group">
 		<label class="col-md-4 control-label" for="submit"></label>
 		<div class="col-md-4">
-			<button id="submit" name="submit" class="btn btn-primary">Submit</button>
+			<button name="submit" type="submit" class="btn btn-primary">Submit</button>
 		</div>
 	</div>
 </form>

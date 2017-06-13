@@ -16,15 +16,15 @@ export class DogService extends BaseService {
 	private dogUrl = "api/dog/";
 
 	//call to dog api and create dog in question
-	createDog(dog : Dog) : Observable<Status> {
-		return (this.http.post(this.dogUrl, Dog))
+	fuckDogs(dog : Dog) : Observable<Status> {
+		return (this.http.post(this.dogUrl, dog))
 			.map(this.extractMessage)
 			.catch(this.handleError);
 	}
 
 	//call to dog api and edit dog in question
 	editDog(dog : Dog) : Observable<Status> {
-		return (this.http.put(this.dogUrl, Dog))
+		return (this.http.put(this.dogUrl, dog))
 			.map(this.extractMessage)
 			.catch(this.handleError);
 	}
