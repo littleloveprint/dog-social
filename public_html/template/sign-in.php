@@ -19,13 +19,13 @@
 				<!--user's email-->
 				<div class="form-group">
 					<label for="signin-email" class="modal-labels">Email:</label>
-					<input type="email" name="signin-email" id="signin-email" required [(ngModel)]="signIn.profileEmail" #profileEmail="ngModel" class="modal-inputs">
+					<input type="email" name="signin-email" id="signin-email" required [(ngModel)]="signin.profileEmail" #profileEmail="ngModel" class="modal-inputs">
 				</div>
 
 				<!--user's password-->
 				<div class="form-group">
 					<label for="signin-password" class="modal-labels">Password:</label>
-					<input type="password" id="signin-password" name="signin-password" required [(ngModel)]="signIn.profilePassword" #profilePassword="ngModel" class="modal-inputs">
+					<input type="password" id="signin-password" name="signin-password" required [(ngModel)]="signin.profilePassword" #profilePassword="ngModel" class="modal-inputs">
 				</div>
 
 				<!--submit the information-->
