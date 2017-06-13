@@ -7,23 +7,36 @@
 		<!-- HEADER AND NAVBAR -->
 		<?php require_once("library/header.php");?>
 
-		<div class="fullscreen-bgprofile" id="fullscreen-bgprofile"><img src="img/profilebackground.png">
-		</div>
-
 		<main class="class">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-offset-2 col-md-4">
-						<p>WE WANT THE CLOUDINARY img HERE</p>
-						<p>WELCOME BACK TO BARK PARKZ!</p>
+			<form class="form-horizontal">
+				<fieldset>
+
+					<!-- TEXT INPUT -->
+
+					<!-- INSERT CLOUDINARY ID HERE??? -->
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="@Handle">@Handle</label>
+						<div class="col-md-2">
+							<input id="@Handle" name="@Handle" type="text" placeholder="@Handle" class="form-control input-md">
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-offset-2 col-md-4">
-						<p>WE WANT THE @HANDLE HERE</p>
+
+					<!-- TEXT INPUT -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="">Email</label>
+						<div class="col-md-2">
+							<input id="Email" name="Email" type="text" placeholder="Email" class="form-control input-md">
+						</div>
 					</div>
-				</div>
-			</div>
+
+					<!-- BUTTON -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="submit"></label>
+						<div class="col-md-4">
+							<button id="submit" name="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
 
 
 
