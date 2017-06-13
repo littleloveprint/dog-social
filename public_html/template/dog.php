@@ -1,4 +1,4 @@
-<form class="form-horizontal" id="createDog" name="createDog" #createDog="ngForm" (submit)="createDog">
+<form class="form-horizontal" id="createDog" name="createDog" #createDog="ngForm" (submit)="createDog();">
 
 	<!-- Text input-->
 	<div class="form-group">
