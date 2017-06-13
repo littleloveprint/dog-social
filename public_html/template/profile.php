@@ -27,6 +27,8 @@
 					<input id="Email" name="Email" type="text" placeholder="Email" class="form-control input-md" [(ngModel)]="createProfile.profileEmail">
 				</div>
 			</div>
+
+			<button name="submit"  type="submit" class="btn btn-primary">Submit</button>
 		</form>
 	</div>
 </div>
