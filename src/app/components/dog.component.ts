@@ -26,7 +26,7 @@ export class DogComponent implements OnInit{
 			.subscribe(reply => this.dog = reply);
 	}
 	createDog(): void{
-		this.dogService.fuckDogs(this.dog)
+		this.dogService.createDog(this.dog)
 			.subscribe(status => this.status = status);
 	}
 }
