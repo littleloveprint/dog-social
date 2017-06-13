@@ -1,29 +1,28 @@
-<form class="form-horizontal" id="createDog" name="createDog" #createDog="ngForm" (submit)="createDog();"
-		xmlns="http://www.w3.org/1999/html">
+<form class="form-horizontal" id="dogForm" name="dogForm" #dogForm="ngForm" (submit)="createDog();" novalidate>
 
 	<!-- Text input-->
 	<div class="form-group">
-		<label class="col-md-4 control-label" for="@Handle">@Handle</label>
+		<label class="col-md-4 control-label" for="dogAtHandle">@Handle</label>
 		<div class="col-md-2">
-			<input id="dogAtHandle" name="@Handle" type="text" placeholder="@Handle" class="form-control input-md" [(ngModel)]="dog.dogAtHandle">
+			<input id="dogAtHandle" name="dogAtHandle" type="text" placeholder="@Handle" class="form-control input-md" [(ngModel)]="dog.dogAtHandle">
 
 		</div>
 	</div>
 
 	<!-- Text input-->
 	<div class="form-group">
-		<label class="col-md-4 control-label" for="Age">Age</label>
+		<label class="col-md-4 control-label" for="dogAge">Age</label>
 		<div class="col-md-2">
-			<input id="dogAge" name="Age" type="text" placeholder="Age" class="form-control input-md" [(ngModel)]="dog.dogAge">
+			<input id="dogAge" name="dogAge" type="text" placeholder="Age" class="form-control input-md" [(ngModel)]="dog.dogAge">
 
 		</div>
 	</div>
 
 	<!-- Text input-->
 	<div class="form-group">
-		<label class="col-md-4 control-label" for="Breed">Breed</label>
+		<label class="col-md-4 control-label" for="dogBreed">Breed</label>
 		<div class="col-md-2">
-			<input id="dogBreed" name="Breed" type="text" placeholder="Breed" class="form-control input-md" [(ngModel)]="dog.dogBreed">
+			<input id="dogBreed" name="dogBreed" type="text" placeholder="Breed" class="form-control input-md" [(ngModel)]="dog.dogBreed">
 
 		</div>
 	</div>
@@ -33,7 +32,7 @@
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="dogBio">Bio</label>
 				<div class="col-md-8">
-					<input id="dogBio" name="Bio" type="text" placeholder="Bio"
+					<input id="dogBio" name="dogBio" type="text" placeholder="Bio"
 							 class="form-control input-md" [(ngModel)]="dog.dogBio">
 
 		</div>

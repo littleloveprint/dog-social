@@ -14,7 +14,7 @@ import {create} from "domain";
 
 export class DogComponent implements OnInit{
 	status: Status = null;
-	dog: Dog = new Dog(null, 1, null, null, null, null, null);
+	dog: Dog = new Dog(null, null, null, null, null, null, null);
 	constructor(private dogService :DogService, private route :ActivatedRoute){
 	}
 	ngOnInit(): void {
