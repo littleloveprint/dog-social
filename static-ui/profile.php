@@ -62,7 +62,6 @@
 
 
 
-
 			<?php require_once("library/footer.php");?>
 		</main>
 	</div>
