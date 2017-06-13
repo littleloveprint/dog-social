@@ -16,7 +16,7 @@
 			<div class="form-group">
 				<label class="col-md-4 control-label sr-only" for="@Handle">@Handle</label>
 				<div class="col-md-2">
-					<input id="@Handle" name="@Handle" type="text" placeholder="@Handle" class="form-control input-md" [(ngModel)]="createProfile.profileAtHandle">
+					<input id="@Handle" name="@Handle" type="text" placeholder="@Handle" class="form-control input-md" [(ngModel)]="profile.profileAtHandle">
 				</div>
 			</div>
 
@@ -24,7 +24,7 @@
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="">Email</label>
 				<div class="col-md-2">
-					<input id="Email" name="Email" type="text" placeholder="Email" class="form-control input-md" [(ngModel)]="createProfile.profileEmail">
+					<input id="Email" name="Email" type="text" placeholder="Email" class="form-control input-md" [(ngModel)]="profile.profileEmail">
 				</div>
 			</div>
 
