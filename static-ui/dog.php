@@ -15,7 +15,7 @@
 					<!-- Text input-->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="@Handle">@Handle</label>
-						<div class="col-md-4">
+						<div class="col-md-2">
 							<input id="@Handle" name="@Handle" type="text" placeholder="@Handle" class="form-control input-md">
 
 						</div>
@@ -33,7 +33,7 @@
 					<!-- Text input-->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="Breed">Breed</label>
-						<div class="col-md-4">
+						<div class="col-md-2">
 							<input id="Breed" name="Breed" type="text" placeholder="Breed" class="form-control input-md">
 
 						</div>
@@ -45,6 +45,7 @@
 						<div class="col-md-4">
 							<textarea class="form-control" id="bio" name="bio"></textarea>
 						</div>
+					</div>
 						<!-- Button -->
 						<div class="form-group">
 							<label class="col-md-4 control-label" for="submit"></label>
