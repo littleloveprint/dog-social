@@ -10,7 +10,6 @@ import {create} from "domain";
 @Component({
 	templateUrl: "./template/dog.php",
 	selector: "create-dog"
-
 })
 
 export class DogComponent implements OnInit{
