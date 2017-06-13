@@ -102,13 +102,13 @@ body {
 
 
 /** NAV **/
-.collapse .navbar-collapse {
-	background-color: darkgreen;
-}
+
 
 /** FOOTER **/
-#dogbackground {
-	background-image:
+
+.navbar .navbar-fixed-bottom {
+	color: white;
+	background-color: darkgreen;
 }
 
 /***
