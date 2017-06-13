@@ -15,6 +15,12 @@ import {SignInService} from "./services/sign-in.service";
 import {SignUpService} from "./services/sign-up.service";
 import {SignOutService} from "./services/sign-out.service";
 
+// ANGULAR FOR GOOGLE MAPS
+import {CommonModule} from "@angular/common";
+import {AgmCoreModule} from "@angular2-google-maps/core";
+
+import {allAppComponents, appRoutingProviders, routing} from "./app.routes";
+
 const moduleDeclarations = [AppComponent];
 
 @NgModule({
