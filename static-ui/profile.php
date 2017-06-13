@@ -37,6 +37,11 @@
 							<button id="submit" name="submit" class="btn btn-primary">Submit</button>
 						</div>
 					</div>
+				</fieldset>
+			</form>
+		</main>
+	</div>
+</body>
 
 
 
