@@ -107,15 +107,6 @@ body {
 }
 
 /** FOOTER **/
-.bg-info .text-center {
-	position: fixed;
-	height: 10%;
-	bottom: 0;
-	width: 100%;
-	background-color: black;
-	z-index: 999;
-}
-
 #dogbackground {
 	background-image:
 }
