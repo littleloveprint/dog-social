@@ -10,7 +10,7 @@
 			<p id="profile-handle"> Welcome Back To Bark Parkz {{ profile.profileAtHandle }}</p>
 		</div>
 
-		<form class="form-horizontal" id="createProfile" name="createProfile" #createProfile="ngForm" (submit)="createProfile">
+		<form class="form-horizontal" id="createProfile" name="createProfile" #createProfile="ngForm" (submit)="createProfile"();>
 
 			<!-- TEXT INPUT -->
 			<div class="form-group">
