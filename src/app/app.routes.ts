@@ -9,11 +9,13 @@ import {PostService} from "./services/post.service";
 import {ParkComponent} from "./components/park.component";
 import {ImageComponent} from "./components/image.component";
 import {FileSelectDirective} from "ng2-file-upload";
+import {DogComponent} from "./components/dog.component";
 
-export const allAppComponents = [HomeComponent, SignUpComponent, SignInComponent, NavbarComponent, FooterComponent, ProfileComponent, ParkComponent, ImageComponent, FileSelectDirective];
+export const allAppComponents = [HomeComponent, SignUpComponent, SignInComponent, NavbarComponent, FooterComponent, ProfileComponent, DogComponent, ParkComponent, ImageComponent, FileSelectDirective];
 
 export const routes: Routes = [
 	{path: "welcome/:id", component: ProfileComponent},
+	{path: "dog", component: DogComponent},
 	{path: "image", component: ImageComponent},
 	{path: "", component: HomeComponent},
 	{path: "**", redirectTo: ""}
