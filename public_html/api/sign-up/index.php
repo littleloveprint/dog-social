@@ -32,8 +32,8 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	if($method === "POST") {
 
-		// Set XSRF cookie
-		setXsrfCookie();
+		// verify XSRF cookie
+		verifyXsrfCookie();
 
 		// Decode the json and turn it into a php object
 		$requestContent = file_get_contents("php://input");
