@@ -16,7 +16,7 @@ declare var $: any;
 export class SignInComponent {
 	@ViewChild("signInForm") signInForm : any;
 
-	signIn: SignIn = new SignIn("", "");
+	signin: SignIn = new SignIn("", "");
 	status: Status = null;
 
 	constructor(private signInService: SignInService, private router: Router){}
@@ -27,7 +27,7 @@ export class SignInComponent {
 	}
 
 	signIn() : void {
-		this.signInService.postSignIn(this.signIn)
+		this.signInService.postSignIn(this.signin)
 			.subscribe(status => {
 				this.status = status;
 				if(status.status === 200) {
