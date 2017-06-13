@@ -7,8 +7,7 @@
 		<!-- HEADER AND NAVBAR -->
 		<?php require_once("library/header.php");?>
 
-		<div class="fullscreen-bg">
-			<img src="" alt="Background Image">
+		<div class="fullscreen-bgprofile" id="fullscreen-bgprofile"><img src="img/profilebackground.png">
 		</div>
 
 		<main class="class">
