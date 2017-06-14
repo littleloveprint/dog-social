@@ -1,3 +1,4 @@
+<body>
 <div class="dog-wrap">
 	<navbar></navbar>
 
@@ -60,3 +61,4 @@
 		</div><!--/.row-->
 	</div>
 </div>
+</body>
