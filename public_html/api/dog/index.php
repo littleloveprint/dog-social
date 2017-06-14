@@ -63,6 +63,11 @@ try {
 				$reply->data = $dog;
 			}
 		}
+	} else{
+		$dog = Dog::getDogByDogProfileId($pdo, $_SESSION["profile"]->getProfileId)->toArray();
+		if($dog !== null) {
+			$reply->data = $dog;
+
 
 	} else if($method === "PUT" || $method === "POST") {
 		verifyXsrf();
