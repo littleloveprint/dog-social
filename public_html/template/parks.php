@@ -24,9 +24,9 @@
 
 		<br>
 
-		<div class="well well-sm">
-			<div class="h4">Park Name&nbsp;<small>Park Location here?</small>
+		<! -- <div class="well well-sm">
+			<div *ngFor="let park of parks" class="h4">
+				Park Name&nbsp; {{ park.parkName }}
 			</div>
-		</div>
 	</div>
 </div>

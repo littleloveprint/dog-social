@@ -50,7 +50,7 @@ try {
 
 			//if any other HTTP request is sent, throw an exception
 		} else {
-			$park = Park::getAllParks($pdo);
+			$park = Park::getAllParks($pdo)->toArray();
 			if($park !== null) {
 				$reply->data = $park;
 			}

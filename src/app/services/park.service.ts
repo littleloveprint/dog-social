@@ -13,7 +13,7 @@ export class ParkService extends BaseService {
 	}
 
 	// Define the API endpoint.
-	private parkUrl = "/api/park/";
+	private parkUrl = "api/park/";
 
 	getParkByParkId(parkId: number): Observable<Park[]> {
 		return (this.http.get(this.parkUrl + parkId)

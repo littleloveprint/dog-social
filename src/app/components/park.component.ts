@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 	templateUrl: "./template/park.php",
 	styles: [`agm-map{
 		height: 300px;
+		width: 400px;
 	}`]
 })
 
