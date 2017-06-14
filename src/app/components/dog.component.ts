@@ -30,4 +30,8 @@ export class DogComponent implements OnInit{
 			.subscribe(status => this.status = status);
 	}
 
+	ngOnChanges (): void{
+		location.reload(true);
+	}
+
 }

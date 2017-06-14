@@ -3,62 +3,48 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-6">
-				<!-- INSERT CLOUDINARY ID HERE??? -->
-				<p id="profile-handle"> Welcome Back To Bark Parkz {{ profile.profileAtHandle }}</p>
+			<div class="col-xs-12">
+				<h1>Welcome to Bark Parkz! <button class="btn btn-info pull-right" role="button" data-toggle="collapse" href="#updateProfile" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-plus"></i>&nbsp;Update Profile</button></h1>
+				<hr>
 			</div>
-
-			<div class="col-md-6">
-				<form class="form-horizontal" id="createProfile" name="createProfile" #createProfile="ngForm"
-						(submit)="createProfile();">
-
-					<!-- TEXT INPUT -->
-					<div class="form-group">
-						<label class="col-md-4 control-label sr-only" for="@Handle">@Handle</label>
-						<div class="col-md-2">
-							<input id="@Handle" name="@Handle" type="text" placeholder="@Handle" class="form-control input-md"
-									 [(ngModel)]="profile.profileAtHandle">
-						</div>
-					</div>
-
-					<!-- TEXT INPUT -->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="">Email</label>
-						<div class="col-md-2">
-							<input id="Email" name="Email" type="text" placeholder="Email" class="form-control input-md"
-									 [(ngModel)]="profile.profileEmail">
-						</div>
-					</div>
-
-					<!-- BUTTONS -->
-					<div class="form-group">
-						<label class="control-label" for="updateProfile"></label>
-						<button name="submit" type="submit" class="btn btn-primary">UPDATE PROFILE</button>
-					</div>
-				</form>
-			</div>
-		</div>
-
+		</div><!--/.row-->
 		<div class="row">
-			<div class="col-md-6">
-				<!-- MORE TEXT -->
-				<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
-					<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
-							aria-hidden="true">&times;</span></button>
-					{{ status.message }}
-				</div>
-			</div>
-		</div>
-	</div>
+			<div class="col-sm-6">
+				<img src="https://www.fillmurray.com/200/300" alt="fill murray" class="img-responsive thumbnail">
+				<div><span class="well well-sm">@handle</span></div>
+			</div><!--/.col-sm-6-->
+			<div class="col-sm-6">
+				<div class="collapse" id="updateProfile">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form novalidate>
+								<div class="form-group">
+									<label for="name" class=" control-label">@handle</label>
+									<input id="@Handle" name="@Handle" type="text" placeholder="@Handle" class="form-control input-md"
+											 [(ngModel)]="profile.profileAtHandle">
+								</div>
 
+								<div class="form-group">
+									<label for="SignUp" class=" control-label">Handle</label>
+									<input type="text" class="form-control" id="SignUp"
+											 placeholder="profileAtHandle" [(ngModel)]="profile.profileAtHandle"
+											 #profileAtHandle="ngModel">
+								</div>
 
-	<div class="col-sm-6 col-md-8">
-		<img class="img-circle img-responsive" src="../img/LeaDoggy.jpg" alt="Profile Image">
+								<div class="form-group">
+									<label for="SignUp3" class=" control-label">Email</label>
+									<input id="Email" name="Email" type="text" placeholder="Email" class="form-control input-md"
+											 [(ngModel)]="profile.profileEmail">
+								</div>
 
-		<!-- PROFILE NAV BUTTONS -->
-		<div class="form-group">
-			<label class="control-label" for="viewParks"></label>
-			<button name="submit" type="button" class="btn btn-primary">PARKS</button>
-		</div>
-	</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-info">Update Profile</button>
+								</div>
+							</form>
+						</div><!--/.panel-body-->
+					</div><!--/.profile-->
+				</div><!--/.collapse-->
+			</div><!--/.col-sm-6-->
+		</div><!--/.row-->
+	</div><!--/.container-->
 </div>
