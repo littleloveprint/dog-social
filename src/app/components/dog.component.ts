@@ -15,22 +15,19 @@ import {create} from "domain";
 export class DogComponent implements OnInit{
 	status: Status = null;
 	dog: Dog = new Dog(null, null, null, null, null, null, null);
+	dogs: Dog[] = [];
 	constructor(private dogService :DogService, private route :ActivatedRoute){
 	}
 	ngOnInit(): void {
-	//	this.getCurrentDog();
+		this.getCurrentDogs();
 	}
-	getCurrentDog(): void{
-		this.route.params
-			.switchMap((params: Params) => this.dogService.getDog(+ params["id"]))
-			.subscribe(reply => this.dog = reply);
+	getCurrentDogs(): void{
+		this.dogService.getAllDogs()
+			.subscribe(dogs => this.dogs = dogs);
 	}
 	createDog(): void{
 		this.dogService.createDog(this.dog)
 			.subscribe(status => this.status = status);
 	}
-	getAllDogs () : void {
-		this.dogService.getAllDogs()
-			.subscribe(dog =>{ this.dog = dog });
-	}
+
 }
