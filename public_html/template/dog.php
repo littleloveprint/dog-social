@@ -1,4 +1,3 @@
-<body>
 <div class="dog-wrap">
 	<navbar></navbar>
 
@@ -11,19 +10,22 @@
 					<!-- Text input-->
 					<div class="form-group">
 						<label class="control-label" for="dogAtHandle">@Handle</label>
-						<input id="dogAtHandle" name="dogAtHandle" type="text" placeholder="@Handle" class="form-control input-md" [(ngModel)]="dog.dogAtHandle">
+						<input id="dogAtHandle" name="dogAtHandle" type="text" placeholder="@Handle"
+								 class="form-control input-md" [(ngModel)]="dog.dogAtHandle">
 					</div>
 
 					<!-- Text input-->
 					<div class="form-group">
 						<label class="control-label" for="dogAge">Age</label>
-						<input id="dogAge" name="dogAge" type="text" placeholder="Age" class="form-control input-md" [(ngModel)]="dog.dogAge">
+						<input id="dogAge" name="dogAge" type="text" placeholder="Age" class="form-control input-md"
+								 [(ngModel)]="dog.dogAge">
 					</div>
 
 					<!-- Text input-->
 					<div class="form-group">
 						<label class="control-label" for="dogBreed">Breed</label>
-						<input id="dogBreed" name="dogBreed" type="text" placeholder="Breed" class="form-control input-md" [(ngModel)]="dog.dogBreed">
+						<input id="dogBreed" name="dogBreed" type="text" placeholder="Breed" class="form-control input-md"
+								 [(ngModel)]="dog.dogBreed">
 					</div>
 
 					<!-- Textarea -->
@@ -40,7 +42,9 @@
 					</div>
 				</form>
 
-				<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">                                                                 <button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span></button>
+				<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
+					<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
+							aria-hidden="true">&times;</span></button>
 					{{ status.message }}
 				</div>
 			</div><!--/.col-md-4-->
@@ -48,17 +52,19 @@
 				<h3>Here be your dogs....</h3>
 
 				<!--BEGIN DOG ITEM-->
-				<div class="panel panel-default">
+				<div *ngFor="let dog of dogs" class="panel panel-default">
 					<div class="panel-heading">
-						<div class="h4">Dog AtHandle&nbsp;<small>Dog Age </small> | <small>Dog Breed</small></div>
+						<div class="h4">Dog AtHandle&nbsp; {{dog.dogAtHandle }}
+							<small>Dog Age {{dog.dogAge }}</small>
+							|
+							<small>Dog Breed {{dog.dogBreed}}</small>
+						</div>
 					</div>
 					<div class="panel-body">
-						<p>Dog Bio</p>
+						<p>Dog Bio {{dog.dogBio }}</p>
 					</div>
 				</div>
-
 			</div>
-		</div><!--/.row-->
-	</div>
+		</div>
+	</div><!--/.row-->
 </div>
-</body>

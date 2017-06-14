@@ -63,13 +63,12 @@ try {
 				$reply->data = $dog;
 			}
 		} else {
-			$dog = Dog::getDogByDogProfileId($pdo, $_SESSION["profile"]->getProfileId)->toArray();
+			$dog = Dog::getDogByDogProfileId($pdo, $_SESSION["profile"]->getProfileId())->toArray();
 			if($dog !== null) {
 				$reply->data = $dog;
 			}
 		}
-	}
-	if($method === "PUT" || $method === "POST") {
+	} else if($method === "PUT" || $method === "POST") {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		//Retrieves JSON package and stores result in $requestObject
@@ -134,7 +133,7 @@ try {
 			$reply->message = "Dog created successfully";
 		}
 	} else {
-		throw (new InvalidArgumentException("Invalid HTTP method request"));
+		throw (new InvalidArgumentException("Invalid http method."));
 	}
 
 } catch
