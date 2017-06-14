@@ -27,8 +27,10 @@ export const allAppComponents = [
 ];
 
 export const routes: Routes = [
+	//this is temp for now...
+	{path: "profile", component: ProfileComponent},
 	{path: "park", component: ParkComponent},
-	{path: "welcome/:id", component: ProfileComponent},
+	//{path: "welcome/:id", component: ProfileComponent},
 	{path: "parks", component: ParksComponent},
 	{path: "dog", component: DogComponent},
 	{path: "image", component: ImageComponent},
