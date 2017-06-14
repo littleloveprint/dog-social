@@ -121,6 +121,8 @@ try {
 			}
 			//create new dog and insert into database
 			$dog = new Dog(null, $_SESSION["profile"]->getProfileId(), $requestObject->dogAge, $requestObject->dogCloudinaryId, $requestObject->dogBio, $requestObject->dogBreed, $requestObject->dogAtHandle);
+
+			var_dump($_SESSION["profile"]);
 			$dog->insert($pdo);
 
 			//update reply

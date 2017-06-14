@@ -35,6 +35,15 @@ try {
 		//cloudinary api stuff
 		$config = readConfig("/etc/apache2/capstone-mysql/barkparkz.ini");
 		$cloudinary = json_decode($config["cloudinary"]);
+
+		$dogId = filter_input(INPUT_POST, "dogId", FILTER_VALIDATE_INT);
+		$dogCloudinaryId = filter_input(INPUT_POST, "dogcloudinaryId", FILTER_SANITIZE_STRING);
+
+		$dog = Dog::getDogByDogId($pdo, $dogId );
+		if (empty($dog) === false) {
+			throw (new InvalidArgumentException("no dog to uplod photo", 401));
+		}
+
 		\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 		//assigning variables to the user image name, MIME type, and image extension
 		$tempUserFileName = $_FILES["dog"]["tmp_name"];
@@ -42,7 +51,11 @@ try {
 		$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, ["width"=>500, "crop"=>"scale"]);
 		//after sending the image to Cloudinary, grab the public id and create a new image
 
-		$profileId =
+		$dogId = filter_input(INPUT_POST, "dogId", FILTER_VALIDATE_INT);
+		$dogCloudinaryId = filter_input(INPUT_POST, "dogcloudinaryId", FILTER_SANITIZE_STRING);
+
+		$dog = Dog::getDogByDogId($pdo, $dogId );
+		$dog->setDogCloudinaryId($dogCloudinaryId);
 
 		$reply->message = "Image upload ok";
 	} else{

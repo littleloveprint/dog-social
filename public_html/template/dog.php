@@ -49,7 +49,7 @@
 				<!--BEGIN DOG ITEM-->
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<div class="h4">Dog AtHandle&nbsp;<small>Dog Age</small> | <small>Dog Breed</small></div>
+						<div class="h4">Dog AtHandle&nbsp;<small>Dog Age </small> | <small>Dog Breed</small></div>
 					</div>
 					<div class="panel-body">
 						<p>Dog Bio</p>
