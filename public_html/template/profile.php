@@ -1,6 +1,6 @@
-<div class="fullscreen-bg">
-			<img src="" alt="Background Image">
-		</div>
+<body>
+	<div class="dog-wrap">
+		<navbar></navbar>
 
 <div class="container">
 	<div class="row">
@@ -28,7 +28,29 @@
 				</div>
 			</div>
 
-			<button name="submit"  type="submit" class="btn btn-primary">Submit</button>
+			<!-- BUTTONS -->
+			<div class="form-group">
+				<label class="control-label" for="updateProfile"></label>
+				<button name="submit" type="submit" class="btn btn-primary">UPDATE PROFILE</button>
+			</div>
 		</form>
 	</div>
 </div>
+
+		<!-- MORE TEXT -->
+		<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
+
+			<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span></button>
+
+						{{ status.message }}
+					</div>
+				</div><!--/.col-md-4-->
+				<div class="col-sm-6 col-md-8">
+					<img class="img-circle img-responsive" src="../img/LeaDoggy.jpg" alt="Profile Image">
+
+					<!-- PROFILE NAV BUTTONS -->
+					<div class="form-group">
+						<label class="control-label" for="viewParks"></label>
+						<button name="submit" type="button" class="btn btn-primary">PARKS</button>
+					</div>
+</body>
