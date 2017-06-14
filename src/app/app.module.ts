@@ -17,12 +17,14 @@ import {SignOutService} from "./services/sign-out.service";
 
 // ANGULAR FOR GOOGLE MAPS
 import {CommonModule} from "@angular/common";
-// import {AgmCoreModule} from "@";
+import {AgmCoreModule} from "@agm/core";
 
 const moduleDeclarations = [AppComponent];
 
+const apiKey = "AIzaSyBLthzUq1SMAb5GKh6x60l2Oe3ltFyfHRs";
+
 @NgModule({
-	imports:      [BrowserModule, FormsModule, HttpModule, routing],
+	imports:      [BrowserModule, FormsModule, HttpModule, routing, AgmCoreModule.forRoot(apiKey)],
 	declarations: [...moduleDeclarations, ...allAppComponents],
 	bootstrap:    [AppComponent],
 	providers:    [appRoutingProviders, SignInService, SignOutService, SignUpService, ProfileService, ParkService, ImageService, FriendService, FavoriteService, DogService, CheckInService]
