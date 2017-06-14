@@ -24,7 +24,7 @@
 					<div class="video-background">
 						<div class="video-foreground">
 							<iframe
-								src="https://www.youtube.com/embed/_uTuRIxAgZ4?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=_uTuRIxAgZ4"
+								src="https://www.youtube.com/embed/YqWHdwCBCKU?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=YqWHdwCBCKU"
 								frameborder="0" allowfullscreen></iframe>
 						</div>
 					</div>

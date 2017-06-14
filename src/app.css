@@ -134,3 +134,8 @@ body { width: 100%;}
 .col-xs-12 {
 	background-color: transparent;
 }
+
+.dog-wrap {
+	min-height: 100vh;
+	background-image: ;
+}
