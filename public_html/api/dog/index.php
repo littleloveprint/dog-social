@@ -27,7 +27,7 @@ try {
 	//for testing only, should not be in the live code
 	//$_SESSION["profile] = Profile::getProfileByProfileId($pdo, 732);
 	//determine which HTTP method was used
-	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 1);
+	//$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 1);
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 		//sanitize input
 
