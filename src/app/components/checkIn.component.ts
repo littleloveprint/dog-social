@@ -1,6 +1,7 @@
 import {Router} from "@angular/router";
 import{Component, ViewChild, OnInit, EventEmitter, Output} from "@angular/core";
-import {Observable} from "rxjs/Observable"
+import{NgForm} from "@angular/forms";
+import {Observable} from "rxjs/Observable";
 import {Status} from "../classes/status";
 import {CheckIn} from "../classes/checkin";
 import {CheckInService} from "../services/checkIn.service";
@@ -8,7 +9,7 @@ import {DogService} from "../services/dog.service";
 declare var $: any;
 @Component ({
 	templateUrl: "./template/checkIn.php",
-	selector: "checkIn"
+	selector: "checkInForm"
 })
 export class CheckInComponent implements OnInit{
 	@ViewChild("checkInForm") checkInForm: any;
@@ -21,18 +22,8 @@ export class CheckInComponent implements OnInit{
 	isCheckedIn = false;
 
 	ngOnInit (): void {
+
 	}
 
-	createCheckIn(): void {
-		this.checkInService.createCheckIn(this.checkIn)
-			.subscribe(status => {
-				this.status = status;
-				if(status.status === 200) {
-					alert("Dog successfully checked in! Thanks!");
-					this.checkInForm.reset();
-					setTimeout(function() {$("#checkIn-modal").modal('hide');}, 1000);
-				this.router.navigate([""]);
-				}
-			});
-	}
+
 }
