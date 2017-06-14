@@ -49,6 +49,17 @@ export class DogService extends BaseService {
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
+	ngOnInit(): void {
+		this.getAllDogs();
+
+	}
+
+	getAllDogs() : Observable <Dog[] > {
+		return(this.http.get(this.dogUrl)
+			.map(this.extractData)
+			.catch(this.handleError));
+
+	}
 
 
 }

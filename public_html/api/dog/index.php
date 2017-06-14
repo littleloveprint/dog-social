@@ -29,7 +29,7 @@ try {
 	//determine which HTTP method was used
 	//$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, 1);
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
-		//sanitize input
+	//sanitize input
 
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$dogProfileId = filter_input(INPUT_GET, "dogProfileId", FILTER_VALIDATE_INT);
@@ -62,14 +62,14 @@ try {
 			if($dog !== null) {
 				$reply->data = $dog;
 			}
+		} else {
+			$dog = Dog::getDogByDogProfileId($pdo, $_SESSION["profile"]->getProfileId)->toArray();
+			if($dog !== null) {
+				$reply->data = $dog;
+			}
 		}
-	} else{
-		$dog = Dog::getDogByDogProfileId($pdo, $_SESSION["profile"]->getProfileId)->toArray();
-		if($dog !== null) {
-			$reply->data = $dog;
-
-
-	} else if($method === "PUT" || $method === "POST") {
+	}
+	if($method === "PUT" || $method === "POST") {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		//Retrieves JSON package and stores result in $requestObject
@@ -78,7 +78,7 @@ try {
 
 
 		//if(empty($requestObject->dogProfileId) === true) {
-			//throw(new \InvalidArgumentException("No Dog Profile ID", 405));
+		//throw(new \InvalidArgumentException("No Dog Profile ID", 405));
 		//}
 		if(empty($requestObject->dogAge) === true) {
 			$requestObject->dogAge = null;
@@ -134,10 +134,11 @@ try {
 			$reply->message = "Dog created successfully";
 		}
 	} else {
-			throw (new InvalidArgumentException("Invalid HTTP method request"));
+		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
 
-} catch(\Exception | \TypeError $exception) {
+} catch
+(\Exception | \TypeError $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 }
