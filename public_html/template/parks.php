@@ -2,22 +2,31 @@
 	<navbar></navbar>
 
 	<div class="container">
-		<form class="form-horizontal">
-			<h3>Search Parks</h3>
-			<div class="wrap">
-				<div class="search">
-					<input type="text" class="searchTerm" placeholder="Search for parks in ABQ">
-					<button type="submit" class="searchButton">
-						<i class="fa fa-search"></i>
-					</button>
-				</div>
-			</div>
-		</form>
+		<div class="row">
+			<div class="col-md-6">
+				<form class="form-inline">
+					<div class="form-group">
+						<label class="control-label" for="search">Search Parks</label>
+						<input type="text" name="search" id="search" class="form-control"
+								 placeholder="Search for parks in ABQ...">
+					</div>
+					<button type="submit" class="btn btn-default"><i class="fa fa-search fa-lg"></i></button>
+				</form>
+				<br>
+			</div><!--/.col-md-6-->
+		</div><!--/.row-->
 
 		<agm-map [latitude]="lat" [longitude]="lng">
 			<agm-marker [latitude]="lat" [longitude]="lng">
 
 			</agm-marker>
 		</agm-map>
+
+		<br>
+
+		<div class="well well-sm">
+			<div class="h4">Park Name&nbsp;<small>Park Location here?</small>
+			</div>
+		</div>
 	</div>
 </div>
