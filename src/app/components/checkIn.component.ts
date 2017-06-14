@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable"
 import {Status} from "../classes/status";
 import {CheckIn} from "../classes/checkin";
 import {CheckInService} from "../services/checkIn.service";
+import {DogService} from "../services/dog.service";
 declare var $: any;
 @Component ({
 	templateUrl: "./template/checkIn.php",

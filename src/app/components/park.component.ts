@@ -12,5 +12,5 @@ import {Observable} from "rxjs";
 
 export class ParkComponent {
 	lat: number = 35.0853;
-	lng: number = 106.6056;
+	lng: number = -106.6056;
 }
