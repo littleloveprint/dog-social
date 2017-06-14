@@ -120,8 +120,8 @@ try {
 				throw(new \InvalidArgumentException("you must be logged in to post things about your dog", 403));
 			}
 			//create new dog and insert into database
-			//$dog = new Dog(null, $_SESSION["profile"]->getProfileId(), $requestObject->dogAge, $requestObject->dogCloudinaryId, $requestObject->dogBio, $requestObject->dogBreed, $requestObject->dogAtHandle);
-			//$dog->insert($pdo);
+			$dog = new Dog(null, $_SESSION["profile"]->getProfileId(), $requestObject->dogAge, $requestObject->dogCloudinaryId, $requestObject->dogBio, $requestObject->dogBreed, $requestObject->dogAtHandle);
+			$dog->insert($pdo);
 
 			//update reply
 			$reply->message = "Dog created successfully";

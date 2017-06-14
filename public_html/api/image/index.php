@@ -4,7 +4,7 @@ require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\Cnm\BarkParkz\{
-	Profile
+	Dog
 };
 /**
  * Api for the cloudinary images that will magically work with out a class YATA
@@ -41,7 +41,9 @@ try {
 		//upload image to cloudinary and get public id
 		$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, ["width"=>500, "crop"=>"scale"]);
 		//after sending the image to Cloudinary, grab the public id and create a new image
-		$reply->data = $cloudinaryResult["public_id"];
+
+		$profileId =
+
 		$reply->message = "Image upload ok";
 	} else{
 		throw (new InvalidArgumentException("Invalid HTTP method request"));

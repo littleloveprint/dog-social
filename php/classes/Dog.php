@@ -70,7 +70,7 @@ Class Dog implements \JsonSerializable {
 	 * @documentation php.net
 	 */
 
-	public function __construct(?int $newDogId, int $newDogProfileId, int $newDogAge, string $newDogCloudinaryId, string $newDogBio, string $newDogBreed, string $newDogAtHandle) {
+	public function __construct(?int $newDogId, int $newDogProfileId, int $newDogAge, ?string $newDogCloudinaryId, string $newDogBio, string $newDogBreed, string $newDogAtHandle) {
 		try {
 			$this->setDogId($newDogId);
 			$this->setDogProfileId($newDogProfileId);
@@ -179,10 +179,11 @@ Class Dog implements \JsonSerializable {
 	 * @throws \TypeError if $newDogCloudinaryId isn't a string
 	 *
 	 */
-	public function setDogCloudinaryId(string $newDogCloudinaryId = null) {
+	public function setDogCloudinaryId(?string $newDogCloudinaryId = null) {
 //if dog cloudinary id is null, return it
 		if($newDogCloudinaryId === null) {
 			$this->dogCloudinaryId = null;
+			return;
 		}
 //verify the dog cloudinary id is secure
 		$newDogCloudinaryId = trim($newDogCloudinaryId);
