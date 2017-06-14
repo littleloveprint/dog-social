@@ -135,8 +135,9 @@ body { width: 100%;
 }
 
 .dog-wrap {
-	/*min-height: 100%;*/
+	min-height: 100vh;
 	background: url("app/image/dawn-nature-sunset-trees_opt.jpg") no-repeat center center fixed;
-	/*background-attachment: fixed;*/
 	background-size: cover;
+	text-emphasis-color: whitesmoke;
+
 }
