@@ -72,9 +72,9 @@ try {
 		//Decode JSON package and store result in $requestObject
 
 
-		if(empty($requestObject->dogProfileId) === true) {
-			throw(new \InvalidArgumentException("No Dog Profile ID", 405));
-		}
+		//if(empty($requestObject->dogProfileId) === true) {
+			//throw(new \InvalidArgumentException("No Dog Profile ID", 405));
+		//}
 		if(empty($requestObject->dogAge) === true) {
 			$requestObject->dogAge = null;
 		}
@@ -120,8 +120,8 @@ try {
 				throw(new \InvalidArgumentException("you must be logged in to post things about your dog", 403));
 			}
 			//create new dog and insert into database
-			$dog = new Dog(null, $_SESSION["profile"]->getProfileId(), $requestObject->dogAge, $requestObject->dogCloudinaryId, $requestObject->dogBio, $requestObject->dogBreed, $requestObject->dogAtHandle);
-			$dog->insert($pdo);
+			//$dog = new Dog(null, $_SESSION["profile"]->getProfileId(), $requestObject->dogAge, $requestObject->dogCloudinaryId, $requestObject->dogBio, $requestObject->dogBreed, $requestObject->dogAtHandle);
+			//$dog->insert($pdo);
 
 			//update reply
 			$reply->message = "Dog created successfully";
