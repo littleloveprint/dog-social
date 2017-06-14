@@ -14,6 +14,7 @@ import {DogComponent} from "./components/dog.component";
 export const allAppComponents = [HomeComponent, SignUpComponent, SignInComponent, NavbarComponent, FooterComponent, ProfileComponent, DogComponent, ParkComponent, ImageComponent, FileSelectDirective];
 
 export const routes: Routes = [
+	{path: "park", component: ParkComponent},
 	{path: "welcome/:id", component: ProfileComponent},
 	{path: "dog", component: DogComponent},
 	{path: "image", component: ImageComponent},
